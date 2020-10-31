@@ -12,5 +12,6 @@ namespace VoidLight.Business.Services.Contracts
         public void ExampleMethod();
         public IAsyncEnumerable<ExampleDto> GetAll();
         public Task<Example> AddExample(ExampleDto dto);
+        public Task DeleteExample(int id);
     }
 }

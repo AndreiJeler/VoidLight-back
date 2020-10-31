@@ -34,5 +34,13 @@ namespace VoidLight.Web.Controllers
             var example = await _exampleService.AddExample(dto);
             return Ok(example);
         }
+
+        [HttpDelete("{id}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> DeleteExample(int id)
+        {
+            await _exampleService.DeleteExample(id);
+            return NoContent();
+        }
     }
 }

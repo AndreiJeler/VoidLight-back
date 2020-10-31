@@ -29,6 +29,16 @@ namespace VoidLight.Business.Services
             return example;
         }
 
+        public async Task DeleteExample(int id)
+        {
+            var example = await _dbContext.Examples.FirstOrDefaultAsync(ex => ex.Id == id);
+            if(example == null)
+            {
+                throw new Exception("No example with given id");
+            }
+            _dbContext.Examples.Remove(example);
+        }
+
         public void ExampleMethod()
         {
             throw new NotImplementedException();

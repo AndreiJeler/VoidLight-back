@@ -63,6 +63,9 @@ namespace VoidLight.Data
         #region Db Sets
 
         public virtual DbSet<Example> Examples { get; set; }
+
+        public virtual DbSet<User> Users { get; set; }
+
         #endregion
     }
 }
