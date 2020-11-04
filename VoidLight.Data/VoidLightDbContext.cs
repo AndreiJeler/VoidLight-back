@@ -66,6 +66,8 @@ namespace VoidLight.Data
 
         public virtual DbSet<User> Users { get; set; }
 
+        public virtual DbSet<UserRole> UserRoles { get; set; }
+
         #endregion
     }
 }

@@ -1,6 +1,9 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using VoidLight.Data.Entities;
 
 namespace VoidLight.Data
 {
@@ -20,9 +23,37 @@ namespace VoidLight.Data
         {
             _context.Database.EnsureCreated();
 
+            _context.Database.Migrate();
+
+
+            if (!_context.UserRoles.Any()) AddRoles();
+
+
             // seed functionality
 
-            // _context.SaveChanges();
+             _context.SaveChanges();
+        }
+
+
+        private void AddRoles()
+        {
+            _context.Add(new UserRole
+            {
+                Id = (int)RoleType.Admin,
+                Name = "Admin",
+            });
+
+            _context.Add(new UserRole
+            {
+                Id = (int)RoleType.Streamer,
+                Name = "Streamer",
+            });
+
+            _context.Add(new UserRole
+            {
+                Id = (int)RoleType.Regular,
+                Name = "Regular",
+            });
         }
     }
 }
