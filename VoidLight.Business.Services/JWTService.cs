@@ -73,7 +73,7 @@ namespace VoidLight.Business.Services
         public string GenerateAuthenticationJWT(User user)
         {
             var claimsIdentity = new ClaimsIdentity(new[] { new Claim("id", user.Id.ToString()), new Claim(ClaimTypes.Role, user.Role.Name) });
-            var expires = DateTime.UtcNow.AddHours(6);
+            var expires = DateTime.UtcNow.AddMonths(1);
             return GenerateJWTToken(claimsIdentity, expires);
         }
 

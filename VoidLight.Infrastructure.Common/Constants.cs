@@ -8,13 +8,18 @@ namespace VoidLight.Infrastructure.Common
     {
         public const string EXAMPLE = "example text for sth";
 
+        #region URL
+        public const string APP_URL = "https://localhost:44324/";
+        public const string CLIENT_URL = "https://localhost:4200/";
+
+        #endregion
+
         #region HttpStatus
         public const string HTTP_CREATED = "created";
         public const string HTTP_UPDATED = "updated";
         #endregion HttpStatus
 
         #region Images
-        public const string APP_URL = "https://localhost:44324/";
         public const string DEFAULT_IMAGE_USER = "Images\\Default\\defaultUserPicture.gif";
 
         #endregion
@@ -33,8 +38,7 @@ namespace VoidLight.Infrastructure.Common
         #region Email
         public const string ACCOUNT_ACTIVATION_SUBJECT = "Account activation";
         public const string ACCOUNT_ACTIVATION_BODY = "Click on the bellow link for activate your account \n";
-        public const string ACCOUNT_ACTIVATION_LINK = "http://localhost:4200/account-activation?token=";
-        public const string SLASH_SYMBOL = "/";
+        public const string ACCOUNT_ACTIVATION_LINK = CLIENT_URL + "account-activation?token=";
         public const string SMTP_CLIENT = "smtp.gmail.com";
         public const int SMTP_PORT = 587;
         public const string TEMPORARY_PASSWORD_MESSAGE = "There is your temporary pessword. You MUST change it in your Profile section after login. ";
