@@ -48,10 +48,10 @@ namespace VoidLight.Business.Services
             {
                 FullName = registerDto.FullName,
                 Email = registerDto.Email,
-                Password = HashingManager.GetHashedPassword(registerDto.Password),
+                Password = HashingManager.GetHashedPassword(registerDto.Password, registerDto.Username),
                 Username = registerDto.Username,
             };
-            user.Password = HashingManager.GetHashedPassword(user.Password);
+            user.Password = HashingManager.GetHashedPassword(user.Password, user.Username);
             user.IsActivated = false;
             user.WasPasswordForgotten = false;
             user.WasPasswordChanged = false;
@@ -89,18 +89,18 @@ namespace VoidLight.Business.Services
                 dbUser.WasPasswordChanged = true;
                 dbUser.Password = randomPassword;
                 await _emailService.SendResetPasswordEmail(dbUser, true);
-                dbUser.Password = HashingManager.GetHashedPassword(randomPassword);
+                dbUser.Password = HashingManager.GetHashedPassword(randomPassword, dbUser.Username);
             }
             else
             {
-                if (!dbUser.Password.Equals(HashingManager.GetHashedPassword(password)))
+                if (!dbUser.Password.Equals(HashingManager.GetHashedPassword(password, dbUser.Username)))
                 {
-                    throw new UnauthorisedException("Your actual password is incorrect");
+                    throw new UnauthorisedException("Your current password is incorrect");
                 }
 
                 dbUser.WasPasswordForgotten = false;
                 dbUser.WasPasswordChanged = false;
-                dbUser.Password = HashingManager.GetHashedPassword(newPassword);
+                dbUser.Password = HashingManager.GetHashedPassword(newPassword, dbUser.Username);
                 await _emailService.SendResetPasswordEmail(dbUser, false);
             }
 

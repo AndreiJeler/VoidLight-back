@@ -11,6 +11,7 @@ namespace VoidLight.Data.Business.Authentication
         public int Id { get; set; }
         public string FullName { get; set; }
         public string Username { get; set; }
+        public string Nickname { get; set; }
         public string Token { get; set; }
         public string Email { get; set; }
         public string AvatarPath { get; set; }
@@ -22,6 +23,7 @@ namespace VoidLight.Data.Business.Authentication
             Id = user.Id;
             FullName = user.FullName;
             Username = user.Username;
+            Nickname = user.Nickname;
             AvatarPath = Constants.APP_URL + user.AvatarPath;
             Email = user.Email;
             Token = token;

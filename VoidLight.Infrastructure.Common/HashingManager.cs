@@ -8,14 +8,13 @@ namespace VoidLight.Infrastructure.Common
 {
     public static class HashingManager
     {
-        private const string PASSWORD_SALT = "QwErTy1@3$5";
 
-        public static string GetHashedPassword(string password)
+        public static string GetHashedPassword(string password, string salt)
         {
             using var sha512 = SHA512.Create();
 
             var bytes = sha512.ComputeHash(
-                Encoding.UTF8.GetBytes(password + PASSWORD_SALT)
+                Encoding.UTF8.GetBytes(password + salt)
             );
 
             return bytes
