@@ -27,9 +27,10 @@ namespace VoidLight.Data.Entities
         public int RoleId { get; set; }
         public ICollection<UserComments> ProfileComments { get; set; }
         public ICollection<WebsiteAchievementUser> WebsiteAchievements { get; set; }
-        public ICollection<Friend> SelfFriends { get; set; } 
+        public ICollection<Friend> SelfFriends { get; set; }
         public ICollection<Friend> FriendOfList { get; set; }
-        
+        public ICollection<GameUser> GameUsers { get; set; }
+
     }
 
     public class UserConfiguration : IEntityTypeConfiguration<User>
@@ -64,7 +65,7 @@ namespace VoidLight.Data.Entities
             builder
                 .Property(user => user.Country)
                 .IsRequired();
-            
+
             // Indexes
             builder
                 .HasIndex(nameof(User.Email))
@@ -91,6 +92,10 @@ namespace VoidLight.Data.Entities
             builder
                 .HasMany(fu => fu.FriendOfList)
                 .WithOne(friend => friend.FriendUser)
+                .OnDelete(DeleteBehavior.Cascade);
+            builder
+                .HasMany(u => u.GameUsers)
+                .WithOne(gu => gu.User)
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }

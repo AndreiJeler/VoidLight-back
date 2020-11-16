@@ -110,7 +110,6 @@ namespace VoidLight.Web
 
 
             // Services
-            services.AddScoped<IExampleService, ExampleService>();
             services.AddScoped<IJWTService, JWTService>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<IUserService, UserService>();

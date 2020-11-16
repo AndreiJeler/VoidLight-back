@@ -19,7 +19,19 @@ namespace VoidLight.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            //modelBuilder.ApplyConfigurationsFromAssembly(typeof(Change).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(Game).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(CategoryGame).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(Friend).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(GameCategory).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(GamePlatform).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(GamePublisher).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(GameUser).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(Platform).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(User).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(UserComments).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(UserRole).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(WebsiteAchievement).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(WebsiteAchievementUser).Assembly);
         }
 
         public object Include(Func<object, object> p)
@@ -62,11 +74,19 @@ namespace VoidLight.Data
 
         #region Db Sets
 
-        public virtual DbSet<Example> Examples { get; set; }
-
         public virtual DbSet<User> Users { get; set; }
-
         public virtual DbSet<UserRole> UserRoles { get; set; }
+        public virtual DbSet<Game> Games { get; set; }
+        public virtual DbSet<CategoryGame> CategoryGames { get; set; }
+        public virtual DbSet<Friend> Friends { get; set; }
+        public virtual DbSet<GameCategory> GameCategories { get; set; }
+        public virtual DbSet<GamePlatform> GamePlatforms { get; set; }
+        public virtual DbSet<GamePublisher> GamePublishers { get; set; }
+        public virtual DbSet<GameUser> GameUsers { get; set; }
+        public virtual DbSet<Platform> Platforms { get; set; }
+        public virtual DbSet<UserComments> UserComments { get; set; }
+        public virtual DbSet<WebsiteAchievement> WebsiteAchievements { get; set; }
+        public virtual DbSet<WebsiteAchievementUser> WebsiteAchievementUsers { get; set; }
 
         #endregion
     }
