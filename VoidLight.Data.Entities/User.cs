@@ -30,7 +30,8 @@ namespace VoidLight.Data.Entities
         public ICollection<Friend> SelfFriends { get; set; }
         public ICollection<Friend> FriendOfList { get; set; }
         public ICollection<GameUser> GameUsers { get; set; }
-
+        public ICollection<UserPost> UserPosts { get; set; }
+        public ICollection<PostLike> UserPostLikes { get; set; }
     }
 
     public class UserConfiguration : IEntityTypeConfiguration<User>
