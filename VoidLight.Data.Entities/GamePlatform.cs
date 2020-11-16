@@ -23,10 +23,6 @@ namespace VoidLight.Data.Entities
             builder
                 .HasKey(gp => new { gp.GameId, gp.PlatformId });
 
-            // Indexes
-            builder
-                .HasIndex(nameof(GamePlatform.Name))
-                .IsUnique();
 
             // Relations
             builder

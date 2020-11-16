@@ -81,7 +81,7 @@ namespace VoidLight.Data.Entities
             builder
                 .HasMany(user => user.ProfileComments)
                 .WithOne(uc => uc.CommentedUser)
-                .OnDelete(DeleteBehavior.SetNull);
+                .OnDelete(DeleteBehavior.Cascade);
             builder
                 .HasMany(user => user.WebsiteAchievements)
                 .WithOne(wa => wa.User)
@@ -89,11 +89,11 @@ namespace VoidLight.Data.Entities
             builder
                 .HasMany(su => su.SelfFriends)
                 .WithOne(friend => friend.SelfUser)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
             builder
                 .HasMany(fu => fu.FriendOfList)
                 .WithOne(friend => friend.FriendUser)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.NoAction);
             builder
                 .HasMany(u => u.GameUsers)
                 .WithOne(gu => gu.User)

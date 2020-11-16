@@ -6,7 +6,7 @@ using System.Text;
 
 namespace VoidLight.Data.Entities
 {
-    public abstract class Content
+    public class Content
     {
         public int Id { get; set; }
         public string ContentPath { get; set; }

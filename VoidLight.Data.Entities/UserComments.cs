@@ -19,9 +19,6 @@ namespace VoidLight.Data.Entities
             builder
                 .HasKey(user => user.Id);
             builder
-                .Property(user => user.CommentedUserId)
-                .IsRequired();
-            builder
                 .Property(user => user.CommentText)
                 .IsRequired();
 

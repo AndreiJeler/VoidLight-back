@@ -26,13 +26,13 @@ namespace VoidLight.Data.Entities
               .HasOne(up => up.Post)
               .WithMany(pst => pst.Likes)
               .HasForeignKey(up => up.PostId)
-              .OnDelete(DeleteBehavior.SetNull);
+              .OnDelete(DeleteBehavior.Cascade);
 
             builder
                 .HasOne(up => up.User)
                 .WithMany()
                 .HasForeignKey(up => up.UserId)
-                .OnDelete(DeleteBehavior.SetNull);
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
