@@ -15,4 +15,17 @@ namespace VoidLight.Data.Business
         public string Role { get; set; }
         public string Token { get; set; }
     }
+
+    public class UserDtoComparer : IEqualityComparer<UserDto>
+    {
+        public bool Equals(UserDto x, UserDto y)
+        {
+            return x.Id.Equals(y.Id);
+        }
+
+        public int GetHashCode(UserDto obj)
+        {
+            return obj.Id.GetHashCode();
+        }
+    }
 }

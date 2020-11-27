@@ -1,0 +1,70 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using VoidLight.Business.Services.Contracts;
+using VoidLight.Data.Business;
+using VoidLight.Data.Business.Authentication;
+using VoidLight.Data.Entities;
+using VoidLight.Infrastructure.Common;
+using VoidLight.Web.Infrastructure.Authorization;
+
+namespace VoidLight.Web.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class PostsController : ControllerBase
+    {
+        private IPostService _postService;
+
+        public PostsController(IPostService postService)
+        {
+            _postService = postService;
+        }
+
+        [HttpGet("game/{id}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetGamePosts(int id)
+        {
+            return Ok(await _postService.GetGamePosts(id));
+        }
+
+        [HttpGet("user/{id}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetPostsForUser(int id)
+        {
+            return Ok(await _postService.GetPostsForUserFeed(id));
+        }
+
+        [HttpGet("publisher/{id}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetPostsForPublisher(int id)
+        {
+            return Ok(await _postService.GetGamePublisherPosts(id));
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> AddPost(PostDto dto)
+        {
+            return Ok(await _postService.AddPost(dto));
+        }
+
+        [HttpGet("user/posted/{id}")]
+        [AllowAnonymous]
+        public IActionResult GetPostsByUser(int id)
+        {
+            return Ok(_postService.GetPostsByUser(id));
+        }
+
+        [HttpPost("like/{postId}/{userId}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> LikePost(int postId, int userId)
+        {
+            return Ok(await _postService.UserLikePost(postId, userId));
+        }
+    }
+}

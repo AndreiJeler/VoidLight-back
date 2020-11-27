@@ -114,6 +114,12 @@ namespace VoidLight.Web
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IEmailService, EmailService>();
+            services.AddScoped<IPostService, PostService>();
+            services.AddScoped<IFriendService, FriendService>();
+            services.AddScoped<IGameService, GameService>();
+            services.AddScoped<IGamePublisherService, GamePublisherService>();
+
+
 
 
             /*

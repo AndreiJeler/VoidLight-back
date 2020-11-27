@@ -19,6 +19,7 @@ namespace VoidLight.Data.Entities
             // Properties
             builder
                 .HasKey(friend => new {friend.SelfUserId, friend.FriendUserId});
+
             
             // Relations
             builder

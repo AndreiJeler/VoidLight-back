@@ -16,6 +16,7 @@ namespace VoidLight.Data.Entities
         public ICollection<GameUser> GameUsers { get; set; }
         public ICollection<GamePlatform> GamePlatforms { get; set; }
         public ICollection<CategoryGame> Categories { get; set; }
+        public ICollection<Post> Posts { get; set; }
 
     }
 
@@ -55,6 +56,7 @@ namespace VoidLight.Data.Entities
                 .HasMany(g => g.Categories)
                 .WithOne(cat => cat.Game)
                 .OnDelete(DeleteBehavior.Cascade);
+            
         }
     }
 }

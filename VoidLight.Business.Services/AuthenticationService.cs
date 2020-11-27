@@ -27,7 +27,7 @@ namespace VoidLight.Business.Services
         public async Task<AuthenticateResponseDto> Authenticate(AuthenticateRequestDto model)
         {
             var user = await _context.Users.Include(user => user.Role).FirstOrDefaultAsync(u => u.Username == model.Username && u.Password == HashingManager.GetHashedPassword(model.Password, model.Username));
-
+    
             if (user == null)
             {
                 throw new AuthenticationException("Username or password is incorrect");

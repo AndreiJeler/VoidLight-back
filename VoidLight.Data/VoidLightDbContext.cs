@@ -93,6 +93,8 @@ namespace VoidLight.Data
         public virtual DbSet<Post> Posts { get; set; }
 
         public virtual DbSet<PostComment> Comments { get; set; }
+        public virtual DbSet<Content> Content { get; set; }
+
 
         public virtual DbSet<PostLike> Likes { get; set; }
 

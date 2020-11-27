@@ -9,7 +9,10 @@ namespace VoidLight.Data.Entities
     public class Post
     {
         public int Id { get; set; }
+        public DateTime Time { get; set; }
+        public Game? Game { get; set; }
         public string Text { get; set; }
+        public ICollection<UserPost> UserPosts { get; set; }
         public ICollection<Content> Content { get; set; }
         public ICollection<PostComment> Comments { get; set; }
         public ICollection<PostLike> Likes { get; set; }
@@ -31,6 +34,7 @@ namespace VoidLight.Data.Entities
             builder
                 .HasMany(pst => pst.Likes)
                 .WithOne(l => l.Post);
+
         }
     }
 }

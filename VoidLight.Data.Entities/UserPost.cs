@@ -12,6 +12,7 @@ namespace VoidLight.Data.Entities
         public User User { get; set; }
         public int PostId { get; set; }
         public Post Post { get; set; }
+        public bool IsShared { get; set; }
     }
 
     public class UserPostConfiguration : IEntityTypeConfiguration<UserPost>
@@ -28,7 +29,7 @@ namespace VoidLight.Data.Entities
 
             builder
                 .HasOne(up => up.Post)
-                .WithMany()
+                .WithMany(post=>post.UserPosts)
                 .HasForeignKey(up => up.PostId)
                 .OnDelete(DeleteBehavior.Cascade);
         }

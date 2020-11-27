@@ -7,7 +7,7 @@ using VoidLight.Data.Business;
 
 namespace VoidLight.Data.Mappers
 {
-    public class UserMapper
+    public static class UserMapper
     {
         /*public User ConvertDtoToEntity(UserDto dto)
         {
@@ -22,7 +22,7 @@ namespace VoidLight.Data.Mappers
             }
         }*/
 
-        public UserDto ConvertEntityToDto(User user)
+        public static UserDto ConvertEntityToDto(User user)
         {
             return new UserDto()
             {

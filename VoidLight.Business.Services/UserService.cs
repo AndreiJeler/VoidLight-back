@@ -51,7 +51,6 @@ namespace VoidLight.Business.Services
                 Password = HashingManager.GetHashedPassword(registerDto.Password, registerDto.Username),
                 Username = registerDto.Username,
             };
-            user.Password = HashingManager.GetHashedPassword(user.Password, user.Username);
             user.IsActivated = false;
             user.WasPasswordForgotten = false;
             user.WasPasswordChanged = false;
