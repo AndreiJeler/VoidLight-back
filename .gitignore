@@ -1,0 +1,22 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/.vs/VoidLight
+/VoidLight.Business.Services/bin/Debug/netcoreapp3.1
+/VoidLight.Business.Services/obj
+/VoidLight.Business.Services.Contracts/bin/Debug/netcoreapp3.1
+/VoidLight.Business.Services.Contracts/obj
+/VoidLight.Data/bin/Debug/netcoreapp3.1
+/VoidLight.Data/obj
+/VoidLight.Data.Business/bin/Debug/netcoreapp3.1
+/VoidLight.Data.Business/obj
+/VoidLight.Data.Entities/bin/Debug/netcoreapp3.1
+/VoidLight.Data.Entities/obj
+/VoidLight.Data.Mappers/bin/Debug/netcoreapp3.1
+/VoidLight.Data.Mappers/obj
+/VoidLight.Infrastructure.Common/bin/Debug/netcoreapp3.1
+/VoidLight.Infrastructure.Common/obj
+/VoidLight.Web/bin/Debug/netcoreapp3.1
+/VoidLight.Web/obj
