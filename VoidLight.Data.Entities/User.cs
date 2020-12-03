@@ -54,7 +54,7 @@ namespace VoidLight.Data.Entities
                 .Property(user => user.LoginService);
             builder
                 .Property(user => user.LoginToken);
-            builder
+           /* builder
                 .Property(user => user.Gender)
                 .IsRequired();
             builder
@@ -65,7 +65,7 @@ namespace VoidLight.Data.Entities
                 .IsRequired();
             builder
                 .Property(user => user.Country)
-                .IsRequired();
+                .IsRequired();*/
 
             // Indexes
             builder

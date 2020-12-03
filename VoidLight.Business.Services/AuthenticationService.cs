@@ -17,11 +17,14 @@ namespace VoidLight.Business.Services
     {
         private readonly VoidLightDbContext _context;
         private readonly IJWTService _jwtService;
+        private readonly ISteamClient _steamClient;
 
-        public AuthenticationService(VoidLightDbContext context, IJWTService jwtService)
+
+        public AuthenticationService(VoidLightDbContext context, IJWTService jwtService, ISteamClient steamClient)
         {
             _context = context;
             _jwtService = jwtService;
+            _steamClient = steamClient;
         }
 
         public async Task<AuthenticateResponseDto> Authenticate(AuthenticateRequestDto model)
@@ -45,6 +48,10 @@ namespace VoidLight.Business.Services
                 await _context.SaveChangesAsync();
                 var token = _jwtService.GenerateAuthenticationJWT(user);
                 var authenticateResponseDto = new AuthenticateResponseDto(user, token);
+
+                var game = await _steamClient.GetUserCurrentPlayingGame(user.LoginToken);
+
+                authenticateResponseDto.PlayedGame = game;
 
                 return authenticateResponseDto ?? throw new AuthenticationException("Username or password is incorrect");
             }

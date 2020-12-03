@@ -20,3 +20,6 @@
 /VoidLight.Infrastructure.Common/obj
 /VoidLight.Web/bin/Debug/netcoreapp3.1
 /VoidLight.Web/obj
+/VoidLight.Web/Images
+/VoidLight.Web/appsettings.Development.json
+/VoidLight.Web/appsettings.json

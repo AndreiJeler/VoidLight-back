@@ -118,6 +118,8 @@ namespace VoidLight.Web
             services.AddScoped<IFriendService, FriendService>();
             services.AddScoped<IGameService, GameService>();
             services.AddScoped<IGamePublisherService, GamePublisherService>();
+            services.AddScoped<ISteamClient, SteamClient>();
+
 
 
 
