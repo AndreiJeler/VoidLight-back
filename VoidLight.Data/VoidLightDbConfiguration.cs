@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using VoidLight.Data.Entities;
+using VoidLight.Infrastructure.Common;
 
 namespace VoidLight.Data
 {
@@ -27,6 +28,8 @@ namespace VoidLight.Data
 
 
             if (!_context.UserRoles.Any()) AddRoles();
+
+            if (!_context.Platforms.Any()) AddPlatforms();
 
 
             // seed functionality
@@ -53,6 +56,15 @@ namespace VoidLight.Data
             {
                 Id = (int)RoleType.Regular,
                 Name = "Regular",
+            });
+        }
+
+        private void AddPlatforms()
+        {
+            _context.Add(new Platform()
+            {
+                Name = "Steam",
+                PicturePath = Constants.DEFAULT_IMAGE_USER
             });
         }
     }

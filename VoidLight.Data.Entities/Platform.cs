@@ -12,6 +12,7 @@ namespace VoidLight.Data.Entities
         public string Name { get; set; }
         public string PicturePath { get; set; }
         public ICollection<GamePlatform> GamePlatforms { get; set; }
+        public ICollection<UserPlatform> UserPlatforms { get; set; }
 
 
     }
@@ -40,6 +41,11 @@ namespace VoidLight.Data.Entities
                 .HasMany(g => g.GamePlatforms)
                 .WithOne(gp => gp.Platform)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            builder
+               .HasMany(user => user.UserPlatforms)
+               .WithOne(uc => uc.Platform)
+               .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
