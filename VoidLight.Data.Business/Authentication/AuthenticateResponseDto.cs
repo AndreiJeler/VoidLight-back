@@ -16,6 +16,7 @@ namespace VoidLight.Data.Business.Authentication
         public string Email { get; set; }
         public string AvatarPath { get; set; }
         public string Role { get; set; }
+        public string PlayedGame { get; set; }
 
 
         public AuthenticateResponseDto(User user, string token)

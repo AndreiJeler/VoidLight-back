@@ -9,6 +9,7 @@ using VoidLight.Data;
 using VoidLight.Data.Business;
 using VoidLight.Data.Business.Authentication;
 using VoidLight.Data.Entities;
+using VoidLight.Data.Mappers;
 using VoidLight.Infrastructure.Common;
 using VoidLight.Infrastructure.Common.Exceptions;
 
@@ -19,12 +20,14 @@ namespace VoidLight.Business.Services
         private readonly IJWTService _jWTService;
         private readonly VoidLightDbContext _context;
         private readonly IEmailService _emailService;
+        private readonly ISteamClient _steamClient;
 
-        public UserService(IJWTService jwtService, VoidLightDbContext context, IEmailService emailService)
+        public UserService(IJWTService jwtService, VoidLightDbContext context, IEmailService emailService, ISteamClient steamClient)
         {
             _jWTService = jwtService;
             _context = context;
             _emailService = emailService;
+            _steamClient = steamClient;
         }
         public async Task ActivateAccount(string token)
         {
@@ -142,6 +145,15 @@ namespace VoidLight.Business.Services
 
             _context.Users.Update(dbUser);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<UserDto> GetById(int id)
+        {
+            var user = await _context.Users.Include(us => us.Role).FirstOrDefaultAsync(us => us.Id == id);
+            var userDto = UserMapper.ConvertEntityToDto(user);
+            var game = await _steamClient.GetUserCurrentPlayingGame(user.LoginToken);
+            userDto.PlayedGame = game;
+            return userDto;
         }
     }
 }

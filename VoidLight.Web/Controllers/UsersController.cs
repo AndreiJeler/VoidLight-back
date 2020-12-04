@@ -84,5 +84,12 @@ namespace VoidLight.Web.Controllers
         {
             return Ok(_userService.GetAll());
         }
+
+        [HttpGet("{id}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetUserById(int id)
+        {
+            return Ok(await _userService.GetById(id));
+        }
     }
 }

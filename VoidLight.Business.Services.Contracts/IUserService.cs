@@ -17,6 +17,7 @@ namespace VoidLight.Business.Services.Contracts
         Task<User> FindById(int id);  //TODO: de schimbat la dto
         IAsyncEnumerable<User> GetAll();
         Task UpdateUser(UserDto userDto);
+        Task<UserDto> GetById(int id);
 
     }
 }
