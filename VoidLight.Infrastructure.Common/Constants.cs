@@ -10,7 +10,7 @@ namespace VoidLight.Infrastructure.Common
 
         #region URL
         public const string APP_URL = "https://localhost:44324/";
-        public const string CLIENT_URL = "https://localhost:4200/";
+        public const string CLIENT_URL = "http://localhost:4200/";
 
         #endregion
 

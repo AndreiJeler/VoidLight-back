@@ -18,11 +18,14 @@ namespace VoidLight.Business.Services
     {
         private readonly AppSettings _appSettings;
         private readonly HttpClient _client;
+        private readonly ISteamGameCollection _gameCollection;
 
-        public SteamClient(IOptions<AppSettings> appSettings)
+
+        public SteamClient(IOptions<AppSettings> appSettings, ISteamGameCollection gameCollection)
         {
             _appSettings = appSettings.Value;
             _client = new HttpClient();
+            _gameCollection = gameCollection;
         }
 
         public async Task<Game> GetGameDetails(string appId)
@@ -72,10 +75,6 @@ namespace VoidLight.Business.Services
             var response = await _client.GetStringAsync(url);
             var jsonData = (JObject)JsonConvert.DeserializeObject(response);
             
-            var rr = await _client.GetStringAsync("http://api.steampowered.com/ISteamApps/GetAppList/v0002/");
-            var jj = (JObject)JsonConvert.DeserializeObject(rr);
-            var gg = jj.SelectToken("applist.apps").Children();
-
             var games = jsonData.SelectToken("response.games").Children();
 
             var newGames = new List<Game>();
@@ -83,10 +82,22 @@ namespace VoidLight.Business.Services
             foreach (var game in games)
             {
                 var appId = game["appid"].Value<string>();
-                var newGame = await GetGameDetails(appId);
 
-                var g = gg.FirstOrDefault(ga => ga["appid"].Value<string>() == appId);
-                //jocul din lista mare
+                var gameNameToken = await _gameCollection.GetGameName(appId);
+
+                if (gameNameToken is null)
+                {
+                    continue;
+                }
+
+                var gameName = gameNameToken["name"].Value<string>();
+
+                var newGame = new Game()
+                {
+                    Name = gameName,
+                    Description = gameName
+                };
+
 
 
                 if (newGame is null)

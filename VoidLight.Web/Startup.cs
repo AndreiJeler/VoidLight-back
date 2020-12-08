@@ -120,6 +120,8 @@ namespace VoidLight.Web
             services.AddScoped<IGamePublisherService, GamePublisherService>();
             services.AddScoped<ISteamClient, SteamClient>();
 
+            services.AddSingleton<ISteamGameCollection,SteamGameCollection>();
+
 
 
 
