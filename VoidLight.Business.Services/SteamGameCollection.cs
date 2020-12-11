@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using VoidLight.Business.Services.Contracts;
 using VoidLight.Data;
+using VoidLight.Infrastructure.Common;
 
 namespace VoidLight.Business.Services
 {
@@ -27,15 +28,15 @@ namespace VoidLight.Business.Services
 
         private async Task<JEnumerable<JToken>> GetGames()
         {
-            var url = await _client.GetStringAsync("http://api.steampowered.com/ISteamApps/GetAppList/v0002/");
+            var url = await _client.GetStringAsync(Constants.STEAM_ALL_GAMES_URL);
             var response = (JObject)JsonConvert.DeserializeObject(url);
-            var objects = response.SelectToken("applist.apps").Children(); //Constant
+            var objects = response.SelectToken(Constants.STEAM_ALL_GAMES_APP_LIST).Children(); //Constant
             return objects;
         }
 
         public Task<JToken> GetGameName(string appId)
         {
-            return Task.Run(() => _games.FirstOrDefault(ga => ga["appid"].Value<string>() == appId));
+            return Task.Run(() => _games.FirstOrDefault(ga => ga[Constants.STEAM_APP_ID].Value<string>() == appId));
         }
     }
 }

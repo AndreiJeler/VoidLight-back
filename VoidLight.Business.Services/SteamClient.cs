@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using VoidLight.Business.Services.Contracts;
 using VoidLight.Data;
 using VoidLight.Data.Entities;
+using VoidLight.Infrastructure.Common;
 
 namespace VoidLight.Business.Services
 {
@@ -30,12 +31,12 @@ namespace VoidLight.Business.Services
 
         public async Task<Game> GetGameDetails(string appId)
         {
-            var url = $"http://api.steampowered.com/ISteamUserStats/GetSchemaForGame/v2/?key={_appSettings.SteamKey}&appid={appId}";
+            var url = $"{Constants.STEAM_GAME_SCHEME_URL}/?key={_appSettings.SteamKey}&appid={appId}";
             var response = await _client.GetStringAsync(url);
             var jsonData = (JObject)JsonConvert.DeserializeObject(response);
             try
             {
-                var gameName = jsonData.SelectToken("game.gameName").Value<string>();
+                var gameName = jsonData.SelectToken(Constants.STEAM_GAMENAME_TOKEN).Value<string>();
                 var game = new Game()
                 {
                     Name = gameName,
@@ -51,37 +52,38 @@ namespace VoidLight.Business.Services
 
         public async Task<string> GetUserCurrentPlayingGame(string steamId)
         {
-            var url = $"http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key={_appSettings.SteamKey}&steamids={steamId}";
+            var url = $"{Constants.STEAM_USER_INFO_URL}/?key={_appSettings.SteamKey}&steamids={steamId}";
             var response = await _client.GetStringAsync(url);
             var jsonData = (JObject)JsonConvert.DeserializeObject(response);
-            var player = jsonData.SelectToken("response.players").First;
+            var player = jsonData.SelectToken(Constants.STEAM_USER_LIST_TOKEN).First;
 
 
             try
             {
-                var gameId = player["gameid"].Value<string>();
-                var gameName = player["gameextrainfo"].Value<string>();
-                return gameName != null ? gameName : "None";
+                var gameId = player[Constants.STEAM_GAMEID].Value<string>();
+                var gameName = player[Constants.STEAM_GAME_EXTRA_NAME].Value<string>();
+                return gameName != null ? gameName : Constants.STEAM_NO_GAME_PLAYING;
+                // momentan se trimite numai numele jocului spre front-end
             }
             catch
             {
-                return "None";
+                return Constants.STEAM_NO_GAME_PLAYING;
             }
         }
 
         public async Task<IEnumerable<Game>> GetUserGames(string steamId, User user, Platform platform)
         {
-            var url = $"http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001/?key={_appSettings.SteamKey}&steamid={steamId}&format=json";
+            var url = $"{Constants.STEAM_OWNED_GAMES_URL}/?key={_appSettings.SteamKey}&steamid={steamId}&format=json";
             var response = await _client.GetStringAsync(url);
             var jsonData = (JObject)JsonConvert.DeserializeObject(response);
             
-            var games = jsonData.SelectToken("response.games").Children();
+            var games = jsonData.SelectToken(Constants.STEAM_OWNED_GAMES_LIST_TOKEN).Children();
 
             var newGames = new List<Game>();
 
             foreach (var game in games)
             {
-                var appId = game["appid"].Value<string>();
+                var appId = game[Constants.STEAM_APP_ID].Value<string>();
 
                 var gameNameToken = await _gameCollection.GetGameName(appId);
 
@@ -90,7 +92,7 @@ namespace VoidLight.Business.Services
                     continue;
                 }
 
-                var gameName = gameNameToken["name"].Value<string>();
+                var gameName = gameNameToken[Constants.STEAM_NAME_TOKEN].Value<string>();
 
                 var newGame = new Game()
                 {
@@ -105,21 +107,25 @@ namespace VoidLight.Business.Services
                     continue;
                 }
 
-                newGame.GameUsers = new List<GameUser>();
-                newGame.GameUsers.Add(new GameUser()
+                newGame.GameUsers = new List<GameUser>
                 {
-                    Game = newGame,
-                    User = user
-                });
+                    new GameUser()
+                    {
+                        Game = newGame,
+                        User = user
+                    }
+                };
 
-                newGame.GamePlatforms = new List<GamePlatform>();
-                newGame.GamePlatforms.Add(new GamePlatform()
+                newGame.GamePlatforms = new List<GamePlatform>
                 {
-                    AppId = appId,
-                    Game = newGame,
-                    Platform = platform,
-                    PlatformId = platform.Id
-                });
+                    new GamePlatform()
+                    {
+                        AppId = appId,
+                        Game = newGame,
+                        Platform = platform,
+                        PlatformId = platform.Id
+                    }
+                };
 
                 newGames.Add(newGame);
             }
@@ -129,7 +135,7 @@ namespace VoidLight.Business.Services
 
         public async Task GetUserInfo(string steamId)
         {
-            var url = $"http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key={_appSettings.SteamKey}&steamids={steamId}";
+            var url = $"{Constants.STEAM_USER_INFO_URL}/?key={_appSettings.SteamKey}&steamids={steamId}";
             var response = await _client.GetStringAsync(url);
         }
 
