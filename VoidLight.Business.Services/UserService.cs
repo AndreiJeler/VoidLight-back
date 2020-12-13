@@ -153,7 +153,24 @@ namespace VoidLight.Business.Services
             var userDto = UserMapper.ConvertEntityToDto(user);
             var game = await _steamClient.GetUserCurrentPlayingGame(user.LoginToken);
             userDto.PlayedGame = game;
+            var platform = await _context.Platforms.FirstOrDefaultAsync(platf => platf.Name == "Steam");
+            await AddUserGames(user, platform);
             return userDto;
+        }
+
+        private async Task AddUserGames(User user, Platform platform)
+        {
+            var games = await _steamClient.GetUserGames(user.LoginToken, user, platform);
+            var addedGames = new List<Game>();
+            foreach(var game in games)
+            {
+                if (!(await _context.Games.AnyAsync(g => g.Name == game.Name ) || addedGames.Any(g => g.Name == game.Name)))
+                {
+                    await _context.AddAsync(game);
+                    addedGames.Add(game);
+                }
+            }
+            await _context.SaveChangesAsync();
         }
     }
 }

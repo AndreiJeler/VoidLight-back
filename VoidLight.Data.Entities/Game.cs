@@ -11,7 +11,7 @@ namespace VoidLight.Data.Entities
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public GamePublisher Publisher { get; set; }
+        //public GamePublisher Publisher { get; set; }
         public int PublisherId { get; set; }
         public ICollection<GameUser> GameUsers { get; set; }
         public ICollection<GamePlatform> GamePlatforms { get; set; }
@@ -35,15 +35,15 @@ namespace VoidLight.Data.Entities
                 .IsRequired();
 
             // Indexes
-            builder
+            /*builder
                 .HasIndex(nameof(Game.Name))
-                .IsUnique();
+                .IsUnique();*/
 
             // Relations
-            builder
+            /*builder
                 .HasOne(game => game.Publisher)
                 .WithMany(gp => gp.Games)
-                .HasForeignKey(game => game.PublisherId);
+                .HasForeignKey(game => game.PublisherId);*/
             builder
                 .HasMany(g => g.GameUsers)
                 .WithOne(gu => gu.Game)

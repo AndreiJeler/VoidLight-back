@@ -12,6 +12,7 @@ namespace VoidLight.Data.Entities
         public int GameId { get; set; }
         public Platform Platform { get; set; }
         public int PlatformId { get; set; }
+        public string AppId { get; set; }
 
     }
 

@@ -34,10 +34,10 @@ namespace VoidLight.Data.Entities
                 .IsUnique();
 
             // Relations
-            builder
+           /* builder
                .HasMany(publisher => publisher.Games)
                .WithOne(game => game.Publisher)
-               .OnDelete(DeleteBehavior.Cascade);
+               .OnDelete(DeleteBehavior.Cascade);*/
         }
     }
 }

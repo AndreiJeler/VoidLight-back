@@ -21,14 +21,14 @@ namespace VoidLight.Business.Services
         public IAsyncEnumerable<GameDto> GetUserFavouriteGames(int userId)
         {
             return _context.GameUsers
-                 .Include(gu => gu.Game).ThenInclude(g => g.Publisher)
+                 //.Include(gu => gu.Game).ThenInclude(g => g.Publisher)
                  .Where(gu => gu.UserId == userId && gu.IsFavourite == true)
                  .Select(gu => new GameDto()
                  {
                      Description = gu.Game.Description,
                      Id = gu.GameId,
                      Name = gu.Game.Name,
-                     Publisher = gu.Game.Publisher == null ? "No publisher" : gu.Game.Publisher.Name,
+                  //   Publisher = gu.Game.Publisher == null ? "No publisher" : gu.Game.Publisher.Name,
                      IsFavourite=gu.IsFavourite
                  }).AsAsyncEnumerable();
         }
@@ -36,14 +36,14 @@ namespace VoidLight.Business.Services
         public IAsyncEnumerable<GameDto> GetUserGames(int userId)
         {
             return _context.GameUsers
-                  .Include(gu => gu.Game).ThenInclude(g => g.Publisher)
+                  //.Include(gu => gu.Game).ThenInclude(g => g.Publisher)
                   .Where(gu => gu.UserId == userId)
                   .Select(gu => new GameDto()
                   {
                       Description = gu.Game.Description,
                       Id = gu.GameId,
                       Name = gu.Game.Name,
-                      Publisher = gu.Game.Publisher == null ? "No publisher" : gu.Game.Publisher.Name,
+                      //Publisher = gu.Game.Publisher == null ? "No publisher" : gu.Game.Publisher.Name,
                       IsFavourite = gu.IsFavourite
 
                   }).AsAsyncEnumerable();

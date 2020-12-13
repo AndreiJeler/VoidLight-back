@@ -10,7 +10,7 @@ namespace VoidLight.Infrastructure.Common
 
         #region URL
         public const string APP_URL = "https://localhost:44324/";
-        public const string CLIENT_URL = "https://localhost:4200/";
+        public const string CLIENT_URL = "http://localhost:4200/";
 
         #endregion
 
@@ -55,5 +55,24 @@ namespace VoidLight.Infrastructure.Common
 
         #endregion
 
+        #region Steam
+        public const string STEAM_ALL_GAMES_URL = "http://api.steampowered.com/ISteamApps/GetAppList/v0002/";
+        public const string STEAM_ALL_GAMES_APP_LIST = "applist.apps";
+        public const string STEAM_APP_ID = "appid";
+        public const string STEAM_GAME_SCHEME_URL = "http://api.steampowered.com/ISteamUserStats/GetSchemaForGame/v2";
+        public const string STEAM_GAMENAME_TOKEN = "game.gameName";
+        public const string STEAM_USER_INFO_URL = "http://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002";
+        public const string STEAM_OWNED_GAMES_URL = "http://api.steampowered.com/IPlayerService/GetOwnedGames/v0001";
+        public const string STEAM_OWNED_GAMES_LIST_TOKEN= "response.games";
+        public const string STEAM_NAME_TOKEN = "name";
+        public const string STEAM_USER_LIST_TOKEN = "response.players";
+        public const string STEAM_GAMEID = "gameid";
+        public const string STEAM_GAME_EXTRA_NAME = "gameextrainfo";
+        public const string STEAM_NO_GAME_PLAYING = "None";
+
+
+
+
+        #endregion
     }
 }

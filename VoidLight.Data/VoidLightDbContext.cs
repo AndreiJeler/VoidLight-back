@@ -32,6 +32,8 @@ namespace VoidLight.Data
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(UserRole).Assembly);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(WebsiteAchievement).Assembly);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(WebsiteAchievementUser).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(UserPlatform).Assembly);
+
         }
 
         public object Include(Func<object, object> p)
@@ -97,6 +99,9 @@ namespace VoidLight.Data
 
 
         public virtual DbSet<PostLike> Likes { get; set; }
+
+        public virtual DbSet<UserPlatform> UserPlatforms { get; set; }
+
 
 
 
