@@ -11,8 +11,6 @@ namespace VoidLight.Data.Entities
         public string Email { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
-        public int LoginService { get; set; }
-        public string LoginToken { get; set; }
         public string FullName { get; set; }
         public string AvatarPath { get; set; }
         public string Nickname { get; set; }
@@ -42,20 +40,18 @@ namespace VoidLight.Data.Entities
             // Properties
             builder
                 .HasKey(user => user.Id);
-            builder
+           /* builder
                 .Property(user => user.Email)
-                .IsRequired();
+                .IsRequired();*/
             builder
                 .Property(user => user.Username)
                 .IsRequired();
-            builder
-                .Property(user => user.Password)
-                .IsRequired(); // TODO: The password should not be required once login with Google/Facebook/etc is implemented
-            builder
-                .Property(user => user.LoginService);
-            builder
-                .Property(user => user.LoginToken);
-            builder
+            /* builder
+                 .Property(user => user.Password)
+                 .IsRequired(); // TODO: The password should not be required once login with Google/Facebook/etc is implemented*/
+            /* builder
+                 .Property(user => user.LoginService);*/
+            /*builder
                 .Property(user => user.Gender)
                 .IsRequired();
             builder
@@ -66,7 +62,7 @@ namespace VoidLight.Data.Entities
                 .IsRequired();
             builder
                 .Property(user => user.Country)
-                .IsRequired();
+                .IsRequired();*/
 
             // Indexes
             builder

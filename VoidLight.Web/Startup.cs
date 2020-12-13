@@ -25,6 +25,8 @@ using System.Text;
 using VoidLight.Data.Entities;
 using VoidLight.Web.Infrastructure.Authorization;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Security.Claims;
 
 namespace VoidLight.Web
 {
@@ -70,11 +72,45 @@ namespace VoidLight.Web
 
             var key = Configuration.GetSection("AppSettings").GetSection("Secret").Value;
 
-            services.AddAuthentication(x =>
+            services.AddAuthentication(options =>
             {
-                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                /* options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;*/
+                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultSignOutScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultForbidScheme = CookieAuthenticationDefaults.AuthenticationScheme;
             })
+                .AddCookie()
+                .AddSteam(options =>
+                {
+                    options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                    options.SaveTokens = true;
+
+                    options.Events.OnTicketReceived = context_ =>
+                    {
+                        var steamUserAsClaims = context_.Principal;
+
+                        var identityUser = context_.HttpContext.User;
+
+                        return Task.CompletedTask;
+
+                    };
+                    options.Events.OnAuthenticated = context_ =>
+                    {
+                        var steamUserAsClaims = context_.Identity;
+                        var nameIdentifier = steamUserAsClaims.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value.Split('/').Last();
+                        var name = steamUserAsClaims.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
+
+                        context_.HttpContext.User.Claims.Append(new Claim(ClaimTypes.NameIdentifier, nameIdentifier));
+                        context_.HttpContext.User.Claims.Append(new Claim(ClaimTypes.Name, nameIdentifier));
+
+                        return Task.CompletedTask;
+                    };
+                    options.ApplicationKey = Configuration.GetSection("AppSettings").GetSection("SteamKey").Value;
+                })
             .AddJwtBearer(x =>
             {
                 x.RequireHttpsMetadata = false;
@@ -120,7 +156,7 @@ namespace VoidLight.Web
             services.AddScoped<IGamePublisherService, GamePublisherService>();
             services.AddScoped<ISteamClient, SteamClient>();
 
-            services.AddSingleton<ISteamGameCollection,SteamGameCollection>();
+            services.AddSingleton<ISteamGameCollection, SteamGameCollection>();
 
 
 
@@ -171,6 +207,7 @@ namespace VoidLight.Web
 
             app.UseAuthorization();
             app.UseAuthentication();
+            app.UseCookiePolicy();
 
             app.UseEndpoints(endpoints =>
             {
