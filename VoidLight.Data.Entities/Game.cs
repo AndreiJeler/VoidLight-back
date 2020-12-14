@@ -12,7 +12,7 @@ namespace VoidLight.Data.Entities
         public string Name { get; set; }
         public string Description { get; set; }
         //public GamePublisher Publisher { get; set; }
-        public int PublisherId { get; set; }
+        //public int PublisherId { get; set; }
         public ICollection<GameUser> GameUsers { get; set; }
         public ICollection<GamePlatform> GamePlatforms { get; set; }
         public ICollection<CategoryGame> Categories { get; set; }

@@ -97,12 +97,12 @@ namespace VoidLight.Business.Services
         {
             HashSet<PostDto> posts = new HashSet<PostDto>(new PostDtoComparer());
 
-            var gamePublisher = await _context.GamePublishers.Include(gp => gp.Games).FirstOrDefaultAsync(gp => gp.Id == gamePublisherId);
+            var gamePublisher = await _context.GamePublishers.FirstOrDefaultAsync(gp => gp.Id == gamePublisherId);
 
-            foreach (var game in gamePublisher.Games)
+/*            foreach (var game in gamePublisher.Games)
             {
                 posts.UnionWith(await GetGamePosts(game.Id));
-            }
+            }*/
 
 
             return posts.OrderByDescending(p => p.Time).ToList();
@@ -126,8 +126,7 @@ namespace VoidLight.Business.Services
 
             var user = await _context.Users
                 .Include(u => u.GameUsers).ThenInclude(ug => ug.Game).ThenInclude(g => g.Posts)
-                .Include(u => u.FriendOfList).ThenInclude(f => f.FriendUser)
-                .Include(u => u.SelfFriends).ThenInclude(f => f.SelfUser)
+                .Include(u => u.FriendsList).ThenInclude(f => f.FriendUser)
                 .FirstOrDefaultAsync(user => user.Id == userId);
 
             foreach (var game in user.GameUsers)
@@ -135,15 +134,8 @@ namespace VoidLight.Business.Services
                 posts.UnionWith(await GetGamePosts(game.GameId));
             }
 
-            foreach (var friend in user.FriendOfList)
+            foreach (var friend in user.FriendsList)
             {
-                posts.UnionWith(GetPostsByUser(friend.SelfUserId));
-                posts.UnionWith(GetPostsByUser(friend.FriendUserId));
-            }
-
-            foreach (var friend in user.SelfFriends)
-            {
-                posts.UnionWith(GetPostsByUser(friend.SelfUserId));
                 posts.UnionWith(GetPostsByUser(friend.FriendUserId));
             }
 

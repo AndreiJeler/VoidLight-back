@@ -25,8 +25,7 @@ namespace VoidLight.Data.Entities
         public int RoleId { get; set; }
         public ICollection<UserComments> ProfileComments { get; set; }
         public ICollection<WebsiteAchievementUser> WebsiteAchievements { get; set; }
-        public ICollection<Friend> SelfFriends { get; set; }
-        public ICollection<Friend> FriendOfList { get; set; }
+        public ICollection<Friend> FriendsList { get; set; }
         public ICollection<GameUser> GameUsers { get; set; }
         public ICollection<UserPost> UserPosts { get; set; }
         public ICollection<PostLike> UserPostLikes { get; set; }
@@ -84,13 +83,13 @@ namespace VoidLight.Data.Entities
                 .WithOne(wa => wa.User)
                 .OnDelete(DeleteBehavior.Cascade);
             builder
-                .HasMany(su => su.SelfFriends)
+                .HasMany(su => su.FriendsList)
                 .WithOne(friend => friend.SelfUser)
                 .OnDelete(DeleteBehavior.NoAction);
-            builder
+/*            builder
                 .HasMany(fu => fu.FriendOfList)
                 .WithOne(friend => friend.FriendUser)
-                .OnDelete(DeleteBehavior.NoAction);
+                .OnDelete(DeleteBehavior.NoAction);*/
             builder
                 .HasMany(u => u.GameUsers)
                 .WithOne(gu => gu.User)

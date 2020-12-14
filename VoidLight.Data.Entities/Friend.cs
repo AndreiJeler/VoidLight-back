@@ -10,6 +10,7 @@ namespace VoidLight.Data.Entities
         public User SelfUser { get; set; }
         public int FriendUserId { get; set; }
         public User FriendUser { get; set; }
+        public bool IsConfirmed { get; set; }
     }
     
     public class FriendConfiguration : IEntityTypeConfiguration<Friend>
@@ -24,12 +25,12 @@ namespace VoidLight.Data.Entities
             // Relations
             builder
                 .HasOne(friend => friend.SelfUser)
-                .WithMany(su => su.SelfFriends)
+                .WithMany(su => su.FriendsList)
                 .HasForeignKey(friend => friend.SelfUserId);
-            builder
+/*            builder
                 .HasOne(friend => friend.FriendUser)
                 .WithMany(fu => fu.FriendOfList)
-                .HasForeignKey(friend => friend.FriendUserId);
+                .HasForeignKey(friend => friend.FriendUserId);*/
         }
     }
 }
