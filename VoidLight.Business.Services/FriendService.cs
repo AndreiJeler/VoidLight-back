@@ -33,17 +33,21 @@ namespace VoidLight.Business.Services
                 .Include(user => user.Role)
                 .FirstOrDefaultAsync(user => user.Id == userId);
 
+            var platform = await _context.Platforms.FirstOrDefaultAsync(platf => platf.Name == "Steam");
+
             foreach (var friend in dbUser.SelfFriends)
             {
                 var friendDto = UserMapper.ConvertEntityToDto(friend.FriendUser);
-                var game = await _steamClient.GetUserCurrentPlayingGame(friend.FriendUser.LoginToken);
+                var userPlatform = await _context.UserPlatforms.FirstOrDefaultAsync(up => up.UserId == friend.FriendUser.Id && up.PlatformId == platform.Id);
+                var game = await _steamClient.GetUserCurrentPlayingGame(userPlatform.LoginToken);
                 friendDto.PlayedGame = game;
                 friends.Add(friendDto);
             }
             foreach (var friend in dbUser.FriendOfList)
             {
                 var friendDto = UserMapper.ConvertEntityToDto(friend.SelfUser);
-                var game = await _steamClient.GetUserCurrentPlayingGame(friend.FriendUser.LoginToken);
+                var userPlatform = await _context.UserPlatforms.FirstOrDefaultAsync(up => up.UserId == friend.SelfUser.Id && up.PlatformId == platform.Id);
+                var game = await _steamClient.GetUserCurrentPlayingGame(userPlatform.LoginToken);
                 friendDto.PlayedGame = game;
                 friends.Add(friendDto);
             }

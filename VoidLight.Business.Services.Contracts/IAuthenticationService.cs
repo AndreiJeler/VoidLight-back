@@ -10,5 +10,6 @@ namespace VoidLight.Business.Services.Contracts
     {
         Task<AuthenticateResponseDto> Authenticate(AuthenticateRequestDto model);
         Task<AuthenticateResponseDto> GetUser(string token);
+        Task<AuthenticateResponseDto> GetUserById(int id);
     }
 }

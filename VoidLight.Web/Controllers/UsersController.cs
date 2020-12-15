@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -18,7 +20,7 @@ namespace VoidLight.Web.Controllers
     [ApiController]
     public class UsersController : ControllerBase
     {
-        private IUserService _userService;
+        private readonly IUserService _userService;
 
         public UsersController(IUserService userService)
         {
@@ -90,6 +92,26 @@ namespace VoidLight.Web.Controllers
         public async Task<IActionResult> GetUserById(int id)
         {
             return Ok(await _userService.GetById(id));
+        }
+
+        [HttpGet("steam-register")]
+        [AllowAnonymous]
+        public IActionResult SteamRegister()
+        {
+            return Challenge(new AuthenticationProperties { RedirectUri = "https://localhost:44324/api/users/steam-done" }, "Steam");
+        }
+
+        [HttpGet("steam-done")]
+        [AllowAnonymous]
+        public async Task<IActionResult> SteamRegisterSuccess()
+        {
+            var claims = HttpContext.User.Claims;
+            var nameIdentifier = claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value.Split('/').Last();
+            var name = claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
+
+            await _userService.SteamRegister(nameIdentifier, name);
+
+            return Redirect("http://localhost:4200/steam-return");
         }
     }
 }
