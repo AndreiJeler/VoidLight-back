@@ -19,6 +19,6 @@ namespace VoidLight.Business.Services.Contracts
         Task UpdateUser(UserDto userDto);
         Task<UserDto> GetById(int id);
         Task SteamRegister(string steamId, string username);
-        Task<int> GetUserIdSteaamLogin(string steamId, string username);
+        Task<int> GetUserIdSteamLogin(string steamId, string username);
     }
 }
