@@ -31,5 +31,36 @@ namespace VoidLight.Web.Controllers
         {
             return Ok(await _friendService.GetFriendsOfUser(id));
         }
+
+        [HttpPost("request")]
+        [AllowAnonymous]
+        public async Task<IActionResult> SendFriendRequest([FromBody] FriendRequestDto requestDto)
+        {
+            await _friendService.SendFriendRequest(requestDto.InitializerId, requestDto.ReceiverId);
+            return NoContent();
+        }
+
+        [HttpPost("confirm")]
+        [AllowAnonymous]
+        public async Task<IActionResult> ConfirmFriendRequest([FromBody] FriendRequestDto requestDto)
+        {
+            await _friendService.ConfirmFriendRequest(requestDto.InitializerId, requestDto.ReceiverId);
+            return NoContent();
+        }
+
+        [HttpPost("decline")]
+        [AllowAnonymous]
+        public async Task<IActionResult> DeclineFriendRequest([FromBody] FriendRequestDto requestDto)
+        {
+            await _friendService.DeclineFriendRequest(requestDto.InitializerId, requestDto.ReceiverId);
+            return NoContent();
+        }
+
+        [HttpGet("requests/{id}")]
+        [AllowAnonymous]
+        public IActionResult GetFriendRequests(int id)
+        {
+            return Ok(_friendService.GetUserFriendRequests(id));
+        }
     }
 }

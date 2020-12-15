@@ -11,6 +11,7 @@ namespace VoidLight.Data.Mappers
     {
         public static PostDto ConvertEntityToDto(UserPost post)
         {
+            var isPostLiked = post.Post.Likes == null ? false : post.Post.Likes.Any(like => like.UserId == post.UserId);
             return new PostDto()
             {
                 Id = post.Post.Id,
@@ -21,7 +22,8 @@ namespace VoidLight.Data.Mappers
                 Contents = post.Post.Content == null ? new List<string>() : post.Post.Content.Select(content => content.ContentPath).ToList(),
                 Username = post.User.Username,
                 AvatarPath = post.User.AvatarPath,
-                UserId = post.User.Id
+                UserId = post.User.Id,
+                IsLiked = isPostLiked
             };
         }
 

@@ -11,7 +11,7 @@ namespace VoidLight.Data.Entities
         public int Id { get; set; }
         public string Name { get; set; }
         public string Url { get; set; }
-        public ICollection<Game> Games { get; set; }
+       // public ICollection<Game> Games { get; set; }
     }
 
     public class GamePublisherConfiguration : IEntityTypeConfiguration<GamePublisher>

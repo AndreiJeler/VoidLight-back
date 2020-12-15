@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VoidLight.Data;
 
 namespace VoidLight.Data.Migrations
 {
     [DbContext(typeof(VoidLightDbContext))]
-    partial class VoidLightDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201214011405_friends-related")]
+    partial class friendsrelated
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -83,11 +85,19 @@ namespace VoidLight.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("GamePublisherId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("PublisherId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("GamePublisherId");
 
                     b.ToTable("Games");
                 });
@@ -461,6 +471,13 @@ namespace VoidLight.Data.Migrations
                         .HasForeignKey("SelfUserId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("VoidLight.Data.Entities.Game", b =>
+                {
+                    b.HasOne("VoidLight.Data.Entities.GamePublisher", null)
+                        .WithMany("Games")
+                        .HasForeignKey("GamePublisherId");
                 });
 
             modelBuilder.Entity("VoidLight.Data.Entities.GamePlatform", b =>

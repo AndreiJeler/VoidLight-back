@@ -15,8 +15,7 @@ namespace VoidLight.Data.Business
         public string Username { get; set; }
         public string AvatarPath { get; set; }
         public int UserId { get; set; }
-
-        //TODO: public boolean isLiked {get; set;}
+        public bool IsLiked {get; set;}
 
     }
 

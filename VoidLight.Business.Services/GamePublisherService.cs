@@ -19,19 +19,19 @@ namespace VoidLight.Business.Services
         }
         public IAsyncEnumerable<GamePublisherDto> GetGamePublisher()
         {
-            return _context.GamePublishers.Include(gp => gp.Games).Select(gp => new GamePublisherDto()
+            return _context.GamePublishers.Select(gp => new GamePublisherDto()
             {
                 Id = gp.Id,
                 Name = gp.Name,
                 Url = gp.Url,
-                Games = gp.Games.Select(g => new GameDto()
+                /*Games = gp.Games.Select(g => new GameDto()
                 {
                     Description = g.Description,
                     Id = g.Id,
                     Name = g.Name,
                     Publisher = gp.Name,
                     IsFavourite = false
-                }).ToList()
+                }).ToList()*/
             }).AsAsyncEnumerable();
         }
     }
