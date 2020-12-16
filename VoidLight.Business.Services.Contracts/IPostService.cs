@@ -10,7 +10,7 @@ namespace VoidLight.Business.Services.Contracts
     public interface IPostService
     {
         public Task<ICollection<PostDto>> GetPostsForUserFeed(int userId);
-        public Task<ICollection<PostDto>> GetGamePosts(int gameId);
+        public Task<ICollection<PostDto>> GetGamePosts(int gameId, int userId);
         public Task<ICollection<PostDto>> GetGamePublisherPosts(int gamePublisherId);
         public ICollection<PostDto> GetPostsByUser(int userId);
         public Task<PostDto> AddPost(PostDto post);
@@ -18,5 +18,6 @@ namespace VoidLight.Business.Services.Contracts
         public Task<CommentDto> PostComment(int postId, int userId, string commentText);
         public Task<Post> FindPost(int postId);
         public Task<PostDto> PostShare(int postId, int userId);
+        public Task DeletePost(int postId, int userId);
     }
 }

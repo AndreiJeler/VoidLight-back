@@ -13,7 +13,7 @@ namespace VoidLight.Data.Entities
         public int PostId { get; set; }
         public Post Post { get; set; }
         public bool IsShared { get; set; }
-        //TODO: TIMESTAMP
+        public DateTime Timestamp { get; set; }
     }
 
     public class UserPostConfiguration : IEntityTypeConfiguration<UserPost>

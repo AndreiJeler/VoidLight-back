@@ -177,6 +177,10 @@ namespace VoidLight.Business.Services
                             User = user
                         });
                     }
+                    catch
+                    {
+
+                    }
                 }
                 else if (!addedGames.Any(g => g.Name == game.Name))
                 {

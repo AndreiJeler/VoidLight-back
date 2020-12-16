@@ -92,6 +92,7 @@ namespace VoidLight.Business.Services
         {
             return _context.Friends
                 .Include(f => f.SelfUser).ThenInclude(user => user.Role)
+                .Where(f=>f.FriendUserId==userId && f.IsConfirmed==false)
                 .Select(friend=>UserMapper.ConvertEntityToDto(friend.SelfUser))
                 .AsAsyncEnumerable();
         }

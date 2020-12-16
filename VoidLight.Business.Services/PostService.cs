@@ -58,18 +58,38 @@ namespace VoidLight.Business.Services
                 Content = contents,
                 Game = dbGame,
                 Text = post.Text,
-                Time = DateTime.Now,
+                Time = DateTime.Now.ToUniversalTime(),
             };
 
 
             userPost.Post = dbPost;
             userPost.User = dbUser;
+            userPost.Timestamp = dbPost.Time;
 
             await _context.UserPosts.AddAsync(userPost);
 
             await _context.SaveChangesAsync();
 
-            return PostMapper.ConvertEntityToDto(userPost);
+            return PostMapper.ConvertEntityToDto(userPost, post.UserId);
+        }
+
+        public async Task DeletePost(int postId, int userId)
+        {
+            var post = await _context.Posts.Include(p => p.UserPosts).ThenInclude(up => up.User).FirstOrDefaultAsync(p => p.Id == postId);
+            if (post == null)
+            {
+                throw new Exception("Post does not exist");
+            }
+            if (post.UserPosts.FirstOrDefault(up => up.IsShared == false).UserId == userId)
+            {
+                _context.Posts.Remove(post);
+            }
+            else
+            {
+                var userPost = post.UserPosts.FirstOrDefault(up => up.UserId == userId);
+                _context.UserPosts.Remove(userPost);
+            }
+            await _context.SaveChangesAsync();
         }
 
         public Task<Post> FindPost(int postId)
@@ -81,7 +101,7 @@ namespace VoidLight.Business.Services
                 .FirstOrDefaultAsync(post => post.Id == postId);
         }
 
-        public async Task<ICollection<PostDto>> GetGamePosts(int gameId)
+        public async Task<ICollection<PostDto>> GetGamePosts(int gameId, int userId)
         {
             var dbGame = await _context.Games.Include(g => g.Posts).FirstOrDefaultAsync(game => game.Id == gameId);
 
@@ -100,7 +120,7 @@ namespace VoidLight.Business.Services
                 .Include(up => up.Post).ThenInclude(p => p.Comments).ThenInclude(c => c.User).ThenInclude(u => u.Role)
                 .Where(up => postsForGame.Contains(up.Post))
                 .OrderByDescending(up => up.Post.Time)
-                .Select(up => PostMapper.ConvertEntityToDto(up))
+                .Select(up => PostMapper.ConvertEntityToDto(up, userId))
                 .ToListAsync();
         }
 
@@ -121,15 +141,14 @@ namespace VoidLight.Business.Services
 
         public ICollection<PostDto> GetPostsByUser(int userId)
         {
-            return _context.UserPosts
+            var userPosts= _context.UserPosts
                 .Include(up => up.User)
                 .Include(up => up.Post).ThenInclude(p => p.Game)
                 .Include(up => up.Post).ThenInclude(p => p.Content)
                 .Include(up => up.Post).ThenInclude(p => p.Comments).ThenInclude(c => c.User).ThenInclude(u => u.Role)
                 .Include(up => up.Post).ThenInclude(p => p.Likes)
-                .Where(up => up.UserId == userId)
-                .Select(up => PostMapper.ConvertEntityToDto(up))
                 .ToList();
+            return userPosts.Where(up=>up.UserId==userId).Select(up => PostMapper.ConvertEntityToDto(up, userId)).ToList();
         }
 
         public async Task<ICollection<PostDto>> GetPostsForUserFeed(int userId)
@@ -143,7 +162,7 @@ namespace VoidLight.Business.Services
 
             foreach (var game in user.GameUsers)
             {
-                posts.UnionWith(await GetGamePosts(game.GameId));
+                posts.UnionWith(await GetGamePosts(game.GameId, userId));
             }
 
             foreach (var friend in user.FriendsList)
@@ -179,19 +198,31 @@ namespace VoidLight.Business.Services
         {
             var post = await FindPost(postId);
             var user = await _context.Users.Include(u => u.Role).FirstOrDefaultAsync(us => us.Id == userId);
-            var userPost = new UserPost()
+            if (post.UserPosts.FirstOrDefault(p => p.IsShared == false).UserId==userId)
             {
-                Post = post,
-                PostId = postId,
-                User = user,
-                UserId = userId,
-                IsShared = true
-            };
-            post.UserPosts.Add(userPost);
-            _context.Update(post);
-            await _context.SaveChangesAsync();
-            return PostMapper.ConvertEntityToDto(userPost);
-        }
+                throw new Exception("You cannot share your own post!");
+            }
+            try
+            {
+                var userPost = new UserPost()
+                {
+                    Post = post,
+                    PostId = postId,
+                    User = user,
+                    UserId = userId,
+                    IsShared = true,
+                    Timestamp = DateTime.Now.ToUniversalTime()
+                };
+                post.UserPosts.Add(userPost);
+                _context.Update(post);
+                await _context.SaveChangesAsync();
+                return PostMapper.ConvertEntityToDto(userPost, userId);
+            }
+            catch
+            {
+                throw new Exception("You have already shared this post!");
+            }
+            }
 
         public async Task<int> UserLikePost(int postId, int userId)
         {

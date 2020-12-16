@@ -25,11 +25,11 @@ namespace VoidLight.Web.Controllers
             _postService = postService;
         }
 
-        [HttpGet("game/{id}")]
+        [HttpGet("game/{id}/{userId}")]
         [AllowAnonymous]
-        public async Task<IActionResult> GetGamePosts(int id)
+        public async Task<IActionResult> GetGamePosts(int id, int userId)
         {
-            return Ok(await _postService.GetGamePosts(id));
+            return Ok(await _postService.GetGamePosts(id, userId));
         }
 
         [HttpGet("user/{id}")]
@@ -77,6 +77,13 @@ namespace VoidLight.Web.Controllers
         public async Task<IActionResult> SharePost(int postId, int userId)
         {
             return Ok(await _postService.PostShare(postId, userId));
+        }
+        [HttpDelete("/{postId}/{userId}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> DeletePost(int postId, int userId)
+        {
+            await _postService.DeletePost(postId, userId);
+            return NoContent();
         }
     }
 }
