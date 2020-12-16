@@ -169,11 +169,14 @@ namespace VoidLight.Business.Services
                 var dbGame = await _context.Games.FirstOrDefaultAsync(g => g.Name == game.Name);
                 if (dbGame != null)
                 {
-                    dbGame.GameUsers.Add(new GameUser()
+                    try
                     {
-                        Game = dbGame,
-                        User = user
-                    });
+                        dbGame.GameUsers.Add(new GameUser()
+                        {
+                            Game = dbGame,
+                            User = user
+                        });
+                    }
                 }
                 else if (!addedGames.Any(g => g.Name == game.Name))
                 {
@@ -212,15 +215,18 @@ namespace VoidLight.Business.Services
 
             await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
+            await AddUserGames(user, steamPlatform);
         }
 
-        public async Task<int> GetUserIdSteaamLogin(string steamId, string username)
+
+        public async Task<int> GetUserIdSteamLogin(string steamId, string username)
         {
             var steamPlatform = await _context.Platforms.FirstOrDefaultAsync(platf => platf.Name == "Steam");
             var userPlatform = await _context.UserPlatforms
-                .Include(up=>up.Platform)
-                .Include(up=>up.User)
+                .Include(up => up.Platform)
+                .Include(up => up.User)
                 .FirstOrDefaultAsync(up => up.Platform == steamPlatform && up.LoginToken == steamId);
+           // await AddUserGames(userPlatform.User, steamPlatform);
             return userPlatform.User.Id;
         }
     }

@@ -12,6 +12,7 @@ namespace VoidLight.Data.Mappers
         public static PostDto ConvertEntityToDto(UserPost post)
         {
             var isPostLiked = post.Post.Likes == null ? false : post.Post.Likes.Any(like => like.UserId == post.UserId);
+            var originalPost = post.Post.UserPosts.FirstOrDefault(up => up.IsShared == false);
             return new PostDto()
             {
                 Id = post.Post.Id,
@@ -23,7 +24,11 @@ namespace VoidLight.Data.Mappers
                 Username = post.User.Username,
                 AvatarPath = post.User.AvatarPath,
                 UserId = post.User.Id,
-                IsLiked = isPostLiked
+                IsLiked = isPostLiked,
+                Comments = post.Post.Comments.Select(comm => CommentMapper.ConvertEntityToDto(comm)).AsEnumerable(),
+                IsShared = post.IsShared,
+                OriginalUser = originalPost.User.Username,
+                OriginalUserAvatar = originalPost.User.AvatarPath
             };
         }
 

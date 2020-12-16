@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using VoidLight.Data.Business;
+using VoidLight.Data.Entities;
 
 namespace VoidLight.Business.Services.Contracts
 {
@@ -14,6 +15,8 @@ namespace VoidLight.Business.Services.Contracts
         public ICollection<PostDto> GetPostsByUser(int userId);
         public Task<PostDto> AddPost(PostDto post);
         public Task<int> UserLikePost(int postId, int userId);
-
+        public Task<CommentDto> PostComment(int postId, int userId, string commentText);
+        public Task<Post> FindPost(int postId);
+        public Task<PostDto> PostShare(int postId, int userId);
     }
 }

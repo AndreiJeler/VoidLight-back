@@ -24,6 +24,7 @@ namespace VoidLight.Business.Services
         public async Task<PostDto> AddPost(PostDto post)
         {
             var userPost = PostMapper.ConvertDtoToEntity(post);
+            userPost.IsShared = false;
             var dbGame = await _context.Games.FirstOrDefaultAsync(game => game.Name == post.Game);
             var dbUser = await _context.Users.FirstOrDefaultAsync(user => user.Id == post.UserId);
 
@@ -71,6 +72,15 @@ namespace VoidLight.Business.Services
             return PostMapper.ConvertEntityToDto(userPost);
         }
 
+        public Task<Post> FindPost(int postId)
+        {
+            return _context.Posts
+                .Include(post => post.Comments)
+                .Include(post => post.UserPosts).ThenInclude(up => up.User)
+                .Include(post => post.Likes)
+                .FirstOrDefaultAsync(post => post.Id == postId);
+        }
+
         public async Task<ICollection<PostDto>> GetGamePosts(int gameId)
         {
             var dbGame = await _context.Games.Include(g => g.Posts).FirstOrDefaultAsync(game => game.Id == gameId);
@@ -87,6 +97,7 @@ namespace VoidLight.Business.Services
                 .Include(up => up.User)
                 .Include(up => up.Post).ThenInclude(p => p.Likes)
                 .Include(up => up.Post).ThenInclude(p => p.Content)
+                .Include(up => up.Post).ThenInclude(p => p.Comments).ThenInclude(c => c.User).ThenInclude(u => u.Role)
                 .Where(up => postsForGame.Contains(up.Post))
                 .OrderByDescending(up => up.Post.Time)
                 .Select(up => PostMapper.ConvertEntityToDto(up))
@@ -99,10 +110,10 @@ namespace VoidLight.Business.Services
 
             var gamePublisher = await _context.GamePublishers.FirstOrDefaultAsync(gp => gp.Id == gamePublisherId);
 
-/*            foreach (var game in gamePublisher.Games)
-            {
-                posts.UnionWith(await GetGamePosts(game.Id));
-            }*/
+            /*            foreach (var game in gamePublisher.Games)
+                        {
+                            posts.UnionWith(await GetGamePosts(game.Id));
+                        }*/
 
 
             return posts.OrderByDescending(p => p.Time).ToList();
@@ -114,6 +125,7 @@ namespace VoidLight.Business.Services
                 .Include(up => up.User)
                 .Include(up => up.Post).ThenInclude(p => p.Game)
                 .Include(up => up.Post).ThenInclude(p => p.Content)
+                .Include(up => up.Post).ThenInclude(p => p.Comments).ThenInclude(c => c.User).ThenInclude(u => u.Role)
                 .Include(up => up.Post).ThenInclude(p => p.Likes)
                 .Where(up => up.UserId == userId)
                 .Select(up => PostMapper.ConvertEntityToDto(up))
@@ -142,6 +154,43 @@ namespace VoidLight.Business.Services
             posts.UnionWith(GetPostsByUser(user.Id));
 
             return posts.OrderByDescending(p => p.Time).ToList();
+        }
+
+        public async Task<CommentDto> PostComment(int postId, int userId, string commentText)
+        {
+            var post = await FindPost(postId);
+            var user = await _context.Users.Include(u => u.Role).FirstOrDefaultAsync(us => us.Id == userId);
+            var comment = new PostComment()
+            {
+                Post = post,
+                PostId = postId,
+                User = user,
+                UserId = userId,
+                Text = commentText,
+                TimeStamp = DateTime.Now.ToUniversalTime()
+            };
+            post.Comments.Add(comment);
+            _context.Update(post);
+            await _context.SaveChangesAsync();
+            return CommentMapper.ConvertEntityToDto(comment);
+        }
+
+        public async Task<PostDto> PostShare(int postId, int userId)
+        {
+            var post = await FindPost(postId);
+            var user = await _context.Users.Include(u => u.Role).FirstOrDefaultAsync(us => us.Id == userId);
+            var userPost = new UserPost()
+            {
+                Post = post,
+                PostId = postId,
+                User = user,
+                UserId = userId,
+                IsShared = true
+            };
+            post.UserPosts.Add(userPost);
+            _context.Update(post);
+            await _context.SaveChangesAsync();
+            return PostMapper.ConvertEntityToDto(userPost);
         }
 
         public async Task<int> UserLikePost(int postId, int userId)

@@ -66,5 +66,17 @@ namespace VoidLight.Web.Controllers
         {
             return Ok(await _postService.UserLikePost(postId, userId));
         }
+        [HttpPost("comment")]
+        [AllowAnonymous]
+        public async Task<IActionResult> CommentPost([FromBody] CommentDto commentDto)
+        {
+            return Ok(await _postService.PostComment(commentDto.PostId, commentDto.UserId, commentDto.CommentText));
+        }
+        [HttpGet("share/{postId}/{userId}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> SharePost(int postId, int userId)
+        {
+            return Ok(await _postService.PostShare(postId, userId));
+        }
     }
 }

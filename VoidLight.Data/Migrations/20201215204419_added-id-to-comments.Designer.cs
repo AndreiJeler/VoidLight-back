@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VoidLight.Data;
 
 namespace VoidLight.Data.Migrations
 {
     [DbContext(typeof(VoidLightDbContext))]
-    partial class VoidLightDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201215204419_added-id-to-comments")]
+    partial class addedidtocomments
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -228,9 +230,6 @@ namespace VoidLight.Data.Migrations
 
                     b.Property<string>("Text")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("TimeStamp")
-                        .HasColumnType("datetime2");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
