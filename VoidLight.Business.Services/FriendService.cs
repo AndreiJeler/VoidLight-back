@@ -23,7 +23,7 @@ namespace VoidLight.Business.Services
             _steamClient = steamClient;
         }
 
-        public async Task ConfirmFriendRequest(int initializerId, int receiverId)
+        public async Task<string> ConfirmFriendRequest(int initializerId, int receiverId)
         {
             var initializer = await _context.Users.Include(u => u.FriendsList).FirstOrDefaultAsync(u => u.Id == initializerId);
             var receiver = await _context.Users.Include(u => u.FriendsList).FirstOrDefaultAsync(u => u.Id == receiverId);
@@ -40,13 +40,17 @@ namespace VoidLight.Business.Services
             });
             _context.Update(receiver);
             await _context.SaveChangesAsync();
+            return receiver.Username;
         }
 
-        public async Task DeclineFriendRequest(int initializerId, int receiverId)
+        public async Task<string> DeclineFriendRequest(int initializerId, int receiverId)
         {
+            var initializer = await _context.Users.Include(u => u.FriendsList).FirstOrDefaultAsync(u => u.Id == initializerId);
+            var receiver = await _context.Users.Include(u => u.FriendsList).FirstOrDefaultAsync(u => u.Id == receiverId);
             var friendRequest = await _context.Friends.FirstOrDefaultAsync(f => f.SelfUserId == initializerId && f.FriendUserId == receiverId);
             _context.Remove(friendRequest);
             await _context.SaveChangesAsync();
+            return receiver.Username;
         }
 
         public async Task DeleteFriends(int initializerId, int receiverId)

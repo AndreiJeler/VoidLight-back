@@ -5,11 +5,13 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using VoidLight.Business.Services.Contracts;
 using VoidLight.Data.Business;
 using VoidLight.Data.Business.Authentication;
 using VoidLight.Data.Entities;
 using VoidLight.Infrastructure.Common;
+using VoidLight.Web.Hubs;
 using VoidLight.Web.Infrastructure.Authorization;
 
 namespace VoidLight.Web.Controllers
@@ -19,10 +21,13 @@ namespace VoidLight.Web.Controllers
     public class FriendsController : ControllerBase
     {
         private IFriendService _friendService;
+        private readonly IHubContext<FriendsHub> _hub;
 
-        public FriendsController(IFriendService friendService)
+
+        public FriendsController(IFriendService friendService, IHubContext<FriendsHub> hub)
         {
             _friendService = friendService;
+            _hub = hub;
         }
 
         [HttpGet("user/{id}")]
@@ -37,6 +42,7 @@ namespace VoidLight.Web.Controllers
         public async Task<IActionResult> SendFriendRequest([FromBody] FriendRequestDto requestDto)
         {
             await _friendService.SendFriendRequest(requestDto.InitializerId, requestDto.ReceiverId);
+            await _hub.Clients.All.SendAsync("new-" + requestDto.ReceiverId, "You have a new friend request");
             return NoContent();
         }
 
@@ -44,7 +50,8 @@ namespace VoidLight.Web.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> ConfirmFriendRequest([FromBody] FriendRequestDto requestDto)
         {
-            await _friendService.ConfirmFriendRequest(requestDto.InitializerId, requestDto.ReceiverId);
+            var initializer = await _friendService.ConfirmFriendRequest(requestDto.InitializerId, requestDto.ReceiverId);
+            await _hub.Clients.All.SendAsync("accept-" + requestDto.InitializerId, $"{initializer} has accepted your friend request");
             return NoContent();
         }
 
@@ -52,7 +59,8 @@ namespace VoidLight.Web.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> DeclineFriendRequest([FromBody] FriendRequestDto requestDto)
         {
-            await _friendService.DeclineFriendRequest(requestDto.InitializerId, requestDto.ReceiverId);
+            var initializer = await _friendService.DeclineFriendRequest(requestDto.InitializerId, requestDto.ReceiverId);
+            await _hub.Clients.All.SendAsync("decline-" + requestDto.InitializerId, $"{initializer} has declined your friend request");
             return NoContent();
         }
 
