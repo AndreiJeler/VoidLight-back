@@ -212,6 +212,7 @@ namespace VoidLight.Web
             {
                 endpoints.MapControllers();
                 endpoints.MapHub<FriendsHub>("/friends-hub");
+                endpoints.MapHub<PostsHub>("/posts-hub");
             });
         }
     }

@@ -139,7 +139,7 @@ namespace VoidLight.Business.Services
             return posts.OrderByDescending(p => p.Time).ToList();
         }
 
-        public ICollection<PostDto> GetPostsByUser(int userId)
+        public ICollection<PostDto> GetPostsByUser(int userId, int feedUserId)
         {
             var userPosts= _context.UserPosts
                 .Include(up => up.User)
@@ -148,7 +148,7 @@ namespace VoidLight.Business.Services
                 .Include(up => up.Post).ThenInclude(p => p.Comments).ThenInclude(c => c.User).ThenInclude(u => u.Role)
                 .Include(up => up.Post).ThenInclude(p => p.Likes)
                 .ToList();
-            return userPosts.Where(up=>up.UserId==userId).Select(up => PostMapper.ConvertEntityToDto(up, userId)).ToList();
+            return userPosts.Where(up=>up.UserId==userId).Select(up => PostMapper.ConvertEntityToDto(up, feedUserId)).ToList();
         }
 
         public async Task<ICollection<PostDto>> GetPostsForUserFeed(int userId)
@@ -167,10 +167,10 @@ namespace VoidLight.Business.Services
 
             foreach (var friend in user.FriendsList)
             {
-                posts.UnionWith(GetPostsByUser(friend.FriendUserId));
+                posts.UnionWith(GetPostsByUser(friend.FriendUserId, userId));
             }
 
-            posts.UnionWith(GetPostsByUser(user.Id));
+            posts.UnionWith(GetPostsByUser(user.Id, user.Id));
 
             return posts.OrderByDescending(p => p.Time).ToList();
         }

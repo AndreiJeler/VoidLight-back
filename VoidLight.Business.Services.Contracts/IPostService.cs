@@ -12,7 +12,7 @@ namespace VoidLight.Business.Services.Contracts
         public Task<ICollection<PostDto>> GetPostsForUserFeed(int userId);
         public Task<ICollection<PostDto>> GetGamePosts(int gameId, int userId);
         public Task<ICollection<PostDto>> GetGamePublisherPosts(int gamePublisherId);
-        public ICollection<PostDto> GetPostsByUser(int userId);
+        public ICollection<PostDto> GetPostsByUser(int userId, int feedUserId);
         public Task<PostDto> AddPost(PostDto post);
         public Task<int> UserLikePost(int postId, int userId);
         public Task<CommentDto> PostComment(int postId, int userId, string commentText);

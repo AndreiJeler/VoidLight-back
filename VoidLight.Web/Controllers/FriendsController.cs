@@ -70,5 +70,28 @@ namespace VoidLight.Web.Controllers
         {
             return Ok(_friendService.GetUserFriendRequests(id));
         }
+
+        [HttpDelete("{initId}/{recId}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> RemoveFriend(int initId, int recId)
+        {
+            await _friendService.DeleteFriends(initId, recId);
+            return NoContent();
+        }
+
+        [HttpDelete("request/{initId}/{recId}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> RemoveFriendRequest(int initId, int recId)
+        {
+            await _friendService.RemoveFriendRequest(initId, recId);
+            return NoContent();
+        }
+
+        [HttpGet("status/{initId}/{recId}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> CheckFriendshipStatus(int initId, int recId)
+        {
+            return Ok(await _friendService.GetFriendType(initId, recId));
+        }
     }
 }

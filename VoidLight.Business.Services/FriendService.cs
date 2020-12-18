@@ -73,7 +73,7 @@ namespace VoidLight.Business.Services
 
             var platform = await _context.Platforms.FirstOrDefaultAsync(platf => platf.Name == "Steam");
 
-            foreach (var friend in dbUser.FriendsList)
+            foreach (var friend in dbUser.FriendsList.Where(fr => fr.IsConfirmed))
             {
                 var friendDto = UserMapper.ConvertEntityToDto(friend.FriendUser);
                 var userPlatform = await _context.UserPlatforms.FirstOrDefaultAsync(up => up.UserId == friend.FriendUser.Id && up.PlatformId == platform.Id);
@@ -92,13 +92,34 @@ namespace VoidLight.Business.Services
             return friends.ToList();
         }
 
+        public async Task<int> GetFriendType(int initializerId, int receiverId)
+        {
+            var friendRequest = await _context.Friends.FirstOrDefaultAsync(friend => friend.SelfUserId == initializerId && friend.FriendUserId == receiverId);
+            if (friendRequest == null)
+            {
+                return 0;
+            }
+            if (friendRequest.IsConfirmed)
+            {
+                return 1;
+            }
+            return 2;
+        }
+
         public IAsyncEnumerable<UserDto> GetUserFriendRequests(int userId)
         {
             return _context.Friends
                 .Include(f => f.SelfUser).ThenInclude(user => user.Role)
-                .Where(f=>f.FriendUserId==userId && f.IsConfirmed==false)
-                .Select(friend=>UserMapper.ConvertEntityToDto(friend.SelfUser))
+                .Where(f => f.FriendUserId == userId && f.IsConfirmed == false)
+                .Select(friend => UserMapper.ConvertEntityToDto(friend.SelfUser))
                 .AsAsyncEnumerable();
+        }
+
+        public async Task RemoveFriendRequest(int initializerId, int receiverId)
+        {
+            var friendRequest = await _context.Friends.FirstOrDefaultAsync(f => f.SelfUserId == initializerId && f.FriendUserId == receiverId);
+            _context.Remove(friendRequest);
+            await _context.SaveChangesAsync();
         }
 
         public async Task SendFriendRequest(int selfUserId, int toUserId)
