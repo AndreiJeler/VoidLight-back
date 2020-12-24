@@ -9,12 +9,12 @@ pipeline {
         }
         stage('build') {
             steps {
-                sh 'docker build -t voidlight:' + env.BRANCH_NAME +  ' .'
+                sh 'docker build -t voidlight-back:' + env.BRANCH_NAME +  ' .'
             }
         }
         stage('tag') {
             steps {
-                sh 'docker tag voidlight:' + env.BRANCH_NAME +  'voidlight: ' + env.BUILD_NUMBER
+                sh 'docker tag voidlight-back:' + env.BRANCH_NAME +  'voidlight-back: ' + env.BUILD_NUMBER
             }
         }
     }
