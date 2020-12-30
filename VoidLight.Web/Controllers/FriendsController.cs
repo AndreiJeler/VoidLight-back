@@ -84,6 +84,7 @@ namespace VoidLight.Web.Controllers
         public async Task<IActionResult> RemoveFriendRequest(int initId, int recId)
         {
             await _friendService.RemoveFriendRequest(initId, recId);
+            await _hub.Clients.All.SendAsync("remove-" + recId, $"One friendRequest was removed");
             return NoContent();
         }
 

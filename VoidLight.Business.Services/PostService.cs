@@ -160,9 +160,12 @@ namespace VoidLight.Business.Services
                 .Include(u => u.FriendsList).ThenInclude(f => f.FriendUser)
                 .FirstOrDefaultAsync(user => user.Id == userId);
 
-            foreach (var game in user.GameUsers)
+            if (user.GameUsers!=null)
             {
-                posts.UnionWith(await GetGamePosts(game.GameId, userId));
+                foreach (var game in user.GameUsers)
+                {
+                    posts.UnionWith(await GetGamePosts(game.GameId, userId));
+                }
             }
 
             foreach (var friend in user.FriendsList)
