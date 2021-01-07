@@ -70,6 +70,14 @@ namespace VoidLight.Infrastructure.Common
         public const string STEAM_GAME_EXTRA_NAME = "gameextrainfo";
         public const string STEAM_NO_GAME_PLAYING = "None";
         public const string STEAM_PLAYER_ACHIEVEMENTS_URL = "http://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v0001";
+        public const string STEAM_GAME_SCHEMA_ACHIEVEMENTS = "game.availableGameStats.achievements";
+        public const string STEAM_USER_ACHIEVEMENTS = "playerstats.achievements";
+        public const string STEAM_ACHIEVEMENT_ACHIEVED = "achieved";
+        public const string STEAM_ACHIEVEMENT_NAME = "name";
+        public const string STEAM_ACHIEVEMENT_APINAME = "apiname";
+        public const string STEAM_ACHIEVEMENT_DISPLAYNAME = "displayname";
+        public const string STEAM_ACHIEVEMENT_ICON = "icon";
+        public const string STEAM_ACHIEVEMENT_UNLOCK_TIME = "unlocktime";
 
 
 
