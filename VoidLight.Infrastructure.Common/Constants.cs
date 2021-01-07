@@ -69,6 +69,8 @@ namespace VoidLight.Infrastructure.Common
         public const string STEAM_GAMEID = "gameid";
         public const string STEAM_GAME_EXTRA_NAME = "gameextrainfo";
         public const string STEAM_NO_GAME_PLAYING = "None";
+        public const string STEAM_PLAYER_ACHIEVEMENTS_URL = "http://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v0001";
+
 
 
 

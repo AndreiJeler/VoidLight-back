@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VoidLight.Data;
 
 namespace VoidLight.Data.Migrations
 {
     [DbContext(typeof(VoidLightDbContext))]
-    partial class VoidLightDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210107131901_added the gameAchievement")]
+    partial class addedthegameAchievement
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -101,7 +103,7 @@ namespace VoidLight.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Icon")
                         .HasColumnType("nvarchar(max)");
@@ -109,7 +111,7 @@ namespace VoidLight.Data.Migrations
                     b.Property<DateTime>("TimeAchieved")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("GameId", "UserId", "Description");
+                    b.HasKey("GameId", "UserId");
 
                     b.HasIndex("UserId");
 

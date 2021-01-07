@@ -30,6 +30,8 @@ namespace VoidLight.Data.Entities
         public ICollection<UserPost> UserPosts { get; set; }
         public ICollection<PostLike> UserPostLikes { get; set; }
         public ICollection<UserPlatform> UserPlatforms { get; set; }
+        public ICollection<GameAchievement> Achievements { get; set; }
+
     }
 
     public class UserConfiguration : IEntityTypeConfiguration<User>
@@ -97,6 +99,10 @@ namespace VoidLight.Data.Entities
             builder
                 .HasMany(user => user.UserPlatforms)
                 .WithOne(uc => uc.User)
+                .OnDelete(DeleteBehavior.Cascade);
+            builder
+                .HasMany(g => g.Achievements)
+                .WithOne(gp => gp.User)
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }
