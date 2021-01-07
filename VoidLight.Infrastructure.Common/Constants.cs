@@ -34,6 +34,14 @@ namespace VoidLight.Infrastructure.Common
 
         #endregion
 
+        #region Friends
+        public const int NOT_FRIENDS = 0;
+        public const int FRIENDS = 1;
+        public const int FRIENDREQUEST_SENT = 0;
+
+
+        #endregion
+
 
         #region Email
         public const string ACCOUNT_ACTIVATION_SUBJECT = "Account activation";

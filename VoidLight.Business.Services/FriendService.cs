@@ -8,6 +8,7 @@ using VoidLight.Business.Services.Contracts;
 using VoidLight.Data;
 using VoidLight.Data.Business;
 using VoidLight.Data.Mappers;
+using VoidLight.Infrastructure.Common;
 
 namespace VoidLight.Business.Services
 {
@@ -97,13 +98,13 @@ namespace VoidLight.Business.Services
             var friendRequest = await _context.Friends.FirstOrDefaultAsync(friend => friend.SelfUserId == initializerId && friend.FriendUserId == receiverId);
             if (friendRequest == null)
             {
-                return 0;
+                return Constants.NOT_FRIENDS;
             }
             if (friendRequest.IsConfirmed)
             {
-                return 1;
+                return Constants.FRIENDS;
             }
-            return 2;
+            return Constants.FRIENDREQUEST_SENT;
         }
 
         public IAsyncEnumerable<UserDto> GetUserFriendRequests(int userId)
