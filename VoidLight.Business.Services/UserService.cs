@@ -214,12 +214,55 @@ namespace VoidLight.Business.Services
             {
                 LoginToken = steamId,
                 Platform = steamPlatform,
-                PlatformId=steamPlatform.Id,
+                PlatformId = steamPlatform.Id,
                 User = user,
                 UserId = user.Id
             };
 
-            user.UserPlatforms = new List<UserPlatform> { userPlatform };
+            user.UserPlatforms = new List<UserPlatform> {userPlatform};
+
+            await _context.Users.AddAsync(user);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task GoogleRegister(string googleIdToken)
+        {
+            HttpClient client = new HttpClient();
+            var responseString =
+                await client.GetStringAsync("https://oauth2.googleapis.com/tokeninfo?id_token=" + googleIdToken);
+            JObject json = JObject.Parse(responseString);
+            
+            if (json.Value<string>("iss") != "accounts.google.com" &&
+                json.Value<string>("iss") != "https://accounts.google.com")
+                throw new UnauthorisedException($"Wrong issuer: {json.Value<string>("iss")}!");
+
+            // TODO: Replace with the real value, taken from AppSettings
+            if (json.Value<string>("aud") != "110169484474386276334")
+                throw new UnauthorisedException($"Wrong client ID!");
+
+            User user = new User()
+            {
+                FullName = json.Value<string>("name"),
+                Username = (json.Value<string>("email")).Split('@', 2)[0],
+            };
+            user.IsActivated = true;
+            user.WasPasswordForgotten = false;
+            user.WasPasswordChanged = false;
+            user.AvatarPath = Constants.DEFAULT_IMAGE_USER;
+            user.RoleId = (int) RoleType.Regular;
+
+            var googlePlatform = await _context.Platforms.FirstOrDefaultAsync(platf => platf.Name == "Google");
+
+            UserPlatform userPlatform = new UserPlatform()
+            {
+                LoginToken = json.Value<string>("sub"),
+                Platform = googlePlatform,
+                PlatformId = googlePlatform.Id,
+                User = user,
+                UserId = user.Id
+            };
+
+            user.UserPlatforms = new List<UserPlatform> {userPlatform};
 
             await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
