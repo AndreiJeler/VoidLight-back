@@ -2,8 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 using VoidLight.Business.Services.Contracts;
 using VoidLight.Data;
 using VoidLight.Data.Business;
@@ -22,13 +24,15 @@ namespace VoidLight.Business.Services
         private readonly IEmailService _emailService;
         private readonly ISteamClient _steamClient;
 
-        public UserService(IJWTService jwtService, VoidLightDbContext context, IEmailService emailService, ISteamClient steamClient)
+        public UserService(IJWTService jwtService, VoidLightDbContext context, IEmailService emailService,
+            ISteamClient steamClient)
         {
             _jWTService = jwtService;
             _context = context;
             _emailService = emailService;
             _steamClient = steamClient;
         }
+
         public async Task ActivateAccount(string token)
         {
             var email = _jWTService.DecodeRegisterToken(token);
@@ -39,6 +43,7 @@ namespace VoidLight.Business.Services
             {
                 throw new AccountAlreadyConfirmed();
             }
+
             user.IsActivated = true;
 
             _context.Users.Update(user);
@@ -60,7 +65,7 @@ namespace VoidLight.Business.Services
             user.AvatarPath = Constants.DEFAULT_IMAGE_USER;
             var token = _jWTService.GenerateRegisterJWT(user);
             await _emailService.SendActivationEmail(user, token);
-            user.RoleId = (int)RoleType.Regular;
+            user.RoleId = (int) RoleType.Regular;
 
             await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
@@ -76,7 +81,8 @@ namespace VoidLight.Business.Services
             return _context.Users.AsAsyncEnumerable();
         }
 
-        public async Task ResetPassword(string email, bool isForgotten, string password = null, string newPassword = null)
+        public async Task ResetPassword(string email, bool isForgotten, string password = null,
+            string newPassword = null)
         {
             if (!isForgotten && string.IsNullOrEmpty(password) && string.IsNullOrEmpty(newPassword))
             {
@@ -122,7 +128,7 @@ namespace VoidLight.Business.Services
         private async Task<User> FindByEmail(string email)
         {
             var user = await _context.Users.Where(u => u.Email.Equals(email))
-                                     .FirstOrDefaultAsync();
+                .FirstOrDefaultAsync();
 
             return user ?? throw new UnauthorisedException($"No user with email: {email}");
         }
@@ -152,7 +158,9 @@ namespace VoidLight.Business.Services
             var user = await _context.Users.Include(us => us.Role).FirstOrDefaultAsync(us => us.Id == id);
             var platform = await _context.Platforms.FirstOrDefaultAsync(platf => platf.Name == "Steam");
             var userDto = UserMapper.ConvertEntityToDto(user);
-            var userPlatform = await _context.UserPlatforms.FirstOrDefaultAsync(up => up.UserId == user.Id && up.PlatformId == platform.Id);
+            var userPlatform =
+                await _context.UserPlatforms.FirstOrDefaultAsync(up =>
+                    up.UserId == user.Id && up.PlatformId == platform.Id);
             var game = await _steamClient.GetUserCurrentPlayingGame(userPlatform.LoginToken);
             userDto.PlayedGame = game;
             await AddUserGames(user, platform);
@@ -161,10 +169,12 @@ namespace VoidLight.Business.Services
 
         private async Task AddUserGames(User user, Platform platform)
         {
-            var userPlatform = await _context.UserPlatforms.FirstOrDefaultAsync(up => up.UserId == user.Id && up.PlatformId == platform.Id);
+            var userPlatform =
+                await _context.UserPlatforms.FirstOrDefaultAsync(up =>
+                    up.UserId == user.Id && up.PlatformId == platform.Id);
             var games = await _steamClient.GetUserGames(userPlatform.LoginToken, user, platform);
             var addedGames = new List<Game>();
-            foreach(var game in games)
+            foreach (var game in games)
             {
                 var dbGame = await _context.Games.FirstOrDefaultAsync(g => g.Name == game.Name);
                 if (dbGame != null)
@@ -181,6 +191,7 @@ namespace VoidLight.Business.Services
                     addedGames.Add(game);
                 }
             }
+
             await _context.SaveChangesAsync();
         }
 
@@ -195,7 +206,7 @@ namespace VoidLight.Business.Services
             user.WasPasswordForgotten = false;
             user.WasPasswordChanged = false;
             user.AvatarPath = Constants.DEFAULT_IMAGE_USER;
-            user.RoleId = (int)RoleType.Regular;
+            user.RoleId = (int) RoleType.Regular;
 
             var steamPlatform = await _context.Platforms.FirstOrDefaultAsync(platf => platf.Name == "Steam");
 
@@ -214,12 +225,12 @@ namespace VoidLight.Business.Services
             await _context.SaveChangesAsync();
         }
 
-        public async Task<int> GetUserIdSteaamLogin(string steamId, string username)
+        public async Task<int> GetUserIdSteamLogin(string steamId, string username)
         {
             var steamPlatform = await _context.Platforms.FirstOrDefaultAsync(platf => platf.Name == "Steam");
             var userPlatform = await _context.UserPlatforms
-                .Include(up=>up.Platform)
-                .Include(up=>up.User)
+                .Include(up => up.Platform)
+                .Include(up => up.User)
                 .FirstOrDefaultAsync(up => up.Platform == steamPlatform && up.LoginToken == steamId);
             return userPlatform.User.Id;
         }

@@ -52,7 +52,7 @@ namespace VoidLight.Web.Controllers
             var nameIdentifier = claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value.Split('/').Last();
             var name = claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
 
-            var id = await _userService.GetUserIdSteaamLogin(nameIdentifier, name);
+            var id = await _userService.GetUserIdSteamLogin(nameIdentifier, name);
 
             return Redirect($"http://localhost:4200/steam-return/?id={id.ToString()}");
         }
