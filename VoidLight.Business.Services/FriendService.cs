@@ -8,6 +8,7 @@ using VoidLight.Business.Services.Contracts;
 using VoidLight.Data;
 using VoidLight.Data.Business;
 using VoidLight.Data.Mappers;
+using VoidLight.Infrastructure.Common;
 
 namespace VoidLight.Business.Services
 {
@@ -84,7 +85,7 @@ namespace VoidLight.Business.Services
                 }
                 else
                 {
-                    friendDto.PlayedGame = "STEAM_NO_GAME_PLAYING";
+                    friendDto.PlayedGame = Constants.STEAM_NO_GAME_PLAYING;
                 }
                 friends.Add(friendDto);
             }

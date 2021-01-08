@@ -13,21 +13,23 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "04 Web", "04 Web", "{CFF88F
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "05 Testing", "05 Testing", "{A059B70E-CBA5-461B-8BBF-DB3CACEB17D1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoidLight.Infrastructure.Common", "VoidLight.Infrastructure.Common\VoidLight.Infrastructure.Common.csproj", "{37AC81E9-7A48-42AE-9632-6BDDA5FA4FE4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VoidLight.Infrastructure.Common", "VoidLight.Infrastructure.Common\VoidLight.Infrastructure.Common.csproj", "{37AC81E9-7A48-42AE-9632-6BDDA5FA4FE4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoidLight.Data", "VoidLight.Data\VoidLight.Data.csproj", "{98B9FB67-78AA-4FF3-AD64-CDDEEDBE0545}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VoidLight.Data", "VoidLight.Data\VoidLight.Data.csproj", "{98B9FB67-78AA-4FF3-AD64-CDDEEDBE0545}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoidLight.Data.Entities", "VoidLight.Data.Entities\VoidLight.Data.Entities.csproj", "{25C92093-7B53-456A-9974-374AB33B61AD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VoidLight.Data.Entities", "VoidLight.Data.Entities\VoidLight.Data.Entities.csproj", "{25C92093-7B53-456A-9974-374AB33B61AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoidLight.Data.Business", "VoidLight.Data.Business\VoidLight.Data.Business.csproj", "{44F63B8B-19B2-4B49-B1B0-B11D658B4044}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VoidLight.Data.Business", "VoidLight.Data.Business\VoidLight.Data.Business.csproj", "{44F63B8B-19B2-4B49-B1B0-B11D658B4044}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoidLight.Data.Mappers", "VoidLight.Data.Mappers\VoidLight.Data.Mappers.csproj", "{91AF60D7-887C-4555-9892-A4C8CCA1CCA7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VoidLight.Data.Mappers", "VoidLight.Data.Mappers\VoidLight.Data.Mappers.csproj", "{91AF60D7-887C-4555-9892-A4C8CCA1CCA7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoidLight.Business.Services", "VoidLight.Business.Services\VoidLight.Business.Services.csproj", "{908337A5-7013-453C-B199-D43BD2BD4A8C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VoidLight.Business.Services", "VoidLight.Business.Services\VoidLight.Business.Services.csproj", "{908337A5-7013-453C-B199-D43BD2BD4A8C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoidLight.Business.Services.Contracts", "VoidLight.Business.Services.Contracts\VoidLight.Business.Services.Contracts.csproj", "{9182EC24-53FF-47F4-B87A-01EB46135A2F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VoidLight.Business.Services.Contracts", "VoidLight.Business.Services.Contracts\VoidLight.Business.Services.Contracts.csproj", "{9182EC24-53FF-47F4-B87A-01EB46135A2F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoidLight.Web", "VoidLight.Web\VoidLight.Web.csproj", "{5DFFB232-328E-49FF-BA3E-671C42F98504}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VoidLight.Web", "VoidLight.Web\VoidLight.Web.csproj", "{5DFFB232-328E-49FF-BA3E-671C42F98504}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VoidLight.Testing", "VoidLight.Testing\VoidLight.Testing.csproj", "{858449B4-3FC7-4769-AFF6-C8FB5F2385C2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -67,6 +69,10 @@ Global
 		{5DFFB232-328E-49FF-BA3E-671C42F98504}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5DFFB232-328E-49FF-BA3E-671C42F98504}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5DFFB232-328E-49FF-BA3E-671C42F98504}.Release|Any CPU.Build.0 = Release|Any CPU
+		{858449B4-3FC7-4769-AFF6-C8FB5F2385C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{858449B4-3FC7-4769-AFF6-C8FB5F2385C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{858449B4-3FC7-4769-AFF6-C8FB5F2385C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{858449B4-3FC7-4769-AFF6-C8FB5F2385C2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -80,6 +86,7 @@ Global
 		{908337A5-7013-453C-B199-D43BD2BD4A8C} = {F3E9872B-CEF0-44E2-BF51-CCF9ED42CAA7}
 		{9182EC24-53FF-47F4-B87A-01EB46135A2F} = {F3E9872B-CEF0-44E2-BF51-CCF9ED42CAA7}
 		{5DFFB232-328E-49FF-BA3E-671C42F98504} = {CFF88F6B-9335-445F-B98B-23A4D5F60354}
+		{858449B4-3FC7-4769-AFF6-C8FB5F2385C2} = {A059B70E-CBA5-461B-8BBF-DB3CACEB17D1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3696AFD3-4391-404D-B399-6B46B134C9DD}

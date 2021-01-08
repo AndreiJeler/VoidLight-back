@@ -1,0 +1,835 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Testing\\VoidLight.Testing.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Business.Services.Contracts\\VoidLight.Business.Services.Contracts.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Business.Services.Contracts\\VoidLight.Business.Services.Contracts.csproj",
+        "projectName": "VoidLight.Business.Services.Contracts",
+        "projectPath": "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Business.Services.Contracts\\VoidLight.Business.Services.Contracts.csproj",
+        "packagesPath": "C:\\Users\\Developer 1\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Business.Services.Contracts\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Developer 1\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Data.Business\\VoidLight.Data.Business.csproj": {
+                "projectPath": "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Data.Business\\VoidLight.Data.Business.csproj"
+              },
+              "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Data.Entities\\VoidLight.Data.Entities.csproj": {
+                "projectPath": "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Data.Entities\\VoidLight.Data.Entities.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "dependencies": {
+            "Microsoft.AspNetCore.Http.Features": {
+              "target": "Package",
+              "version": "[3.1.9, )"
+            },
+            "Microsoft.AspNetCore.Mvc.Formatters.Json": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.AspNetCore.Mvc.NewtonsoftJson": {
+              "target": "Package",
+              "version": "[3.1.9, )"
+            },
+            "ncrontab": {
+              "target": "Package",
+              "version": "[3.3.1, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.302\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Business.Services\\VoidLight.Business.Services.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Business.Services\\VoidLight.Business.Services.csproj",
+        "projectName": "VoidLight.Business.Services",
+        "projectPath": "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Business.Services\\VoidLight.Business.Services.csproj",
+        "packagesPath": "C:\\Users\\Developer 1\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Business.Services\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Developer 1\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Business.Services.Contracts\\VoidLight.Business.Services.Contracts.csproj": {
+                "projectPath": "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Business.Services.Contracts\\VoidLight.Business.Services.Contracts.csproj"
+              },
+              "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Data.Business\\VoidLight.Data.Business.csproj": {
+                "projectPath": "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Data.Business\\VoidLight.Data.Business.csproj"
+              },
+              "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Data.Entities\\VoidLight.Data.Entities.csproj": {
+                "projectPath": "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Data.Entities\\VoidLight.Data.Entities.csproj"
+              },
+              "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Data.Mappers\\VoidLight.Data.Mappers.csproj": {
+                "projectPath": "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Data.Mappers\\VoidLight.Data.Mappers.csproj"
+              },
+              "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Data\\VoidLight.Data.csproj": {
+                "projectPath": "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Data\\VoidLight.Data.csproj"
+              },
+              "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Infrastructure.Common\\VoidLight.Infrastructure.Common.csproj": {
+                "projectPath": "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Infrastructure.Common\\VoidLight.Infrastructure.Common.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "dependencies": {
+            "AspNet.Security.OpenId.Steam": {
+              "target": "Package",
+              "version": "[3.1.0, )"
+            },
+            "Microsoft.AspNetCore.Hosting.Abstractions": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.AspNetCore.Http.Features": {
+              "target": "Package",
+              "version": "[3.1.9, )"
+            },
+            "Microsoft.AspNetCore.Mvc.Formatters.Json": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.AspNetCore.Mvc.NewtonsoftJson": {
+              "target": "Package",
+              "version": "[3.1.9, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[3.1.9, )"
+            },
+            "Microsoft.EntityFrameworkCore.Relational": {
+              "target": "Package",
+              "version": "[3.1.9, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[3.1.9, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[3.1.9, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[12.0.3, )"
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[6.8.0, )"
+            },
+            "ncrontab": {
+              "target": "Package",
+              "version": "[3.3.1, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.302\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Data.Business\\VoidLight.Data.Business.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Data.Business\\VoidLight.Data.Business.csproj",
+        "projectName": "VoidLight.Data.Business",
+        "projectPath": "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Data.Business\\VoidLight.Data.Business.csproj",
+        "packagesPath": "C:\\Users\\Developer 1\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Data.Business\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Developer 1\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Data.Entities\\VoidLight.Data.Entities.csproj": {
+                "projectPath": "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Data.Entities\\VoidLight.Data.Entities.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "dependencies": {
+            "Microsoft.AspNetCore.Mvc.Abstractions": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.AspNetCore.Mvc.Formatters.Json": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.AspNetCore.Mvc.NewtonsoftJson": {
+              "target": "Package",
+              "version": "[3.1.9, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.302\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Data.Entities\\VoidLight.Data.Entities.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Data.Entities\\VoidLight.Data.Entities.csproj",
+        "projectName": "VoidLight.Data.Entities",
+        "projectPath": "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Data.Entities\\VoidLight.Data.Entities.csproj",
+        "packagesPath": "C:\\Users\\Developer 1\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Data.Entities\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Developer 1\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Infrastructure.Common\\VoidLight.Infrastructure.Common.csproj": {
+                "projectPath": "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Infrastructure.Common\\VoidLight.Infrastructure.Common.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "dependencies": {
+            "Microsoft.AspNetCore.Mvc.Abstractions": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[3.1.9, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[3.1.9, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.302\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Data.Mappers\\VoidLight.Data.Mappers.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Data.Mappers\\VoidLight.Data.Mappers.csproj",
+        "projectName": "VoidLight.Data.Mappers",
+        "projectPath": "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Data.Mappers\\VoidLight.Data.Mappers.csproj",
+        "packagesPath": "C:\\Users\\Developer 1\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Data.Mappers\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Developer 1\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Data.Business\\VoidLight.Data.Business.csproj": {
+                "projectPath": "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Data.Business\\VoidLight.Data.Business.csproj"
+              },
+              "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Data.Entities\\VoidLight.Data.Entities.csproj": {
+                "projectPath": "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Data.Entities\\VoidLight.Data.Entities.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "dependencies": {
+            "AutoMapper": {
+              "target": "Package",
+              "version": "[10.1.1, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.302\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Data\\VoidLight.Data.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Data\\VoidLight.Data.csproj",
+        "projectName": "VoidLight.Data",
+        "projectPath": "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Data\\VoidLight.Data.csproj",
+        "packagesPath": "C:\\Users\\Developer 1\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Data\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Developer 1\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Data.Entities\\VoidLight.Data.Entities.csproj": {
+                "projectPath": "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Data.Entities\\VoidLight.Data.Entities.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[3.1.9, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[3.1.9, )"
+            },
+            "Microsoft.EntityFrameworkCore.Relational": {
+              "target": "Package",
+              "version": "[3.1.9, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[3.1.9, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[3.1.9, )"
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[6.8.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.302\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Infrastructure.Common\\VoidLight.Infrastructure.Common.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Infrastructure.Common\\VoidLight.Infrastructure.Common.csproj",
+        "projectName": "VoidLight.Infrastructure.Common",
+        "projectPath": "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Infrastructure.Common\\VoidLight.Infrastructure.Common.csproj",
+        "packagesPath": "C:\\Users\\Developer 1\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Infrastructure.Common\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Developer 1\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.302\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Testing\\VoidLight.Testing.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Testing\\VoidLight.Testing.csproj",
+        "projectName": "VoidLight.Testing",
+        "projectPath": "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Testing\\VoidLight.Testing.csproj",
+        "packagesPath": "C:\\Users\\Developer 1\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Testing\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Developer 1\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Business.Services.Contracts\\VoidLight.Business.Services.Contracts.csproj": {
+                "projectPath": "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Business.Services.Contracts\\VoidLight.Business.Services.Contracts.csproj"
+              },
+              "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Business.Services\\VoidLight.Business.Services.csproj": {
+                "projectPath": "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Business.Services\\VoidLight.Business.Services.csproj"
+              },
+              "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Data.Business\\VoidLight.Data.Business.csproj": {
+                "projectPath": "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Data.Business\\VoidLight.Data.Business.csproj"
+              },
+              "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Data.Entities\\VoidLight.Data.Entities.csproj": {
+                "projectPath": "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Data.Entities\\VoidLight.Data.Entities.csproj"
+              },
+              "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Data.Mappers\\VoidLight.Data.Mappers.csproj": {
+                "projectPath": "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Data.Mappers\\VoidLight.Data.Mappers.csproj"
+              },
+              "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Data\\VoidLight.Data.csproj": {
+                "projectPath": "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Data\\VoidLight.Data.csproj"
+              },
+              "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Infrastructure.Common\\VoidLight.Infrastructure.Common.csproj": {
+                "projectPath": "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Infrastructure.Common\\VoidLight.Infrastructure.Common.csproj"
+              },
+              "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Web\\VoidLight.Web.csproj": {
+                "projectPath": "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Web\\VoidLight.Web.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore.InMemory": {
+              "target": "Package",
+              "version": "[5.0.1, )"
+            },
+            "Microsoft.NET.Test.Sdk": {
+              "target": "Package",
+              "version": "[16.5.0, )"
+            },
+            "coverlet.collector": {
+              "target": "Package",
+              "version": "[1.2.0, )"
+            },
+            "xunit": {
+              "target": "Package",
+              "version": "[2.4.0, )"
+            },
+            "xunit.runner.visualstudio": {
+              "target": "Package",
+              "version": "[2.4.0, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.302\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Web\\VoidLight.Web.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Web\\VoidLight.Web.csproj",
+        "projectName": "VoidLight.Web",
+        "projectPath": "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Web\\VoidLight.Web.csproj",
+        "packagesPath": "C:\\Users\\Developer 1\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Web\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Developer 1\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp3.1"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp3.1": {
+            "projectReferences": {
+              "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Business.Services.Contracts\\VoidLight.Business.Services.Contracts.csproj": {
+                "projectPath": "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Business.Services.Contracts\\VoidLight.Business.Services.Contracts.csproj"
+              },
+              "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Business.Services\\VoidLight.Business.Services.csproj": {
+                "projectPath": "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Business.Services\\VoidLight.Business.Services.csproj"
+              },
+              "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Data.Business\\VoidLight.Data.Business.csproj": {
+                "projectPath": "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Data.Business\\VoidLight.Data.Business.csproj"
+              },
+              "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Data.Entities\\VoidLight.Data.Entities.csproj": {
+                "projectPath": "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Data.Entities\\VoidLight.Data.Entities.csproj"
+              },
+              "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Data\\VoidLight.Data.csproj": {
+                "projectPath": "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Data\\VoidLight.Data.csproj"
+              },
+              "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Infrastructure.Common\\VoidLight.Infrastructure.Common.csproj": {
+                "projectPath": "C:\\Users\\Developer 1\\Desktop\\Voidlight - code\\last back\\VoidLight-back\\VoidLight.Infrastructure.Common\\VoidLight.Infrastructure.Common.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp3.1": {
+          "dependencies": {
+            "AspNet.Security.OpenId.Steam": {
+              "target": "Package",
+              "version": "[3.1.0, )"
+            },
+            "Hellang.Middleware.ProblemDetails": {
+              "target": "Package",
+              "version": "[5.1.1, )"
+            },
+            "Microsoft.AspNet.Mvc": {
+              "target": "Package",
+              "version": "[5.2.7, )"
+            },
+            "Microsoft.AspNet.WebApi": {
+              "target": "Package",
+              "version": "[5.2.7, )"
+            },
+            "Microsoft.AspNet.WebApi.Client": {
+              "target": "Package",
+              "version": "[5.2.7, )"
+            },
+            "Microsoft.AspNet.WebApi.WebHost": {
+              "target": "Package",
+              "version": "[5.2.7, )"
+            },
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[3.1.9, )"
+            },
+            "Microsoft.AspNetCore.Authorization": {
+              "target": "Package",
+              "version": "[3.1.9, )"
+            },
+            "Microsoft.AspNetCore.Authorization.Policy": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.AspNetCore.Hosting.Abstractions": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.AspNetCore.Http.Features": {
+              "target": "Package",
+              "version": "[3.1.9, )"
+            },
+            "Microsoft.AspNetCore.Mvc.Abstractions": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.AspNetCore.Mvc.Core": {
+              "target": "Package",
+              "version": "[2.2.5, )"
+            },
+            "Microsoft.AspNetCore.Mvc.Formatters.Json": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.AspNetCore.Mvc.NewtonsoftJson": {
+              "target": "Package",
+              "version": "[3.1.9, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[3.1.9, )"
+            },
+            "Microsoft.EntityFrameworkCore.Relational": {
+              "target": "Package",
+              "version": "[3.1.9, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[3.1.9, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[3.1.9, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[12.0.3, )"
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[6.8.0, )"
+            },
+            "ncrontab": {
+              "target": "Package",
+              "version": "[3.3.1, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.302\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="5.0.1" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.5.0" />
+    <PackageReference Include="xunit" Version="2.4.0" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0" />
+    <PackageReference Include="coverlet.collector" Version="1.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\VoidLight.Business.Services.Contracts\VoidLight.Business.Services.Contracts.csproj" />
+    <ProjectReference Include="..\VoidLight.Business.Services\VoidLight.Business.Services.csproj" />
+    <ProjectReference Include="..\VoidLight.Data.Business\VoidLight.Data.Business.csproj" />
+    <ProjectReference Include="..\VoidLight.Data.Entities\VoidLight.Data.Entities.csproj" />
+    <ProjectReference Include="..\VoidLight.Data.Mappers\VoidLight.Data.Mappers.csproj" />
+    <ProjectReference Include="..\VoidLight.Data\VoidLight.Data.csproj" />
+    <ProjectReference Include="..\VoidLight.Infrastructure.Common\VoidLight.Infrastructure.Common.csproj" />
+    <ProjectReference Include="..\VoidLight.Web\VoidLight.Web.csproj" />
+  </ItemGroup>
+
+</Project>
