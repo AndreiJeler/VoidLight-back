@@ -32,7 +32,7 @@ namespace VoidLight.Business.Services
 
         public IAsyncEnumerable<GameAchievementDto> GetCurrentUserGameAchievementsDTO(int userId, int gameId)
         {
-            return _context.GameAchievements.Include(ga => ga.Game).Include(ga => ga.User).Select(g => GameAchievementMapper.ConvertEntityToDto(g)).AsAsyncEnumerable();
+            return _context.GameAchievements.Include(ga => ga.Game).Include(ga => ga.User).Where(ga=>ga.GameId==gameId && ga.UserId==userId).Select(g => GameAchievementMapper.ConvertEntityToDto(g)).AsAsyncEnumerable();
 
         }
 
