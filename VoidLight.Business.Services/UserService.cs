@@ -231,7 +231,7 @@ namespace VoidLight.Business.Services
             var responseString =
                 await client.GetStringAsync("https://oauth2.googleapis.com/tokeninfo?id_token=" + googleIdToken);
             JObject json = JObject.Parse(responseString);
-            
+
             if (json.Value<string>("iss") != "accounts.google.com" &&
                 json.Value<string>("iss") != "https://accounts.google.com")
                 throw new UnauthorisedException($"Wrong issuer: {json.Value<string>("iss")}!");
@@ -275,6 +275,29 @@ namespace VoidLight.Business.Services
                 .Include(up => up.Platform)
                 .Include(up => up.User)
                 .FirstOrDefaultAsync(up => up.Platform == steamPlatform && up.LoginToken == steamId);
+            return userPlatform.User.Id;
+        }
+
+        public async Task<int> GetUserIdGoogleLogin(string googleIdToken)
+        {
+            HttpClient client = new HttpClient();
+            var responseString =
+                await client.GetStringAsync("https://oauth2.googleapis.com/tokeninfo?id_token=" + googleIdToken);
+            JObject json = JObject.Parse(responseString);
+
+            if (json.Value<string>("iss") != "accounts.google.com" &&
+                json.Value<string>("iss") != "https://accounts.google.com")
+                throw new UnauthorisedException($"Wrong issuer: {json.Value<string>("iss")}!");
+
+            // TODO: Replace with the real value, taken from AppSettings
+            if (json.Value<string>("aud") != "110169484474386276334")
+                throw new UnauthorisedException($"Wrong client ID!");
+
+            var googlePlatform = await _context.Platforms.FirstOrDefaultAsync(platf => platf.Name == "Google");
+            var userPlatform = await _context.UserPlatforms
+                .Include(up => up.Platform)
+                .Include(up => up.User)
+                .FirstOrDefaultAsync(up => up.Platform == googlePlatform && up.LoginToken == json.Value<string>("sub"));
             return userPlatform.User.Id;
         }
     }
