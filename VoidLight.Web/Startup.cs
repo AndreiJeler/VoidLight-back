@@ -157,6 +157,8 @@ namespace VoidLight.Web
             services.AddScoped<IGamePublisherService, GamePublisherService>();
             services.AddScoped<IAchievementService, AchievementService>();
             services.AddScoped<ISteamClient, SteamClient>();
+            services.AddScoped<IDiscordService,  DiscordService>();
+
 
             services.AddSingleton<ISteamGameCollection, SteamGameCollection>();
 

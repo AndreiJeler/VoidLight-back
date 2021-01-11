@@ -19,5 +19,6 @@ namespace VoidLight.Business.Services.Contracts
         public Task<Post> FindPost(int postId);
         public Task<PostDto> PostShare(int postId, int userId);
         public Task DeletePost(int postId, int userId);
+        public Task<IEnumerable<CommentDto>> GetPostComments(int postId);
     }
 }
