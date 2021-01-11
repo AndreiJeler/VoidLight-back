@@ -113,5 +113,11 @@ namespace VoidLight.Web.Controllers
 
             return Redirect("http://localhost:4200/steam-return");
         }
+        [HttpGet("username/{name}")]
+        [AllowAnonymous]
+        public IActionResult GetUsersWithName(string name)
+        {
+            return Ok(_userService.GetUsersWithName(name));
+        }
     }
 }

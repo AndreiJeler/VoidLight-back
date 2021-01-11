@@ -27,6 +27,7 @@ using VoidLight.Web.Infrastructure.Authorization;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
+using VoidLight.Web.Hubs;
 
 namespace VoidLight.Web
 {
@@ -158,13 +159,11 @@ namespace VoidLight.Web
 
             services.AddSingleton<ISteamGameCollection, SteamGameCollection>();
 
-
-
-
-
             /*
              * Register services here
              */
+
+            services.AddSignalR();
 
             services.AddControllers();
 
@@ -212,6 +211,8 @@ namespace VoidLight.Web
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<FriendsHub>("/friends-hub");
+                endpoints.MapHub<PostsHub>("/posts-hub");
             });
         }
     }

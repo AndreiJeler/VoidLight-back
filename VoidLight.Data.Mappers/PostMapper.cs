@@ -9,21 +9,26 @@ namespace VoidLight.Data.Mappers
 {
     public static class PostMapper
     {
-        public static PostDto ConvertEntityToDto(UserPost post)
+        public static PostDto ConvertEntityToDto(UserPost post, int userId)
         {
-            var isPostLiked = post.Post.Likes == null ? false : post.Post.Likes.Any(like => like.UserId == post.UserId);
+            var isPostLiked = post.Post.Likes == null ? false : post.Post.Likes.Any(like => like.UserId == userId);
+            var originalPost = post.Post.UserPosts.FirstOrDefault(up => up.IsShared == false);
             return new PostDto()
             {
                 Id = post.Post.Id,
                 Game = post.Post.Game == null ? "No game" : post.Post.Game.Name,
                 Likes = post.Post.Likes.Count,
                 Text = post.Post.Text,
-                Time = post.Post.Time,
+                Time = post.Timestamp,
                 Contents = post.Post.Content == null ? new List<string>() : post.Post.Content.Select(content => content.ContentPath).ToList(),
                 Username = post.User.Username,
                 AvatarPath = post.User.AvatarPath,
                 UserId = post.User.Id,
-                IsLiked = isPostLiked
+                IsLiked = isPostLiked,
+                Comments = post.Post.Comments.Select(comm => CommentMapper.ConvertEntityToDto(comm)).AsEnumerable(),
+                IsShared = post.IsShared,
+                OriginalUser = originalPost.User.Username,
+                OriginalUserAvatar = originalPost.User.AvatarPath
             };
         }
 

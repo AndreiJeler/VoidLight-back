@@ -153,9 +153,16 @@ namespace VoidLight.Business.Services
             var platform = await _context.Platforms.FirstOrDefaultAsync(platf => platf.Name == "Steam");
             var userDto = UserMapper.ConvertEntityToDto(user);
             var userPlatform = await _context.UserPlatforms.FirstOrDefaultAsync(up => up.UserId == user.Id && up.PlatformId == platform.Id);
-            var game = await _steamClient.GetUserCurrentPlayingGame(userPlatform.LoginToken);
+            var game = "None";
+            if (userPlatform != null)
+            {
+                game = await _steamClient.GetUserCurrentPlayingGame(userPlatform.LoginToken);
+            }
             userDto.PlayedGame = game;
-            await AddUserGames(user, platform);
+            if (userPlatform != null)
+            {
+               // await AddUserGames(user, platform);
+            }
             return userDto;
         }
 
@@ -166,14 +173,17 @@ namespace VoidLight.Business.Services
             var addedGames = new List<Game>();
             foreach(var game in games)
             {
-                var dbGame = await _context.Games.FirstOrDefaultAsync(g => g.Name == game.Name);
+                var dbGame = await _context.Games.Include(g=>g.GameUsers).FirstOrDefaultAsync(g => g.Name == game.Name);
                 if (dbGame != null)
                 {
-                    dbGame.GameUsers.Add(new GameUser()
-                    {
-                        Game = dbGame,
-                        User = user
-                    });
+                    if (!dbGame.GameUsers.Any(gu=>gu.UserId==user.Id)) { 
+                        dbGame.GameUsers.Add(new GameUser()
+                        {
+                            Game = dbGame,
+                            User = user
+                        });
+                    }
+
                 }
                 else if (!addedGames.Any(g => g.Name == game.Name))
                 {
@@ -212,16 +222,29 @@ namespace VoidLight.Business.Services
 
             await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
+            await AddUserGames(user, steamPlatform);
         }
 
-        public async Task<int> GetUserIdSteaamLogin(string steamId, string username)
+
+        public async Task<int> GetUserIdSteamLogin(string steamId, string username)
         {
             var steamPlatform = await _context.Platforms.FirstOrDefaultAsync(platf => platf.Name == "Steam");
             var userPlatform = await _context.UserPlatforms
-                .Include(up=>up.Platform)
-                .Include(up=>up.User)
+                .Include(up => up.Platform)
+                .Include(up => up.User)
                 .FirstOrDefaultAsync(up => up.Platform == steamPlatform && up.LoginToken == steamId);
+           // await AddUserGames(userPlatform.User, steamPlatform);
             return userPlatform.User.Id;
+        }
+
+        public IAsyncEnumerable<UserDto> GetUsersWithName(string name)
+        {
+            return _context.Users
+                .Include(user => user.FriendsList).ThenInclude(user => user.FriendUser)
+                .Include(user => user.Role)
+                .Where(user => user.Username.Contains(name))
+                .Select(user=>UserMapper.ConvertEntityToDto(user))
+                .AsAsyncEnumerable();
         }
     }
 }

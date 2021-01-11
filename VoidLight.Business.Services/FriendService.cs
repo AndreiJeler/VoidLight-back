@@ -8,6 +8,7 @@ using VoidLight.Business.Services.Contracts;
 using VoidLight.Data;
 using VoidLight.Data.Business;
 using VoidLight.Data.Mappers;
+using VoidLight.Infrastructure.Common;
 
 namespace VoidLight.Business.Services
 {
@@ -23,7 +24,7 @@ namespace VoidLight.Business.Services
             _steamClient = steamClient;
         }
 
-        public async Task ConfirmFriendRequest(int initializerId, int receiverId)
+        public async Task<string> ConfirmFriendRequest(int initializerId, int receiverId)
         {
             var initializer = await _context.Users.Include(u => u.FriendsList).FirstOrDefaultAsync(u => u.Id == initializerId);
             var receiver = await _context.Users.Include(u => u.FriendsList).FirstOrDefaultAsync(u => u.Id == receiverId);
@@ -40,13 +41,17 @@ namespace VoidLight.Business.Services
             });
             _context.Update(receiver);
             await _context.SaveChangesAsync();
+            return receiver.Username;
         }
 
-        public async Task DeclineFriendRequest(int initializerId, int receiverId)
+        public async Task<string> DeclineFriendRequest(int initializerId, int receiverId)
         {
+            var initializer = await _context.Users.Include(u => u.FriendsList).FirstOrDefaultAsync(u => u.Id == initializerId);
+            var receiver = await _context.Users.Include(u => u.FriendsList).FirstOrDefaultAsync(u => u.Id == receiverId);
             var friendRequest = await _context.Friends.FirstOrDefaultAsync(f => f.SelfUserId == initializerId && f.FriendUserId == receiverId);
             _context.Remove(friendRequest);
             await _context.SaveChangesAsync();
+            return receiver.Username;
         }
 
         public async Task DeleteFriends(int initializerId, int receiverId)
@@ -69,7 +74,7 @@ namespace VoidLight.Business.Services
 
             var platform = await _context.Platforms.FirstOrDefaultAsync(platf => platf.Name == "Steam");
 
-            foreach (var friend in dbUser.FriendsList)
+            foreach (var friend in dbUser.FriendsList.Where(fr => fr.IsConfirmed))
             {
                 var friendDto = UserMapper.ConvertEntityToDto(friend.FriendUser);
                 var userPlatform = await _context.UserPlatforms.FirstOrDefaultAsync(up => up.UserId == friend.FriendUser.Id && up.PlatformId == platform.Id);
@@ -88,12 +93,34 @@ namespace VoidLight.Business.Services
             return friends.ToList();
         }
 
+        public async Task<int> GetFriendType(int initializerId, int receiverId)
+        {
+            var friendRequest = await _context.Friends.FirstOrDefaultAsync(friend => friend.SelfUserId == initializerId && friend.FriendUserId == receiverId);
+            if (friendRequest == null)
+            {
+                return Constants.NOT_FRIENDS;
+            }
+            if (friendRequest.IsConfirmed)
+            {
+                return Constants.FRIENDS;
+            }
+            return Constants.FRIENDREQUEST_SENT;
+        }
+
         public IAsyncEnumerable<UserDto> GetUserFriendRequests(int userId)
         {
             return _context.Friends
                 .Include(f => f.SelfUser).ThenInclude(user => user.Role)
-                .Select(friend=>UserMapper.ConvertEntityToDto(friend.SelfUser))
+                .Where(f => f.FriendUserId == userId && f.IsConfirmed == false)
+                .Select(friend => UserMapper.ConvertEntityToDto(friend.SelfUser))
                 .AsAsyncEnumerable();
+        }
+
+        public async Task RemoveFriendRequest(int initializerId, int receiverId)
+        {
+            var friendRequest = await _context.Friends.FirstOrDefaultAsync(f => f.SelfUserId == initializerId && f.FriendUserId == receiverId);
+            _context.Remove(friendRequest);
+            await _context.SaveChangesAsync();
         }
 
         public async Task SendFriendRequest(int selfUserId, int toUserId)
