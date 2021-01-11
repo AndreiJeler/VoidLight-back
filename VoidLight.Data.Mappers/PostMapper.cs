@@ -28,7 +28,8 @@ namespace VoidLight.Data.Mappers
                 //Comments = post.Post.Comments.Select(comm => CommentMapper.ConvertEntityToDto(comm)).AsEnumerable(),
                 IsShared = post.IsShared,
                 OriginalUser = originalPost.User.Username,
-                OriginalUserAvatar = originalPost.User.AvatarPath
+                OriginalUserAvatar = originalPost.User.AvatarPath,
+                OriginalUserId = originalPost.User.Id
             };
         }
 

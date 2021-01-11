@@ -20,7 +20,7 @@ namespace VoidLight.Data.Business
         public string OriginalUser { get; set; }
         public string OriginalUserAvatar { get; set; }
         public bool IsShared { get; set; }
-
+        public int OriginalUserId { get; set; }
 
     }
 

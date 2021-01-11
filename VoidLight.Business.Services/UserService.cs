@@ -163,7 +163,7 @@ namespace VoidLight.Business.Services
             userDto.PlayedGame = game;
             if (userPlatform != null)
             {
-                // await AddUserGames(user, platform);
+        //         await AddUserGames(user, platform);
             }
             return userDto;
         }
@@ -178,13 +178,20 @@ namespace VoidLight.Business.Services
                 var dbGame = await _context.Games.Include(g => g.GameUsers).FirstOrDefaultAsync(g => g.Name == game.Name);
                 if (dbGame != null)
                 {
-                    if (!dbGame.GameUsers.Any(gu => gu.UserId == user.Id))
+                    var gameUser = dbGame.GameUsers.FirstOrDefault(gu => gu.UserId == user.Id);
+                    if (gameUser == null)
                     {
                         dbGame.GameUsers.Add(new GameUser()
                         {
                             Game = dbGame,
                             User = user
                         });
+                    }
+                    else
+                    {
+                        gameUser.TimePlayed = game.GameUsers.FirstOrDefault(gu => gu.UserId == user.Id).TimePlayed;
+                        //gameUser.AchievementsAcquired = game.GameUsers.FirstOrDefault(gu => gu.UserId == user.Id).AchievementsAcquired;
+
                     }
 
                 }
