@@ -17,6 +17,7 @@ namespace VoidLight.Data.Entities
         public ICollection<GamePlatform> GamePlatforms { get; set; }
         public ICollection<CategoryGame> Categories { get; set; }
         public ICollection<Post> Posts { get; set; }
+        public ICollection<GameAchievement> GameAchievements { get; set; }
 
     }
 
@@ -50,6 +51,10 @@ namespace VoidLight.Data.Entities
                 .OnDelete(DeleteBehavior.Cascade);
             builder
                 .HasMany(g => g.GamePlatforms)
+                .WithOne(gp => gp.Game)
+                .OnDelete(DeleteBehavior.Cascade);
+            builder
+                .HasMany(g => g.GameAchievements)
                 .WithOne(gp => gp.Game)
                 .OnDelete(DeleteBehavior.Cascade);
             builder

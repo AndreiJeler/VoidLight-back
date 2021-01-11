@@ -29,6 +29,15 @@ namespace VoidLight.Business.Services
             _gameCollection = gameCollection;
         }
 
+        public async Task<JEnumerable<JToken>> GetGameAchievements(string appId)
+        {
+            var url = $"{Constants.STEAM_GAME_SCHEME_URL}/?key={_appSettings.SteamKey}&appid={appId}";
+            var response = await _client.GetStringAsync(url);
+            var jsonData = (JObject)JsonConvert.DeserializeObject(response);
+            var achievements = jsonData.SelectToken(Constants.STEAM_GAME_SCHEMA_ACHIEVEMENTS).Children();
+            return achievements;
+        }
+
         public async Task<Game> GetGameDetails(string appId)
         {
             var url = $"{Constants.STEAM_GAME_SCHEME_URL}/?key={_appSettings.SteamKey}&appid={appId}";
@@ -69,6 +78,42 @@ namespace VoidLight.Business.Services
             {
                 return Constants.STEAM_NO_GAME_PLAYING;
             }
+        }
+
+        public async Task<IList<GameAchievement>> GetUserGameAchievements(string steamId, string appId, User user, Game game)
+        {
+            var gameAchievements = await GetGameAchievements(appId);
+
+            var achievementsList = new List<GameAchievement>();
+
+            var url = $"{Constants.STEAM_PLAYER_ACHIEVEMENTS_URL}/?appid={appId}&key={_appSettings.SteamKey}&steamid={steamId}";
+            var response = await _client.GetStringAsync(url);
+            var jsonData = (JObject)JsonConvert.DeserializeObject(response);
+            var achievements = jsonData.SelectToken(Constants.STEAM_USER_ACHIEVEMENTS).Children().Where(a=>a.SelectToken(Constants.STEAM_ACHIEVEMENT_ACHIEVED).Value<int>()==1);
+            foreach(var achievement in achievements)
+            {
+                var gameAchievement = gameAchievements.FirstOrDefault(ga => ga.SelectToken(Constants.STEAM_ACHIEVEMENT_NAME).Value<string>() == achievement.SelectToken(Constants.STEAM_ACHIEVEMENT_APINAME).Value<string>());
+                var achievementName = gameAchievement.SelectToken(Constants.STEAM_ACHIEVEMENT_DISPLAYNAME).Value<String>();
+                var achievementIcon = gameAchievement.SelectToken(Constants.STEAM_ACHIEVEMENT_ICON).Value<String>();
+                var unlock = achievement.SelectToken(Constants.STEAM_ACHIEVEMENT_UNLOCK_TIME).Value<int>();
+                var dateUnlock = new DateTime(unlock, DateTimeKind.Utc);
+                var newAchievement = new GameAchievement() {
+                    Description = achievementName,
+                    User = user,
+                    Game=game,
+                    UserId=user.Id,
+                    GameId=game.Id,
+                    TimeAchieved=dateUnlock,
+                    Icon=achievementIcon
+                };
+
+                achievementsList.Add(newAchievement);
+
+
+                //creearea achievement-ului dintre joc si user
+            }
+
+            return achievementsList;
         }
 
         public async Task<IEnumerable<Game>> GetUserGames(string steamId, User user, Platform platform)

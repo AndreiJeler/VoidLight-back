@@ -85,7 +85,7 @@ namespace VoidLight.Business.Services
                 }
                 else
                 {
-                    friendDto.PlayedGame = "Unknown";
+                    friendDto.PlayedGame = "STEAM_NO_GAME_PLAYING";
                 }
                 friends.Add(friendDto);
             }
