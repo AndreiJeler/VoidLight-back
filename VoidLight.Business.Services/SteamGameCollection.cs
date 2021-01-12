@@ -15,13 +15,11 @@ namespace VoidLight.Business.Services
 {
     public class SteamGameCollection : ISteamGameCollection
     {
-        private JEnumerable<JToken> _games;
-        private AppSettings _appSettings;
-        private HttpClient _client;
+        private readonly JEnumerable<JToken> _games;
+        private readonly HttpClient _client;
 
-        public SteamGameCollection(IOptions<AppSettings> appSettings)
+        public SteamGameCollection()
         {
-            _appSettings = appSettings.Value;
             _client = new HttpClient();
             _games = GetGames().Result;
         }

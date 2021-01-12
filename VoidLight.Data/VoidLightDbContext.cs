@@ -96,6 +96,9 @@ namespace VoidLight.Data
         public virtual DbSet<PostLike> Likes { get; set; }
         public virtual DbSet<UserPlatform> UserPlatforms { get; set; }
         public virtual DbSet<GameAchievement> GameAchievements { get; set; }
+        public virtual DbSet<Lobby> Lobbies { get; set; }
+        public virtual DbSet<UserLobby> UserLobbies{ get; set; }
+
         #endregion
     }
 }

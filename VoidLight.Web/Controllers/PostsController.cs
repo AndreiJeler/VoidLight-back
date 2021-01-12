@@ -20,7 +20,7 @@ namespace VoidLight.Web.Controllers
     [ApiController]
     public class PostsController : ControllerBase
     {
-        private IPostService _postService;
+        private readonly IPostService _postService;
         private readonly IHubContext<PostsHub> _hub;
 
 

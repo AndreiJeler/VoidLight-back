@@ -102,7 +102,7 @@ namespace VoidLight.Business.Services
             {
                 var gameId = player[Constants.STEAM_GAMEID].Value<string>();
                 var gameName = player[Constants.STEAM_GAME_EXTRA_NAME].Value<string>();
-                return gameName != null ? gameName : Constants.STEAM_NO_GAME_PLAYING;
+                return gameName ?? Constants.STEAM_NO_GAME_PLAYING;
                 // momentan se trimite numai numele jocului spre front-end
             }
             catch
