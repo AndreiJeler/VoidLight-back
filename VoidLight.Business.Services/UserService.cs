@@ -163,7 +163,7 @@ namespace VoidLight.Business.Services
             userDto.PlayedGame = game;
             if (userPlatform != null)
             {
-        //         await AddUserGames(user, platform);
+                //         await AddUserGames(user, platform);
             }
             return userDto;
         }
@@ -225,7 +225,9 @@ namespace VoidLight.Business.Services
                 Platform = steamPlatform,
                 PlatformId = steamPlatform.Id,
                 User = user,
-                UserId = user.Id
+                UserId = user.Id,
+                LoginId = steamId,
+                KnownAs = username
             };
 
             user.UserPlatforms = new List<UserPlatform> { userPlatform };
@@ -273,7 +275,14 @@ namespace VoidLight.Business.Services
                 var user = await _context.Users.Include(u => u.UserPlatforms).ThenInclude(up => up.Platform).FirstOrDefaultAsync(u => u.Email == discordUser.email);
                 if (user != null)
                 {
-                    var newUserPlatform = new UserPlatform() { User = user, Platform = discordPlatform, LoginToken = token };
+                    var newUserPlatform = new UserPlatform()
+                    {
+                        User = user,
+                        Platform = discordPlatform,
+                        LoginToken = token,
+                        LoginId = discordUser.id,
+                        KnownAs = discordUser.username + "#" + discordUser.discriminator
+                    };
                     user.UserPlatforms.Add(newUserPlatform);
                     await _context.AddAsync(newUserPlatform);
                     await _context.SaveChangesAsync();
@@ -300,7 +309,9 @@ namespace VoidLight.Business.Services
                         Platform = discordPlatform,
                         PlatformId = discordPlatform.Id,
                         User = newUser,
-                        UserId = newUser.Id
+                        UserId = newUser.Id,
+                        LoginId = discordUser.id,
+                        KnownAs = discordUser.username + "#" + discordUser.discriminator
                     };
 
                     newUser.UserPlatforms = new List<UserPlatform> { newUserPlatform };

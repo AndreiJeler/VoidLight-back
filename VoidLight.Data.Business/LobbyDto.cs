@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using VoidLight.Data.Business.Discord;
 
 namespace VoidLight.Data.Business
 {
@@ -10,7 +11,8 @@ namespace VoidLight.Data.Business
         public int GameId { get; set; }
         public string GameName { get; set; }
         public int ParticipantsNr { get; set; }
-        public List<UserDto> Users { get; set; } //de creat un lobby user care sa contina discord things
+        public IEnumerable<DiscordUserDto> Users { get; set; }
+        public DiscordUserDto Initializer { get; set; }
         public bool HasStarted { get; set; }
     }
 }

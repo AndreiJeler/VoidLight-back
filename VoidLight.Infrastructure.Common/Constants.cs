@@ -88,6 +88,7 @@ namespace VoidLight.Infrastructure.Common
         public const string DISCORD_SCOPES = "identify email guilds guilds.join";
         public const string DISCORD_REDIRECT_URI = "http://localhost:4200/discord-return";
         public const string DISCORD_USER_TOKEN_URL = "https://discord.com/api/v6/users/@me";
+        public const string DISCORD_BOT_URL = "https://voidlight-bot.herokuapp.com";
 
 
 
