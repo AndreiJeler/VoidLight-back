@@ -42,5 +42,26 @@ namespace VoidLight.Web.Controllers
         {
             return Ok(await _lobbyService.OpenDiscordChannel(id));
         }
+
+        [HttpGet("games/{userId}")]
+        [AllowAnonymous]
+        public IActionResult GetAllGameLobbyDetails(int userId)
+        {
+            return Ok(_lobbyService.GetAllGameInfoForUser(userId));
+        }
+
+        [HttpGet("game/{gameId}")]
+        [AllowAnonymous]
+        public IActionResult GetAllGameLobbies(int gameId)
+        {
+            return Ok(_lobbyService.GetGameLobbies(gameId));
+        }
+
+        [HttpGet("favourite/{userId}")]
+        [AllowAnonymous]
+        public IActionResult GetAllFavouriteGameLobbyDetails(int userId)
+        {
+            return Ok(_lobbyService.GetFavouriteGameInfoForUser(userId));
+        }
     }
 }
