@@ -164,6 +164,7 @@ namespace VoidLight.Business.Services
             if (userPlatform != null)
             {
                 // await AddUserGames(user, platform);
+
             }
             return userDto;
         }
@@ -237,6 +238,7 @@ namespace VoidLight.Business.Services
                 .Include(up => up.User)
                 .FirstOrDefaultAsync(up => up.Platform == steamPlatform && up.LoginToken == steamId);
             // await AddUserGames(userPlatform.User, steamPlatform);
+
             return userPlatform.User.Id;
         }
 

@@ -98,6 +98,7 @@ namespace VoidLight.Web.Controllers
         public async Task<IActionResult> GetPostComments(int id)
         {
             return Ok(await _postService.GetPostComments(id));
+
         }
     }
 }

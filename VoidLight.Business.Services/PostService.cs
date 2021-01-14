@@ -180,6 +180,27 @@ namespace VoidLight.Business.Services
             return posts.OrderByDescending(up => up.Time).ToList();
         }
 
+
+        public async Task<CommentDto> PostComment(int postId, int userId, string commentText)
+        {
+            var post = await FindPost(postId);
+            var user = await _context.Users.Include(u => u.Role).FirstOrDefaultAsync(us => us.Id == userId);
+            var comment = new PostComment()
+            {
+                Post = post,
+                PostId = postId,
+                User = user,
+                UserId = userId,
+                Text = commentText,
+                TimeStamp = DateTime.Now.ToUniversalTime()
+            };
+            post.Comments.Add(comment);
+            _context.Update(post);
+            await _context.SaveChangesAsync();
+            return CommentMapper.ConvertEntityToDto(comment);
+        }
+
+
         public async Task<CommentDto> PostComment(int postId, int userId, string commentText)
         {
             var post = await FindPost(postId);
