@@ -53,10 +53,10 @@ namespace VoidLight.Web.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> AddPost(PostDto dto)
+        public async Task<IActionResult> AddPost()
         {
             await _hub.Clients.All.SendAsync("new", "New post");
-            return Ok(await _postService.AddPost(dto));
+            return Ok(await _postService.AddPost(Request.Form["post"][0], Request.Form.Files));
         }
 
         [HttpGet("user/posted/{id}/{feedUserId}")]
