@@ -1,8 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using VoidLight.Business.Services.Contracts;
 using VoidLight.Data;
@@ -15,14 +17,19 @@ namespace VoidLight.Business.Services
     public class PostService : IPostService
     {
         private readonly VoidLightDbContext _context;
+        private IFileService _fileService;
 
-        public PostService(VoidLightDbContext context)
+        public PostService(VoidLightDbContext context, IFileService service)
         {
             _context = context;
+            _fileService = service;
         }
 
-        public async Task<PostDto> AddPost(PostDto post)
+        public async Task<PostDto> AddPost(string postJSON, IFormFileCollection files)
         {
+
+            var post = DeserializePost(postJSON);
+
             var userPost = PostMapper.ConvertDtoToEntity(post);
             userPost.IsShared = false;
             var dbGame = await _context.Games.FirstOrDefaultAsync(game => game.Name == post.Game);
@@ -30,23 +37,23 @@ namespace VoidLight.Business.Services
 
             var contents = new List<Content>();
 
-            if (post.Contents != null)
+            if (files.Count > 0)
             {
-                foreach (var content in post.Contents)
+                foreach (var file in files)
                 {
-                    var newContent = "Images\\" + content;
-                    var splits = content.Split('.');
+                    var splits = file.FileName.Split('.');
                     var extension = splits[splits.Length - 1];
+
+                    var path = await this._fileService.UploadFileAsync(file);
 
                     if (extension == "jpg" || extension == "png")
                     {
-                        contents.Add(new ImageContent() { ContentPath = newContent });
-
+                        contents.Add(new ImageContent() { ContentPath = path });
                     }
 
                     else
                     {
-                        contents.Add(new VideoContent() { ContentPath = newContent });
+                        contents.Add(new VideoContent() { ContentPath = path });
                     }
                 }
             }
@@ -167,7 +174,7 @@ namespace VoidLight.Business.Services
 
             var games = user.GameUsers.Select(gu=>gu.Game.Id);
             var friends = user.FriendsList.Select(f => f.FriendUserId);
-
+            
             var posts = _context.UserPosts
                 .Include(up => up.Post).ThenInclude(up => up.Game)
                 .Include(up => up.User)
@@ -256,6 +263,16 @@ namespace VoidLight.Business.Services
                 await _context.SaveChangesAsync();
                 return postLike.Post.Likes.Count;
             }
+        }
+
+        private static PostDto DeserializePost(string postJSON)
+        {
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true,
+            };
+
+            return JsonSerializer.Deserialize<PostDto>(postJSON, options);
         }
     }
 }

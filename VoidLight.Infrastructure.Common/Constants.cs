@@ -32,6 +32,14 @@ namespace VoidLight.Infrastructure.Common
 
         #endregion
 
+        #region Friends
+        public const int NOT_FRIENDS = 0;
+        public const int FRIENDS = 1;
+        public const int FRIENDREQUEST_SENT = 0;
+
+
+        #endregion
+
 
         #region Email
         public const string ACCOUNT_ACTIVATION_SUBJECT = "Account activation";
@@ -77,9 +85,6 @@ namespace VoidLight.Infrastructure.Common
         public const string STEAM_ACHIEVEMENT_ICON = "icon";
         public const string STEAM_ACHIEVEMENT_UNLOCK_TIME = "unlocktime";
         public const string STEAM_GAME_ICON_URL = "http://cdn.origin.steamstatic.com/steamcommunity/public/images/apps";
-
-
-
 
 
         #endregion

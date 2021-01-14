@@ -170,7 +170,7 @@ namespace VoidLight.Business.Services
                 var hoursPlayed = (double) timePlayed / 60;
 
               //  var nrAchievements = (await GetGameAchievements(appId)).Count();
-
+              
 /*                if (nrAchievements == 0)
                 {
                     continue;

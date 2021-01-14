@@ -163,8 +163,8 @@ namespace VoidLight.Business.Services
             userDto.PlayedGame = game;
             if (userPlatform != null)
             {
-                //         await AddUserGames(user, platform);
-            }
+                // await AddUserGames(user, platform)
+             }
             return userDto;
         }
 
@@ -193,7 +193,6 @@ namespace VoidLight.Business.Services
                         //gameUser.AchievementsAcquired = game.GameUsers.FirstOrDefault(gu => gu.UserId == user.Id).AchievementsAcquired;
 
                     }
-
                 }
                 else if (!addedGames.Any(g => g.Name == game.Name))
                 {

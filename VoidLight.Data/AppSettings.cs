@@ -14,6 +14,5 @@ namespace VoidLight.Data
         public string DiscordClientSecret { get; set; }
         public string WebFrontEndUrl { get; set; }
         public string AppUrl { get; set; }
-
     }
 }

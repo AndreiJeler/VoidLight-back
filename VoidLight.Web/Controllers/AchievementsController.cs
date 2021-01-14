@@ -17,6 +17,7 @@ using VoidLight.Web.Infrastructure.Authorization;
 
 namespace VoidLight.Web.Controllers
 {
+
     /// <summary>
     /// Achievements controller responsible for the achievements operations
     /// </summary>

@@ -13,6 +13,5 @@ namespace VoidLight.Business.Services.Contracts
         public Task<DiscordRetrieveUserResponse> DecodeToken(string token);
         public Task AddUserToGuild(DiscordUserDto userDto);
         public Task<string> CreateLobbyChannel(LobbyDto lobby);
-
     }
 }

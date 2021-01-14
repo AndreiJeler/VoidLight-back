@@ -30,6 +30,7 @@ using System.Security.Claims;
 using VoidLight.Web.Hubs;
 using System.Reflection;
 
+
 namespace VoidLight.Web
 {
     public class Startup
@@ -145,9 +146,11 @@ namespace VoidLight.Web
             services.AddTransient<VoidLightDbConfiguration>();
 
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+            services.Configure<FirebaseSettings>(Configuration.GetSection("FirebaseSettings"));
 
 
             // Services
+            services.AddScoped<IFileService, FileService>();
             services.AddScoped<IJWTService, JWTService>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<IUserService, UserService>();
@@ -160,8 +163,6 @@ namespace VoidLight.Web
             services.AddScoped<ISteamClient, SteamClient>();
             services.AddScoped<IDiscordService,  DiscordService>();
             services.AddScoped<ILobbyService, LobbyService>();
-
-
 
             //services.AddSingleton<ISteamGameCollection, SteamGameCollection>();
 
