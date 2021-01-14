@@ -139,6 +139,13 @@ namespace VoidLight.Business.Services
             return posts.OrderByDescending(p => p.Time).ToList();
         }
 
+        public async Task<IEnumerable<CommentDto>> GetPostComments(int postId)
+        {
+            var post = await _context.Posts.Include(p => p.Comments).ThenInclude(c => c.User).ThenInclude(u => u.Role).FirstOrDefaultAsync(p=>p.Id==postId); 
+            return post.Comments.Select(comm => CommentMapper.ConvertEntityToDto(comm)).AsEnumerable();
+
+        }
+
         public ICollection<PostDto> GetPostsByUser(int userId, int feedUserId)
         {
             var userPosts= _context.UserPosts
@@ -148,35 +155,51 @@ namespace VoidLight.Business.Services
                 .Include(up => up.Post).ThenInclude(p => p.Comments).ThenInclude(c => c.User).ThenInclude(u => u.Role)
                 .Include(up => up.Post).ThenInclude(p => p.Likes)
                 .ToList();
-            return userPosts.Where(up=>up.UserId==userId).Select(up => PostMapper.ConvertEntityToDto(up, feedUserId)).ToList();
+            return userPosts.Where(up=>up.UserId==userId).Select(up => PostMapper.ConvertEntityToDto(up, feedUserId)).ToList().OrderByDescending(up=>up.Time).ToList();
         }
 
         public async Task<ICollection<PostDto>> GetPostsForUserFeed(int userId)
         {
-            HashSet<PostDto> posts = new HashSet<PostDto>(new PostDtoComparer());
-
             var user = await _context.Users
                 .Include(u => u.GameUsers).ThenInclude(ug => ug.Game).ThenInclude(g => g.Posts)
                 .Include(u => u.FriendsList).ThenInclude(f => f.FriendUser)
                 .FirstOrDefaultAsync(user => user.Id == userId);
 
-            if (user.GameUsers!=null)
-            {
-                foreach (var game in user.GameUsers)
-                {
-                    posts.UnionWith(await GetGamePosts(game.GameId, userId));
-                }
-            }
+            var games = user.GameUsers.Select(gu=>gu.Game.Id);
+            var friends = user.FriendsList.Select(f => f.FriendUserId);
 
-            foreach (var friend in user.FriendsList)
-            {
-                posts.UnionWith(GetPostsByUser(friend.FriendUserId, userId));
-            }
+            var posts = _context.UserPosts
+                .Include(up => up.Post).ThenInclude(up => up.Game)
+                .Include(up => up.User)
+                .Include(up => up.Post).ThenInclude(p => p.Likes)
+                .Include(up => up.Post).ThenInclude(p => p.Content)
+                .Where(up => games.Contains(up.Post.Game.Id) || friends.Contains(up.UserId) || user.Id == up.UserId)
+                .Select(up => PostMapper.ConvertEntityToDto(up, user.Id))
+                .ToList();
 
-            posts.UnionWith(GetPostsByUser(user.Id, user.Id));
-
-            return posts.OrderByDescending(p => p.Time).ToList();
+            return posts.OrderByDescending(up => up.Time).ToList();
         }
+
+
+        public async Task<CommentDto> PostComment(int postId, int userId, string commentText)
+        {
+            var post = await FindPost(postId);
+            var user = await _context.Users.Include(u => u.Role).FirstOrDefaultAsync(us => us.Id == userId);
+            var comment = new PostComment()
+            {
+                Post = post,
+                PostId = postId,
+                User = user,
+                UserId = userId,
+                Text = commentText,
+                TimeStamp = DateTime.Now.ToUniversalTime()
+            };
+            post.Comments.Add(comment);
+            _context.Update(post);
+            await _context.SaveChangesAsync();
+            return CommentMapper.ConvertEntityToDto(comment);
+        }
+
 
         public async Task<CommentDto> PostComment(int postId, int userId, string commentText)
         {

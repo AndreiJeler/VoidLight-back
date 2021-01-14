@@ -21,13 +21,15 @@ namespace VoidLight.Business.Services
         private readonly VoidLightDbContext _context;
         private readonly IEmailService _emailService;
         private readonly ISteamClient _steamClient;
+        private readonly IDiscordService _discordService;
 
-        public UserService(IJWTService jwtService, VoidLightDbContext context, IEmailService emailService, ISteamClient steamClient)
+        public UserService(IJWTService jwtService, VoidLightDbContext context, IEmailService emailService, ISteamClient steamClient, IDiscordService discordService)
         {
             _jWTService = jwtService;
             _context = context;
             _emailService = emailService;
             _steamClient = steamClient;
+            _discordService = discordService;
         }
         public async Task ActivateAccount(string token)
         {
@@ -161,7 +163,8 @@ namespace VoidLight.Business.Services
             userDto.PlayedGame = game;
             if (userPlatform != null)
             {
-               // await AddUserGames(user, platform);
+                // await AddUserGames(user, platform);
+
             }
             return userDto;
         }
@@ -171,12 +174,13 @@ namespace VoidLight.Business.Services
             var userPlatform = await _context.UserPlatforms.FirstOrDefaultAsync(up => up.UserId == user.Id && up.PlatformId == platform.Id);
             var games = await _steamClient.GetUserGames(userPlatform.LoginToken, user, platform);
             var addedGames = new List<Game>();
-            foreach(var game in games)
+            foreach (var game in games)
             {
-                var dbGame = await _context.Games.Include(g=>g.GameUsers).FirstOrDefaultAsync(g => g.Name == game.Name);
+                var dbGame = await _context.Games.Include(g => g.GameUsers).FirstOrDefaultAsync(g => g.Name == game.Name);
                 if (dbGame != null)
                 {
-                    if (!dbGame.GameUsers.Any(gu=>gu.UserId==user.Id)) { 
+                    if (!dbGame.GameUsers.Any(gu => gu.UserId == user.Id))
+                    {
                         dbGame.GameUsers.Add(new GameUser()
                         {
                             Game = dbGame,
@@ -213,7 +217,7 @@ namespace VoidLight.Business.Services
             {
                 LoginToken = steamId,
                 Platform = steamPlatform,
-                PlatformId=steamPlatform.Id,
+                PlatformId = steamPlatform.Id,
                 User = user,
                 UserId = user.Id
             };
@@ -233,7 +237,8 @@ namespace VoidLight.Business.Services
                 .Include(up => up.Platform)
                 .Include(up => up.User)
                 .FirstOrDefaultAsync(up => up.Platform == steamPlatform && up.LoginToken == steamId);
-           // await AddUserGames(userPlatform.User, steamPlatform);
+            // await AddUserGames(userPlatform.User, steamPlatform);
+
             return userPlatform.User.Id;
         }
 
@@ -243,8 +248,63 @@ namespace VoidLight.Business.Services
                 .Include(user => user.FriendsList).ThenInclude(user => user.FriendUser)
                 .Include(user => user.Role)
                 .Where(user => user.Username.Contains(name))
-                .Select(user=>UserMapper.ConvertEntityToDto(user))
+                .Select(user => UserMapper.ConvertEntityToDto(user))
                 .AsAsyncEnumerable();
+        }
+
+        public async Task<int> DiscordAuthentication(string code)
+        {
+            var token = await _discordService.DecodeAuthenticationCode(code);
+            var discordUser = await _discordService.DecodeToken(token);
+
+            var discordPlatform = await _context.Platforms.FirstOrDefaultAsync(platf => platf.Name == "Discord");
+            var userPlatform = await _context.UserPlatforms.Include(us => us.Platform).Include(us => us.User).FirstOrDefaultAsync(up => up.Platform == discordPlatform && up.LoginToken == token);
+            if (userPlatform != null)
+            {
+                return userPlatform.User.Id;
+            }
+            else
+            {
+                var user = await _context.Users.Include(u => u.UserPlatforms).ThenInclude(up => up.Platform).FirstOrDefaultAsync(u => u.Email == discordUser.email);
+                if (user != null)
+                {
+                    var newUserPlatform = new UserPlatform() { User = user, Platform = discordPlatform, LoginToken = token };
+                    user.UserPlatforms.Add(newUserPlatform);
+                    await _context.AddAsync(newUserPlatform);
+                    await _context.SaveChangesAsync();
+                    return user.Id;
+                    //de adaugat restul lucrurilor
+                }
+                else
+                {
+                    User newUser = new User()
+                    {
+                        FullName = discordUser.username,
+                        Username = discordUser.username,
+                        Email = discordUser.email
+                    };
+                    newUser.IsActivated = true;
+                    newUser.WasPasswordForgotten = false;
+                    newUser.WasPasswordChanged = false;
+                    newUser.AvatarPath = Constants.DEFAULT_IMAGE_USER;
+                    newUser.RoleId = (int)RoleType.Regular;
+
+                    UserPlatform newUserPlatform = new UserPlatform()
+                    {
+                        LoginToken = token,
+                        Platform = discordPlatform,
+                        PlatformId = discordPlatform.Id,
+                        User = newUser,
+                        UserId = newUser.Id
+                    };
+
+                    newUser.UserPlatforms = new List<UserPlatform> { newUserPlatform };
+
+                    await _context.AddAsync(newUser);
+                    await _context.SaveChangesAsync();
+                    return newUser.Id;
+                }
+            }
         }
     }
 }

@@ -93,5 +93,12 @@ namespace VoidLight.Web.Controllers
             await _postService.DeletePost(postId, userId);
             return NoContent();
         }
+        [HttpGet("comment/{id}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetPostComments(int id)
+        {
+            return Ok(await _postService.GetPostComments(id));
+
+        }
     }
 }

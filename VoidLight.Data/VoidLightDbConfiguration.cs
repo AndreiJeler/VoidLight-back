@@ -66,6 +66,11 @@ namespace VoidLight.Data
                 Name = "Steam",
                 PicturePath = Constants.DEFAULT_IMAGE_USER
             });
+            _context.Add(new Platform()
+            {
+                Name = "Discord",
+                PicturePath = Constants.DEFAULT_IMAGE_USER
+            });
         }
     }
 }

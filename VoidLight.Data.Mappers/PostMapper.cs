@@ -25,7 +25,7 @@ namespace VoidLight.Data.Mappers
                 AvatarPath = post.User.AvatarPath,
                 UserId = post.User.Id,
                 IsLiked = isPostLiked,
-                Comments = post.Post.Comments.Select(comm => CommentMapper.ConvertEntityToDto(comm)).AsEnumerable(),
+                //Comments = post.Post.Comments.Select(comm => CommentMapper.ConvertEntityToDto(comm)).AsEnumerable(),
                 IsShared = post.IsShared,
                 OriginalUser = originalPost.User.Username,
                 OriginalUserAvatar = originalPost.User.AvatarPath
