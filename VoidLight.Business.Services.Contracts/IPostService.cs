@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,7 +14,7 @@ namespace VoidLight.Business.Services.Contracts
         public Task<ICollection<PostDto>> GetGamePosts(int gameId, int userId);
         public Task<ICollection<PostDto>> GetGamePublisherPosts(int gamePublisherId);
         public ICollection<PostDto> GetPostsByUser(int userId, int feedUserId);
-        public Task<PostDto> AddPost(PostDto post);
+        public Task<PostDto> AddPost(string postJSON, IFormFileCollection files);
         public Task<int> UserLikePost(int postId, int userId);
         public Task<CommentDto> PostComment(int postId, int userId, string commentText);
         public Task<Post> FindPost(int postId);
