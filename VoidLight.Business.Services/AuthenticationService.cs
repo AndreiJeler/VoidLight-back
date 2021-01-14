@@ -48,7 +48,7 @@ namespace VoidLight.Business.Services
                 await _context.SaveChangesAsync();
                 var token = _jwtService.GenerateAuthenticationJWT(user);
                 var authenticateResponseDto = new AuthenticateResponseDto(user, token);
-
+                
                 var platform = await _context.Platforms.FirstOrDefaultAsync(platf => platf.Name == "Steam");
                 var userPlatform = await _context.UserPlatforms.FirstOrDefaultAsync(up => up.UserId == user.Id && up.PlatformId == platform.Id);
                 var game = "Unknown";

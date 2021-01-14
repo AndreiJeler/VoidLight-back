@@ -144,9 +144,11 @@ namespace VoidLight.Web
             services.AddTransient<VoidLightDbConfiguration>();
 
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+            services.Configure<FirebaseSettings>(Configuration.GetSection("FirebaseSettings"));
 
 
             // Services
+            services.AddScoped<IFileService, FileService>();
             services.AddScoped<IJWTService, JWTService>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<IUserService, UserService>();
@@ -158,7 +160,6 @@ namespace VoidLight.Web
             services.AddScoped<IAchievementService, AchievementService>();
             services.AddScoped<ISteamClient, SteamClient>();
             services.AddScoped<IDiscordService,  DiscordService>();
-
 
             //services.AddSingleton<ISteamGameCollection, SteamGameCollection>();
 

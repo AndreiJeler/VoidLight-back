@@ -22,6 +22,7 @@ namespace VoidLight.Data.Business
         public bool IsShared { get; set; }
         public int OriginalUserId { get; set; }
 
+
     }
 
     public class PostDtoComparer : IEqualityComparer<PostDto>

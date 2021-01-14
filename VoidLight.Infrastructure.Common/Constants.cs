@@ -32,6 +32,14 @@ namespace VoidLight.Infrastructure.Common
 
         #endregion
 
+        #region Friends
+        public const int NOT_FRIENDS = 0;
+        public const int FRIENDS = 1;
+        public const int FRIENDREQUEST_SENT = 0;
+
+
+        #endregion
+
 
         #region Email
         public const string ACCOUNT_ACTIVATION_SUBJECT = "Account activation";
@@ -78,10 +86,10 @@ namespace VoidLight.Infrastructure.Common
         public const string STEAM_ACHIEVEMENT_UNLOCK_TIME = "unlocktime";
 
 
-
-
-
         #endregion
+          
+          
+          
 
         #region Discord
         public const string DISCORD_OAUTH_TOKEN_URL = "https://discord.com/api/v6/oauth2/token";
