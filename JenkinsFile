@@ -14,7 +14,7 @@ pipeline {
         }
         stage('tag') {
             steps {
-                sh 'docker tag voidlight-back:' + env.BRANCH_NAME +  'voidlight-back: ' + env.BUILD_NUMBER
+                sh 'docker tag voidlight-back:' + env.BRANCH_NAME +  ' voidlight-back: ' + env.BUILD_NUMBER
             }
         }
     }
