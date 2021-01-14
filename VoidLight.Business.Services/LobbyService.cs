@@ -64,7 +64,7 @@ namespace VoidLight.Business.Services
                     GameId = lobby.GameId,
                     GameName = lobby.Game.Name,
                     HasStarted = lobby.HasStarted,
-                    ParticipantsNr = lobby.UserLobbies.Count()
+                    ParticipantsNr = lobby.UserLobbies.Count(),
                 }
             ).AsAsyncEnumerable();
         }

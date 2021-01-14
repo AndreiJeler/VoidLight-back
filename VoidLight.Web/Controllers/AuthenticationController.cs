@@ -10,6 +10,9 @@ using System.Security.Claims;
 
 namespace VoidLight.Web.Controllers
 {
+    /// <summary>
+    /// Authentication controller responsible for the authentication operations
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
