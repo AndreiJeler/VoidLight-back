@@ -161,8 +161,7 @@ namespace VoidLight.Web
             services.AddScoped<ISteamClient, SteamClient>();
             services.AddScoped<IDiscordService,  DiscordService>();
 
-
-            services.AddSingleton<ISteamGameCollection, SteamGameCollection>();
+            //services.AddSingleton<ISteamGameCollection, SteamGameCollection>();
 
             /*
              * Register services here

@@ -11,6 +11,8 @@ namespace VoidLight.Data.Entities
         public int Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
+        public string Icon { get; set; }
+        //public int AchievementTotal { get; set; }
         //public GamePublisher Publisher { get; set; }
         //public int PublisherId { get; set; }
         public ICollection<GameUser> GameUsers { get; set; }

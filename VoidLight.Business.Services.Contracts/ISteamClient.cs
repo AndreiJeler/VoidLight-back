@@ -15,6 +15,6 @@ namespace VoidLight.Business.Services.Contracts
         public Task<Game> GetGameDetails(string appId);
         public Task<JEnumerable<JToken>> GetGameAchievements(string appId);
         public Task<IList<GameAchievement>> GetUserGameAchievements(string steamId, string appId, User user, Game game);
-
+        public Task<int> GetUnlockedAchievementsNumber(string steamId, string appId);
     }
 }

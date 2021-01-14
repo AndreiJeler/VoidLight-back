@@ -90,6 +90,7 @@ namespace VoidLight.Infrastructure.Common
           
           
           
+
         #region Discord
         public const string DISCORD_OAUTH_TOKEN_URL = "https://discord.com/api/v6/oauth2/token";
         public const string DISCORD_SCOPES = "identify email guilds guilds.join";
