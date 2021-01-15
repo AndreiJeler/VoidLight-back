@@ -82,8 +82,8 @@ namespace VoidLight.Web.Controllers
         /// </summary>
         /// <param name="userData">The user dto</param>
         /// <returns></returns>
-        [AuthorizeUserCustom(RoleType.General)]
         [HttpPut]
+        [AllowAnonymous]
         public async Task<IActionResult> UpdateUser()
         {
             await _userService.UpdateUser(Request.Form["user"][0], Request.Form.Files);
