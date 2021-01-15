@@ -81,7 +81,7 @@ namespace VoidLight.Infrastructure.Common
         public const string STEAM_ACHIEVEMENT_ACHIEVED = "achieved";
         public const string STEAM_ACHIEVEMENT_NAME = "name";
         public const string STEAM_ACHIEVEMENT_APINAME = "apiname";
-        public const string STEAM_ACHIEVEMENT_DISPLAYNAME = "displayname";
+        public const string STEAM_ACHIEVEMENT_DISPLAYNAME = "displayName";
         public const string STEAM_ACHIEVEMENT_ICON = "icon";
         public const string STEAM_ACHIEVEMENT_UNLOCK_TIME = "unlocktime";
         public const string STEAM_GAME_ICON_URL = "http://cdn.origin.steamstatic.com/steamcommunity/public/images/apps";
