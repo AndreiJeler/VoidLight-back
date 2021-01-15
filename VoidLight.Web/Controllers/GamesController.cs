@@ -14,6 +14,9 @@ using VoidLight.Web.Infrastructure.Authorization;
 
 namespace VoidLight.Web.Controllers
 {
+    /// <summary>
+    /// Games controller responsible for games operations
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class GamesController : ControllerBase
@@ -25,6 +28,11 @@ namespace VoidLight.Web.Controllers
             _gameService= gameService;
         }
 
+        /// <summary>
+        /// This GET method looks for a user's games
+        /// </summary>
+        /// <param name="id">The ID of the user</param>
+        /// <returns>The list of games</returns>
         [HttpGet("user/{id}")]
         [AllowAnonymous]
         public IActionResult GetUserGames(int id)
@@ -32,6 +40,11 @@ namespace VoidLight.Web.Controllers
             return Ok(_gameService.GetUserGames(id));
         }
 
+        /// <summary>
+        /// This GET method looks for a user's favourite games
+        /// </summary>
+        /// <param name="id">The ID of the user</param>
+        /// <returns>The list of favourite games</returns>
         [HttpGet("favorite/user/{id}")]
         [AllowAnonymous]
         public IActionResult GetUserFavouriteGames(int id)

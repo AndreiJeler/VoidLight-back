@@ -16,6 +16,9 @@ using VoidLight.Web.Infrastructure.Authorization;
 
 namespace VoidLight.Web.Controllers
 {
+    /// <summary>
+    /// Lobby controller responsible for the lobby operations
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class LobbyController : ControllerBase
@@ -29,6 +32,11 @@ namespace VoidLight.Web.Controllers
             _hub = hub;
         }
 
+        /// <summary>
+        /// This GET method looks for a lobby
+        /// </summary>
+        /// <param name="id">The ID of the lobby</param>
+        /// <returns>The lobby</returns>
         [HttpGet("{id}")]
         [AllowAnonymous]
         public async Task<IActionResult> GetLobby(int id)
@@ -36,6 +44,11 @@ namespace VoidLight.Web.Controllers
             return Ok(await _lobbyService.GetLobby(id));
         }
 
+        /// <summary>
+        /// This GET method creates a channel for the Discord server
+        /// </summary>
+        /// <param name="id">The ID of the lobby</param>
+        /// <returns>The name of the channel</returns>
         [HttpGet("start/{id}")]
         [AllowAnonymous]
         public async Task<IActionResult> StartChannel(int id)
@@ -43,6 +56,11 @@ namespace VoidLight.Web.Controllers
             return Ok(await _lobbyService.OpenDiscordChannel(id));
         }
 
+        /// <summary>
+        /// This GET method looks for all the details of the lobby
+        /// </summary>
+        /// <param name="userId">The ID of the lobby's creator</param>
+        /// <returns>The list of the games</returns>
         [HttpGet("games/{userId}")]
         [AllowAnonymous]
         public IActionResult GetAllGameLobbyDetails(int userId)
@@ -50,6 +68,11 @@ namespace VoidLight.Web.Controllers
             return Ok(_lobbyService.GetAllGameInfoForUser(userId));
         }
 
+        /// <summary>
+        /// This GET method looks for all the lobbies corresponding to a specific game
+        /// </summary>
+        /// <param name="gameId">The ID of the game</param>
+        /// <returns>The list of lobbies</returns>
         [HttpGet("game/{gameId}")]
         [AllowAnonymous]
         public IActionResult GetAllGameLobbies(int gameId)
@@ -57,6 +80,11 @@ namespace VoidLight.Web.Controllers
             return Ok(_lobbyService.GetGameLobbies(gameId));
         }
 
+        /// <summary>
+        /// This GET method looks for details of the lobbies specific to favourite games
+        /// </summary>
+        /// <param name="userId">The ID of user</param>
+        /// <returns>The list of favourite games</returns>
         [HttpGet("favourite/{userId}")]
         [AllowAnonymous]
         public IActionResult GetAllFavouriteGameLobbyDetails(int userId)

@@ -16,6 +16,9 @@ using VoidLight.Web.Infrastructure.Authorization;
 
 namespace VoidLight.Web.Controllers
 {
+    /// <summary>
+    /// Friends controller responsible for the friends operations
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class FriendsController : ControllerBase
@@ -30,6 +33,11 @@ namespace VoidLight.Web.Controllers
             _hub = hub;
         }
 
+        /// <summary>
+        /// This GET method looks for the friends of the user
+        /// </summary>
+        /// <param name="id">The ID of the user</param>
+        /// <returns>The list of friends</returns>
         [HttpGet("user/{id}")]
         [AllowAnonymous]
         public async Task<IActionResult> GetFriendsOfUser(int id)
@@ -37,6 +45,11 @@ namespace VoidLight.Web.Controllers
             return Ok(await _friendService.GetFriendsOfUser(id));
         }
 
+        /// <summary>
+        /// This POST method sends a friend request to another user
+        /// </summary>
+        /// <param name="requestDto">The request dto</param>
+        /// <returns>The hope it works</returns>
         [HttpPost("request")]
         [AllowAnonymous]
         public async Task<IActionResult> SendFriendRequest([FromBody] FriendRequestDto requestDto)
@@ -46,6 +59,11 @@ namespace VoidLight.Web.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// This POST method confirms the friend request received
+        /// </summary>
+        /// <param name="requestDto">The request dto</param>
+        /// <returns>Nothing</returns>
         [HttpPost("confirm")]
         [AllowAnonymous]
         public async Task<IActionResult> ConfirmFriendRequest([FromBody] FriendRequestDto requestDto)
@@ -55,6 +73,11 @@ namespace VoidLight.Web.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// This POST method declines the friend request received
+        /// </summary>
+        /// <param name="requestDto">The request dto</param>
+        /// <returns>Nothing</returns>
         [HttpPost("decline")]
         [AllowAnonymous]
         public async Task<IActionResult> DeclineFriendRequest([FromBody] FriendRequestDto requestDto)
@@ -64,6 +87,11 @@ namespace VoidLight.Web.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// This GET method looks for received friend requests for a user
+        /// </summary>
+        /// <param name="id">The ID of the user</param>
+        /// <returns>The list of friend requests</returns>
         [HttpGet("requests/{id}")]
         [AllowAnonymous]
         public IActionResult GetFriendRequests(int id)
@@ -71,6 +99,12 @@ namespace VoidLight.Web.Controllers
             return Ok(_friendService.GetUserFriendRequests(id));
         }
 
+        /// <summary>
+        /// This DELETE method removes a friend from a user's friend list
+        /// </summary>
+        /// <param name="initId">The ID of the user</param>
+        /// <param name="recId">The ID of the user's friend</param>
+        /// <returns></returns>
         [HttpDelete("{initId}/{recId}")]
         [AllowAnonymous]
         public async Task<IActionResult> RemoveFriend(int initId, int recId)
@@ -79,6 +113,12 @@ namespace VoidLight.Web.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// This DELETE method removes a friend request
+        /// </summary>
+        /// <param name="initId">The ID of the user</param>
+        /// <param name="recId">The ID of the friend that sent the request</param>
+        /// <returns></returns>
         [HttpDelete("request/{initId}/{recId}")]
         [AllowAnonymous]
         public async Task<IActionResult> RemoveFriendRequest(int initId, int recId)
@@ -88,6 +128,12 @@ namespace VoidLight.Web.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// This GET method checks for the friendship status of two users
+        /// </summary>
+        /// <param name="initId">The ID of the user</param>
+        /// <param name="recId">The ID of the user's friend</param>
+        /// <returns>The type of friendship</returns>
         [HttpGet("status/{initId}/{recId}")]
         [AllowAnonymous]
         public async Task<IActionResult> CheckFriendshipStatus(int initId, int recId)
