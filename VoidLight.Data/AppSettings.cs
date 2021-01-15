@@ -12,6 +12,7 @@ namespace VoidLight.Data
         public string SteamKey { get; set; }
         public string DiscordClientId { get; set; }
         public string DiscordClientSecret { get; set; }
-
+        public string WebFrontEndUrl { get; set; }
+        public string AppUrl { get; set; }
     }
 }

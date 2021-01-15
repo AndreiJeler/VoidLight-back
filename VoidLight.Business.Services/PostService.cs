@@ -174,7 +174,7 @@ namespace VoidLight.Business.Services
 
             var games = user.GameUsers.Select(gu=>gu.Game.Id);
             var friends = user.FriendsList.Select(f => f.FriendUserId);
-
+            
             var posts = _context.UserPosts
                 .Include(up => up.Post).ThenInclude(up => up.Game)
                 .Include(up => up.User)
@@ -183,7 +183,8 @@ namespace VoidLight.Business.Services
                 .Where(up => games.Contains(up.Post.Game.Id) || friends.Contains(up.UserId) || user.Id == up.UserId)
                 .Select(up => PostMapper.ConvertEntityToDto(up, user.Id))
                 .ToList();
-           return posts.OrderByDescending(up => up.Time).ToList();
+
+            return posts.OrderByDescending(up => up.Time).ToList();
         }
 
         public async Task<CommentDto> PostComment(int postId, int userId, string commentText)

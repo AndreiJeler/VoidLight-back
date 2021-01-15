@@ -7,7 +7,9 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using VoidLight.Business.Services.Contracts;
+using VoidLight.Data;
 using VoidLight.Data.Business;
 using VoidLight.Data.Business.Authentication;
 using VoidLight.Data.Entities;
@@ -21,10 +23,13 @@ namespace VoidLight.Web.Controllers
     public class UsersController : ControllerBase
     {
         private readonly IUserService _userService;
+        private readonly AppSettings _appSettings;
 
-        public UsersController(IUserService userService)
+
+        public UsersController(IUserService userService, IOptions<AppSettings> appSettings)
         {
             _userService = userService;
+            _appSettings = appSettings.Value;
         }
 
         [HttpPost]
@@ -98,7 +103,7 @@ namespace VoidLight.Web.Controllers
         [AllowAnonymous]
         public IActionResult SteamRegister()
         {
-            return Challenge(new AuthenticationProperties { RedirectUri = "https://localhost:44324/api/users/steam-done" }, "Steam");
+            return Challenge(new AuthenticationProperties { RedirectUri = $"{_appSettings.AppUrl}/api/users/steam-done" }, "Steam");
         }
 
         [HttpGet("steam-done")]
@@ -111,7 +116,7 @@ namespace VoidLight.Web.Controllers
 
             await _userService.SteamRegister(nameIdentifier, name);
 
-            return Redirect("http://localhost:4200/steam-return");
+            return Redirect($"{_appSettings.WebFrontEndUrl}/steam-return");
         }
         [HttpGet("username/{name}")]
         [AllowAnonymous]

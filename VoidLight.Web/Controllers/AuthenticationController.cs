@@ -7,9 +7,14 @@ using VoidLight.Business.Services.Contracts;
 using Microsoft.AspNetCore.Authentication;
 using System.Linq;
 using System.Security.Claims;
+using VoidLight.Data;
+using Microsoft.Extensions.Options;
 
 namespace VoidLight.Web.Controllers
 {
+    /// <summary>
+    /// Authentication controller responsible for the authentication operations
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     [AllowAnonymous]
@@ -17,11 +22,13 @@ namespace VoidLight.Web.Controllers
     {
         private readonly Business.Services.Contracts.IAuthenticationService _authenticationService;
         private readonly IUserService _userService;
+        private readonly AppSettings _appSettings;
 
-        public AuthenticationController(Business.Services.Contracts.IAuthenticationService authenticationService, IUserService userService)
+        public AuthenticationController(Business.Services.Contracts.IAuthenticationService authenticationService, IUserService userService, IOptions<AppSettings> appSettings)
         {
             _authenticationService = authenticationService;
             _userService = userService;
+            _appSettings = appSettings.Value;
         }
 
         [HttpPost("authenticate")]
@@ -41,7 +48,7 @@ namespace VoidLight.Web.Controllers
         [AllowAnonymous]
         public IActionResult SteamLogin()
         {
-            return Challenge(new AuthenticationProperties { RedirectUri = "https://localhost:44324/api/authentication/steam-done" }, "Steam");
+            return Challenge(new AuthenticationProperties { RedirectUri = $"{_appSettings.AppUrl}/api/authentication/steam-done" }, "Steam");
         }
 
         [HttpGet("steam-done")]
@@ -54,7 +61,7 @@ namespace VoidLight.Web.Controllers
 
             var id = await _userService.GetUserIdSteamLogin(nameIdentifier, name);
 
-            return Redirect($"http://localhost:4200/steam-return/?id={id.ToString()}");
+            return Redirect($"{_appSettings.WebFrontEndUrl}/steam-return/?id={id.ToString()}");
         }
 
         [HttpGet("authenticateId/{id}")]
