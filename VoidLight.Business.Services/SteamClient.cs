@@ -86,6 +86,7 @@ namespace VoidLight.Business.Services
             }
             catch
             {
+                //ceva nu mere
                 return 0;
             }
         }
