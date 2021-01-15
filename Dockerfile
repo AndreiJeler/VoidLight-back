@@ -3,7 +3,7 @@ WORKDIR /app
 
 # Copy csproj and restore as distinct layers
 COPY . ./
-COPY /home/users/polk15/voidlight/appsettings.json ./VoidLight.Web/
+COPY /home/polk15/voidlight/appsettings.json ./VoidLight.Web/
 RUN dotnet restore
 
 RUN dotnet publish -c Release -o out
