@@ -27,6 +27,7 @@ using VoidLight.Web.Infrastructure.Authorization;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
+using VoidLight.Web.Hubs;
 
 namespace VoidLight.Web
 {
@@ -143,9 +144,11 @@ namespace VoidLight.Web
             services.AddTransient<VoidLightDbConfiguration>();
 
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
+            services.Configure<FirebaseSettings>(Configuration.GetSection("FirebaseSettings"));
 
 
             // Services
+            services.AddScoped<IFileService, FileService>();
             services.AddScoped<IJWTService, JWTService>();
             services.AddScoped<IAuthenticationService, AuthenticationService>();
             services.AddScoped<IUserService, UserService>();
@@ -154,17 +157,17 @@ namespace VoidLight.Web
             services.AddScoped<IFriendService, FriendService>();
             services.AddScoped<IGameService, GameService>();
             services.AddScoped<IGamePublisherService, GamePublisherService>();
+            services.AddScoped<IAchievementService, AchievementService>();
             services.AddScoped<ISteamClient, SteamClient>();
+            services.AddScoped<IDiscordService,  DiscordService>();
 
-            services.AddSingleton<ISteamGameCollection, SteamGameCollection>();
-
-
-
-
+            //services.AddSingleton<ISteamGameCollection, SteamGameCollection>();
 
             /*
              * Register services here
              */
+
+            services.AddSignalR();
 
             services.AddControllers();
 
@@ -212,6 +215,8 @@ namespace VoidLight.Web
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<FriendsHub>("/friends-hub");
+                endpoints.MapHub<PostsHub>("/posts-hub");
             });
         }
     }

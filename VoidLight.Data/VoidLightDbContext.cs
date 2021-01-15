@@ -89,22 +89,13 @@ namespace VoidLight.Data
         public virtual DbSet<UserComments> UserComments { get; set; }
         public virtual DbSet<WebsiteAchievement> WebsiteAchievements { get; set; }
         public virtual DbSet<WebsiteAchievementUser> WebsiteAchievementUsers { get; set; }
-
         public virtual DbSet<UserPost> UserPosts { get; set; }
-
         public virtual DbSet<Post> Posts { get; set; }
-
         public virtual DbSet<PostComment> Comments { get; set; }
         public virtual DbSet<Content> Content { get; set; }
-
-
         public virtual DbSet<PostLike> Likes { get; set; }
-
         public virtual DbSet<UserPlatform> UserPlatforms { get; set; }
-
-
-
-
+        public virtual DbSet<GameAchievement> GameAchievements { get; set; }
         #endregion
     }
 }

@@ -83,6 +83,9 @@ namespace VoidLight.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Icon")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -90,6 +93,30 @@ namespace VoidLight.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Games");
+                });
+
+            modelBuilder.Entity("VoidLight.Data.Entities.GameAchievement", b =>
+                {
+                    b.Property<int>("GameId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Icon")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("TimeAchieved")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("GameId", "UserId", "Description");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("GameAchievements");
                 });
 
             modelBuilder.Entity("VoidLight.Data.Entities.GameCategory", b =>
@@ -163,6 +190,9 @@ namespace VoidLight.Data.Migrations
                     b.Property<bool>("IsFavourite")
                         .HasColumnType("bit");
 
+                    b.Property<double>("TimePlayed")
+                        .HasColumnType("float");
+
                     b.HasKey("GameId", "UserId");
 
                     b.HasIndex("UserId");
@@ -218,8 +248,10 @@ namespace VoidLight.Data.Migrations
 
             modelBuilder.Entity("VoidLight.Data.Entities.PostComment", b =>
                 {
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("PostId")
                         .HasColumnType("int");
@@ -227,9 +259,17 @@ namespace VoidLight.Data.Migrations
                     b.Property<string>("Text")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("UserId", "PostId");
+                    b.Property<DateTime>("TimeStamp")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("PostId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Comments");
                 });
@@ -368,6 +408,9 @@ namespace VoidLight.Data.Migrations
                     b.Property<bool>("IsShared")
                         .HasColumnType("bit");
 
+                    b.Property<DateTime>("Timestamp")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("UserId", "PostId");
 
                     b.HasIndex("PostId");
@@ -460,6 +503,21 @@ namespace VoidLight.Data.Migrations
                         .WithMany("FriendsList")
                         .HasForeignKey("SelfUserId")
                         .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("VoidLight.Data.Entities.GameAchievement", b =>
+                {
+                    b.HasOne("VoidLight.Data.Entities.Game", "Game")
+                        .WithMany("GameAchievements")
+                        .HasForeignKey("GameId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("VoidLight.Data.Entities.User", "User")
+                        .WithMany("Achievements")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 

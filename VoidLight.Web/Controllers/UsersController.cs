@@ -113,5 +113,17 @@ namespace VoidLight.Web.Controllers
 
             return Redirect("http://localhost:4200/steam-return");
         }
+        [HttpGet("username/{name}")]
+        [AllowAnonymous]
+        public IActionResult GetUsersWithName(string name)
+        {
+            return Ok(_userService.GetUsersWithName(name));
+        }
+        [HttpGet("discord/{code}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> DiscordOAuth(string code)
+        {
+            return Ok(await _userService.DiscordAuthentication(code));
+        }
     }
 }

@@ -10,9 +10,12 @@ namespace VoidLight.Business.Services.Contracts
     {
         public Task<List<UserDto>> GetFriendsOfUser(int userId);
         public Task SendFriendRequest(int selfUserId, int toUserId);
-        public Task ConfirmFriendRequest(int initializerId, int receiverId);
-        public Task DeclineFriendRequest(int initializerId, int receiverId);
+        public Task<string> ConfirmFriendRequest(int initializerId, int receiverId);
+        public Task<string> DeclineFriendRequest(int initializerId, int receiverId);
         public IAsyncEnumerable<UserDto> GetUserFriendRequests(int userId);
         public Task DeleteFriends(int initializerId, int receiverId);
+        public Task RemoveFriendRequest(int initializerId, int receiverId);
+        public Task<int> GetFriendType(int initializerId, int receiverId);
+
     }
 }

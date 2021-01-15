@@ -48,10 +48,14 @@ namespace VoidLight.Business.Services
                 await _context.SaveChangesAsync();
                 var token = _jwtService.GenerateAuthenticationJWT(user);
                 var authenticateResponseDto = new AuthenticateResponseDto(user, token);
-
+                
                 var platform = await _context.Platforms.FirstOrDefaultAsync(platf => platf.Name == "Steam");
                 var userPlatform = await _context.UserPlatforms.FirstOrDefaultAsync(up => up.UserId == user.Id && up.PlatformId == platform.Id);
-                var game = await _steamClient.GetUserCurrentPlayingGame(userPlatform.LoginToken);
+                var game = "Unknown";
+                if (userPlatform != null)
+                {
+                    game = await _steamClient.GetUserCurrentPlayingGame(userPlatform.LoginToken);
+                }
 
                 authenticateResponseDto.PlayedGame = game;
 
@@ -85,7 +89,9 @@ namespace VoidLight.Business.Services
 
             var platform = await _context.Platforms.FirstOrDefaultAsync(platf => platf.Name == "Steam");
             var userPlatform = await _context.UserPlatforms.FirstOrDefaultAsync(up => up.UserId == user.Id && up.PlatformId == platform.Id);
-            var game = await _steamClient.GetUserCurrentPlayingGame(userPlatform.LoginToken);
+            var game = Constants.STEAM_NO_GAME_PLAYING;
+            if (userPlatform != null)
+                game = await _steamClient.GetUserCurrentPlayingGame(userPlatform.LoginToken);
 
             authenticateResponseDto.PlayedGame = game;
 

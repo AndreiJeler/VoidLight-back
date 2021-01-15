@@ -19,14 +19,37 @@ namespace VoidLight.Business.Services
     {
         private readonly AppSettings _appSettings;
         private readonly HttpClient _client;
-        private readonly ISteamGameCollection _gameCollection;
 
 
-        public SteamClient(IOptions<AppSettings> appSettings, ISteamGameCollection gameCollection)
+        public SteamClient(IOptions<AppSettings> appSettings)
         {
             _appSettings = appSettings.Value;
             _client = new HttpClient();
-            _gameCollection = gameCollection;
+        }
+
+        public async Task<JEnumerable<JToken>> GetGameAchievements(string appId)
+        {
+            var url = $"{Constants.STEAM_GAME_SCHEME_URL}/?key={_appSettings.SteamKey}&appid={appId}";
+            var response = await _client.GetStringAsync(url);
+            var jsonData = (JObject)JsonConvert.DeserializeObject(response);
+            try
+            {
+                var achievements = jsonData.SelectToken(Constants.STEAM_GAME_SCHEMA_ACHIEVEMENTS).Children();
+                return achievements;
+            }
+            catch 
+            {
+                return new JEnumerable<JToken>();
+            }
+        }
+
+        public async Task<JEnumerable<JToken>> GetGameAchievements(string appId)
+        {
+            var url = $"{Constants.STEAM_GAME_SCHEME_URL}/?key={_appSettings.SteamKey}&appid={appId}";
+            var response = await _client.GetStringAsync(url);
+            var jsonData = (JObject)JsonConvert.DeserializeObject(response);
+            var achievements = jsonData.SelectToken(Constants.STEAM_GAME_SCHEMA_ACHIEVEMENTS).Children();
+            return achievements;
         }
 
         public async Task<Game> GetGameDetails(string appId)
@@ -47,6 +70,32 @@ namespace VoidLight.Business.Services
             catch
             {
                 return null;
+            }
+        }
+
+        public async Task<int> GetUnlockedAchievementsNumber(string steamId, string appId)
+        {
+            
+            var url = $"{Constants.STEAM_PLAYER_ACHIEVEMENTS_URL}/?appid={appId}&key={_appSettings.SteamKey}&steamid={steamId}";
+            var response = "";
+            try
+            {
+                response = await _client.GetStringAsync(url);
+            }
+            catch
+            {
+                return 0;
+            }
+            var jsonData = (JObject)JsonConvert.DeserializeObject(response);
+            try
+            {
+                var achievements = jsonData.SelectToken(Constants.STEAM_USER_ACHIEVEMENTS).Children().Where(a => a.SelectToken(Constants.STEAM_ACHIEVEMENT_ACHIEVED).Value<int>() == 1);
+
+                return achievements.Count();
+            }
+            catch
+            {
+                return 0;
             }
         }
 
@@ -71,12 +120,49 @@ namespace VoidLight.Business.Services
             }
         }
 
-        public async Task<IEnumerable<Game>> GetUserGames(string steamId, User user, Platform platform)
+        public async Task<IList<GameAchievement>> GetUserGameAchievements(string steamId, string appId, User user, Game game)
         {
-            var url = $"{Constants.STEAM_OWNED_GAMES_URL}/?key={_appSettings.SteamKey}&steamid={steamId}&format=json";
+            var gameAchievements = await GetGameAchievements(appId);
+
+            var achievementsList = new List<GameAchievement>();
+
+            var url = $"{Constants.STEAM_PLAYER_ACHIEVEMENTS_URL}/?appid={appId}&key={_appSettings.SteamKey}&steamid={steamId}";
             var response = await _client.GetStringAsync(url);
             var jsonData = (JObject)JsonConvert.DeserializeObject(response);
-            
+            var achievements = jsonData.SelectToken(Constants.STEAM_USER_ACHIEVEMENTS).Children().Where(a => a.SelectToken(Constants.STEAM_ACHIEVEMENT_ACHIEVED).Value<int>() == 1);
+            foreach (var achievement in achievements)
+            {
+                var gameAchievement = gameAchievements.FirstOrDefault(ga => ga.SelectToken(Constants.STEAM_ACHIEVEMENT_NAME).Value<string>() == achievement.SelectToken(Constants.STEAM_ACHIEVEMENT_APINAME).Value<string>());
+                var achievementName = gameAchievement.SelectToken(Constants.STEAM_ACHIEVEMENT_DISPLAYNAME).Value<String>();
+                var achievementIcon = gameAchievement.SelectToken(Constants.STEAM_ACHIEVEMENT_ICON).Value<String>();
+                var unlock = achievement.SelectToken(Constants.STEAM_ACHIEVEMENT_UNLOCK_TIME).Value<int>();
+                var dateUnlock = new DateTime(unlock, DateTimeKind.Utc);
+                var newAchievement = new GameAchievement()
+                {
+                    Description = achievementName,
+                    User = user,
+                    Game = game,
+                    UserId = user.Id,
+                    GameId = game.Id,
+                    TimeAchieved = dateUnlock,
+                    Icon = achievementIcon
+                };
+
+                achievementsList.Add(newAchievement);
+
+
+                //creearea achievement-ului dintre joc si user
+            }
+
+            return achievementsList;
+        }
+
+        public async Task<IEnumerable<Game>> GetUserGames(string steamId, User user, Platform platform)
+        {
+            var url = $"{Constants.STEAM_OWNED_GAMES_URL}/?key={_appSettings.SteamKey}&steamid={steamId}&format=json&include_appinfo=true";
+            var response = await _client.GetStringAsync(url);
+            var jsonData = (JObject)JsonConvert.DeserializeObject(response);
+
             var games = jsonData.SelectToken(Constants.STEAM_OWNED_GAMES_LIST_TOKEN).Children();
 
             var newGames = new List<Game>();
@@ -85,19 +171,36 @@ namespace VoidLight.Business.Services
             {
                 var appId = game[Constants.STEAM_APP_ID].Value<string>();
 
-                var gameNameToken = await _gameCollection.GetGameName(appId);
+                //var gameNameToken = await _gameCollection.GetGameName(appId);
+                var gameName = game.SelectToken("name").Value<string>();
+                var gameIcon = game.SelectToken("img_logo_url").Value<string>();
+                var iconUrl = $"http://cdn.origin.steamstatic.com/steamcommunity/public/images/apps/{appId}/{gameIcon}.jpg";
+                var timePlayed = game.SelectToken("playtime_forever").Value<int>();
+                var hoursPlayed = (double) timePlayed / 60;
 
-                if (gameNameToken is null)
+              //  var nrAchievements = (await GetGameAchievements(appId)).Count();
+
+/*                if (nrAchievements == 0)
                 {
                     continue;
-                }
+                }*/
+                //var nrAchievementsAcq = await GetUnlockedAchievementsNumber(steamId, appId);
 
-                var gameName = gameNameToken[Constants.STEAM_NAME_TOKEN].Value<string>();
+
+
+                /* if (gameNameToken is null)
+                 {
+                     continue;
+                 }*/
+
+                //var gameName = gameNameToken[Constants.STEAM_NAME_TOKEN].Value<string>();
 
                 var newGame = new Game()
                 {
                     Name = gameName,
-                    Description = gameName
+                    Description = gameName,
+                    Icon = iconUrl
+                  //  AchievementTotal = nrAchievements
                 };
 
 
@@ -112,7 +215,9 @@ namespace VoidLight.Business.Services
                     new GameUser()
                     {
                         Game = newGame,
-                        User = user
+                        User = user,
+                        TimePlayed =(int) hoursPlayed
+                        //AchievementsAcquired = nrAchievementsAcq
                     }
                 };
 

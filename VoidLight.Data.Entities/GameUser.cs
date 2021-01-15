@@ -13,6 +13,8 @@ namespace VoidLight.Data.Entities
         public User User { get; set; }
         public int UserId { get; set; }
         public bool IsFavourite { get; set; }
+        public double TimePlayed { get; set; }
+       // public int AchievementsAcquired { get; set; }
     }
 
     public class GameUserConfiguration : IEntityTypeConfiguration<GameUser>

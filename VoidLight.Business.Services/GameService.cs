@@ -29,7 +29,11 @@ namespace VoidLight.Business.Services
                      Id = gu.GameId,
                      Name = gu.Game.Name,
                   //   Publisher = gu.Game.Publisher == null ? "No publisher" : gu.Game.Publisher.Name,
-                     IsFavourite=gu.IsFavourite
+                     IsFavourite=gu.IsFavourite,
+                     Icon = gu.Game.Icon,
+                   //  AchievementsAcquired=gu.AchievementsAcquired,
+                   //  AchievementsTotal=gu.Game.AchievementTotal,
+                     TimePlayed=gu.TimePlayed
                  }).AsAsyncEnumerable();
         }
 
@@ -44,8 +48,11 @@ namespace VoidLight.Business.Services
                       Id = gu.GameId,
                       Name = gu.Game.Name,
                       //Publisher = gu.Game.Publisher == null ? "No publisher" : gu.Game.Publisher.Name,
-                      IsFavourite = gu.IsFavourite
-
+                      IsFavourite = gu.IsFavourite,
+                      Icon = gu.Game.Icon,
+                     // AchievementsAcquired = gu.AchievementsAcquired,
+                     // AchievementsTotal = gu.Game.AchievementTotal,
+                      TimePlayed = gu.TimePlayed
                   }).AsAsyncEnumerable();
         }
     }

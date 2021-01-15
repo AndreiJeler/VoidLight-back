@@ -8,17 +8,19 @@ namespace VoidLight.Data.Entities
 {
     public class PostComment
     {
+        public int Id { get; set; }
         public int UserId { get; set; }
         public User User { get; set; }
         public int PostId { get; set; }
         public Post Post { get; set; }
         public string Text { get; set; }
+        public DateTime TimeStamp { get; set; }
     }
     public class PostCommentConfiguration : IEntityTypeConfiguration<PostComment>
     {
         public void Configure(EntityTypeBuilder<PostComment> builder)
         {
-            builder.HasKey(pc => new { pc.UserId, pc.PostId });
+            builder.HasKey(pc => pc.Id);
 
             builder
                .HasOne(up => up.Post)

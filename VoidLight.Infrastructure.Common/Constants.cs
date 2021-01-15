@@ -6,8 +6,6 @@ namespace VoidLight.Infrastructure.Common
 {
     public static class Constants
     {
-        public const string EXAMPLE = "example text for sth";
-
         #region URL
         public const string APP_URL = "https://localhost:44324/";
         public const string CLIENT_URL = "http://localhost:4200/";
@@ -31,6 +29,14 @@ namespace VoidLight.Infrastructure.Common
         public const string INVALID_PARAMETER_EXCEPTION = "Invalid Parameter";
         public const string UNAUTHORIZED_EXCEPTION = "Unauthorized access";
         public const string ACCOUNT_ALREADY_CONFIRMED_EXCEPTION = "Account already confirmed";
+
+        #endregion
+
+        #region Friends
+        public const int NOT_FRIENDS = 0;
+        public const int FRIENDS = 1;
+        public const int FRIENDREQUEST_SENT = 0;
+
 
         #endregion
 
@@ -69,7 +75,27 @@ namespace VoidLight.Infrastructure.Common
         public const string STEAM_GAMEID = "gameid";
         public const string STEAM_GAME_EXTRA_NAME = "gameextrainfo";
         public const string STEAM_NO_GAME_PLAYING = "None";
+        public const string STEAM_PLAYER_ACHIEVEMENTS_URL = "http://api.steampowered.com/ISteamUserStats/GetPlayerAchievements/v0001";
+        public const string STEAM_GAME_SCHEMA_ACHIEVEMENTS = "game.availableGameStats.achievements";
+        public const string STEAM_USER_ACHIEVEMENTS = "playerstats.achievements";
+        public const string STEAM_ACHIEVEMENT_ACHIEVED = "achieved";
+        public const string STEAM_ACHIEVEMENT_NAME = "name";
+        public const string STEAM_ACHIEVEMENT_APINAME = "apiname";
+        public const string STEAM_ACHIEVEMENT_DISPLAYNAME = "displayname";
+        public const string STEAM_ACHIEVEMENT_ICON = "icon";
+        public const string STEAM_ACHIEVEMENT_UNLOCK_TIME = "unlocktime";
 
+
+        #endregion
+          
+          
+          
+
+        #region Discord
+        public const string DISCORD_OAUTH_TOKEN_URL = "https://discord.com/api/v6/oauth2/token";
+        public const string DISCORD_SCOPES = "identify email guilds guilds.join";
+        public const string DISCORD_REDIRECT_URI = "http://localhost:4200/discord-return";
+        public const string DISCORD_USER_TOKEN_URL = "https://discord.com/api/v6/users/@me";
 
 
 

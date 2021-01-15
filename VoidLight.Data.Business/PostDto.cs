@@ -16,6 +16,12 @@ namespace VoidLight.Data.Business
         public string AvatarPath { get; set; }
         public int UserId { get; set; }
         public bool IsLiked {get; set;}
+        public IEnumerable<CommentDto> Comments { get; set; }
+        public string OriginalUser { get; set; }
+        public string OriginalUserAvatar { get; set; }
+        public bool IsShared { get; set; }
+        public int OriginalUserId { get; set; }
+
 
     }
 
@@ -23,7 +29,7 @@ namespace VoidLight.Data.Business
     {
         public bool Equals(PostDto x, PostDto y)
         {
-            return x.Id.Equals(y.Id);
+            return x.Id.Equals(y.Id) && x.UserId.Equals(y.UserId);
         }
 
         public int GetHashCode(PostDto obj)
