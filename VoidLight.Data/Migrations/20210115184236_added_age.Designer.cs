@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VoidLight.Data;
 
 namespace VoidLight.Data.Migrations
 {
     [DbContext(typeof(VoidLightDbContext))]
-    partial class VoidLightDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210115184236_added_age")]
+    partial class added_age
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

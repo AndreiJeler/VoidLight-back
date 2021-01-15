@@ -84,10 +84,10 @@ namespace VoidLight.Web.Controllers
         /// <returns></returns>
         [AuthorizeUserCustom(RoleType.General)]
         [HttpPut]
-        public async Task<IActionResult> UpdateUser([FromBody] UserDto userData)
+        public async Task<IActionResult> UpdateUser()
         {
-            await _userService.UpdateUser(userData);
-            return Created(Constants.HTTP_UPDATED, userData);
+            await _userService.UpdateUser(Request.Form["user"][0], Request.Form.Files);
+            return Created(Constants.HTTP_UPDATED, Request.Form["user"][0]);
         }
 
         /// <summary>

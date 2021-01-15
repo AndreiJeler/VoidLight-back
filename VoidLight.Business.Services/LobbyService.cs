@@ -174,6 +174,7 @@ namespace VoidLight.Business.Services
             };
             lobby.UserLobbies.Add(userLobby);
             await _context.AddAsync(lobby);
+            await _context.SaveChangesAsync();
             return await GetLobby(lobby.Id);
         }
 

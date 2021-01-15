@@ -1,8 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using VoidLight.Business.Services.Contracts;
 using VoidLight.Data;
@@ -22,14 +24,17 @@ namespace VoidLight.Business.Services
         private readonly IEmailService _emailService;
         private readonly ISteamClient _steamClient;
         private readonly IDiscordService _discordService;
+        private IFileService _fileService;
 
-        public UserService(IJWTService jwtService, VoidLightDbContext context, IEmailService emailService, ISteamClient steamClient, IDiscordService discordService)
+
+        public UserService(IFileService fileService, IJWTService jwtService, VoidLightDbContext context, IEmailService emailService, ISteamClient steamClient, IDiscordService discordService)
         {
             _jWTService = jwtService;
             _context = context;
             _emailService = emailService;
             _steamClient = steamClient;
             _discordService = discordService;
+            _fileService = fileService;
         }
         public async Task ActivateAccount(string token)
         {
@@ -55,6 +60,7 @@ namespace VoidLight.Business.Services
                 Email = registerDto.Email,
                 Password = HashingManager.GetHashedPassword(registerDto.Password, registerDto.Username),
                 Username = registerDto.Username,
+                Age = 21
             };
             user.IsActivated = false;
             user.WasPasswordForgotten = false;
@@ -129,21 +135,42 @@ namespace VoidLight.Business.Services
             return user ?? throw new UnauthorisedException($"No user with email: {email}");
         }
 
-        public async Task UpdateUser(UserDto userDto)
+        private static UserDto DeserializeUser(string userJSON)
         {
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true,
+            };
+
+            return JsonSerializer.Deserialize<UserDto>(userJSON, options);
+        }
+
+        public async Task UpdateUser(string userJson, IFormFileCollection files)
+        {
+            var userDto = DeserializeUser(userJson);
             User user = new User()
             {
                 Id = userDto.Id,
                 Username = userDto.Username,
-                Password = userDto.Password,
+                //Password = userDto.Password,
                 FullName = userDto.FullName,
-                AvatarPath = userDto.AvatarPath,
-                Email = userDto.Username
+                // AvatarPath = userDto.AvatarPath,
+                Email = userDto.Username,
+                Age = userDto.Age
             };
-            //await CheckUserFields(user, true);
+           
             var dbUser = await FindByEmail(user.Email);
             dbUser.FullName = user.FullName;
-            dbUser.AvatarPath = user.AvatarPath;
+
+            var avatarPath = dbUser.AvatarPath;
+
+            if (files.Count() != 0)
+            {
+                var path = await this._fileService.UploadFileAsync(files[0]);
+                avatarPath = path;
+            }
+
+            dbUser.AvatarPath = avatarPath;
 
             _context.Users.Update(dbUser);
             await _context.SaveChangesAsync();
@@ -164,7 +191,7 @@ namespace VoidLight.Business.Services
             if (userPlatform != null)
             {
                 // await AddUserGames(user, platform)
-             }
+            }
             return userDto;
         }
 

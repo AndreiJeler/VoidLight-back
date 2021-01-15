@@ -91,5 +91,12 @@ namespace VoidLight.Web.Controllers
         {
             return Ok(_lobbyService.GetFavouriteGameInfoForUser(userId));
         }
+
+        [HttpPost("create")]
+        [AllowAnonymous]
+        public IActionResult CreateLobby([FromBody] LobbyCreationDto dto)
+        {
+            return Ok(_lobbyService.CreateLobby(dto));
+        }
     }
 }
