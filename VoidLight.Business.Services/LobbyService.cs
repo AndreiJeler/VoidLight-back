@@ -51,22 +51,38 @@ namespace VoidLight.Business.Services
                 }).AsAsyncEnumerable();
         }
 
-        public IAsyncEnumerable<LobbyDto> GetGameLobbies(int gameId)
+        public async Task<ICollection<LobbyDto>> GetGameLobbies(int gameId)
         {
+            var discordPlatform = await _context.Platforms.FirstOrDefaultAsync(platf => platf.Name == "Discord");
             return _context.Lobbies
                 .Include(g => g.Game)
-                .Include(l => l.UserLobbies).ThenInclude(ul => ul.User)
+                .Include(l => l.UserLobbies).ThenInclude(ul => ul.User).ThenInclude(u => u.UserPlatforms)
                 .Where(l => l.GameId == gameId && l.HasStarted == false)
+                .AsEnumerable()
                 .Select(lobby =>
-                new LobbyDto()
-                {
-                    Id = lobby.Id,
-                    GameId = lobby.GameId,
-                    GameName = lobby.Game.Name,
-                    HasStarted = lobby.HasStarted,
-                    ParticipantsNr = lobby.UserLobbies.Count(),
-                }
-            ).AsAsyncEnumerable();
+               {
+                   var user = lobby.UserLobbies.FirstOrDefault(u => u.IsInitializer == true);
+                   var userPlatf = user.User.UserPlatforms.FirstOrDefault(p => p.PlatformId == discordPlatform.Id);
+                   var initializer = new DiscordUserDto()
+                   {
+                       UserId = user.UserId,
+                       AvatarPicture = user.User.AvatarPath,
+                       DiscordId = userPlatf.LoginId,
+                       DiscordToken = userPlatf.LoginToken,
+                       Username = userPlatf.User.Username
+
+                   };
+                   return new LobbyDto()
+                   {
+                       Id = lobby.Id,
+                       GameId = lobby.GameId,
+                       GameName = lobby.Game.Name,
+                       HasStarted = lobby.HasStarted,
+                       ParticipantsNr = lobby.UserLobbies.Count(),
+                       Initializer = initializer
+                   };
+               }
+            ).ToList();
         }
 
         public async Task<LobbyDto> GetLobby(int lobbyId)
@@ -109,7 +125,7 @@ namespace VoidLight.Business.Services
                 GameName = lobby.Game.Name,
                 ParticipantsNr = users.Count(),
                 Users = users,
-                Initializer=initializer,
+                Initializer = initializer,
             };
 
         }
@@ -134,11 +150,11 @@ namespace VoidLight.Business.Services
 
         public async Task<LobbyDto> CreateLobby(LobbyCreationDto dto)
         {
-            if(_context.Lobbies.Include(l => l.UserLobbies).Where(l => l.HasStarted && l.UserLobbies.Any(l => l.UserId == dto.UserId && l.IsInitializer == true)).Count() != 0)
+            if (_context.Lobbies.Include(l => l.UserLobbies).Where(l => l.HasStarted && l.UserLobbies.Any(l => l.UserId == dto.UserId && l.IsInitializer == true)).Count() != 0)
             {
                 throw new Exception("You already have an open lobby");
             }
-            var user = await _context.Users.Include(u=>u.UserLobbies).FirstOrDefaultAsync(u => u.Id == dto.UserId);
+            var user = await _context.Users.Include(u => u.UserLobbies).FirstOrDefaultAsync(u => u.Id == dto.UserId);
             var game = await _context.Games.Include(g => g.Lobbies).FirstOrDefaultAsync(g => g.Id == dto.GameId);
             var lobby = new Lobby()
             {

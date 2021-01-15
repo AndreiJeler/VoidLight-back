@@ -10,7 +10,7 @@ namespace VoidLight.Business.Services.Contracts
     {
         public IAsyncEnumerable<GameLobbiesInfoDto> GetAllGameInfoForUser(int userId);
         public IAsyncEnumerable<GameLobbiesInfoDto> GetFavouriteGameInfoForUser(int userId);
-        public IAsyncEnumerable<LobbyDto> GetGameLobbies(int gameId);
+        public Task<ICollection<LobbyDto>> GetGameLobbies(int gameId);
         public Task<LobbyDto> GetLobby(int lobbyId);
         public Task<string> OpenDiscordChannel(int lobbyId);
         public Task<LobbyDto> CreateLobby(LobbyCreationDto dto);

@@ -75,9 +75,9 @@ namespace VoidLight.Web.Controllers
         /// <returns>The list of lobbies</returns>
         [HttpGet("game/{gameId}")]
         [AllowAnonymous]
-        public IActionResult GetAllGameLobbies(int gameId)
+        public async Task<IActionResult> GetAllGameLobbies(int gameId)
         {
-            return Ok(_lobbyService.GetGameLobbies(gameId));
+            return Ok(await _lobbyService.GetGameLobbies(gameId));
         }
 
         /// <summary>
