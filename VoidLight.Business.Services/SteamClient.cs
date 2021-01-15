@@ -43,15 +43,6 @@ namespace VoidLight.Business.Services
             }
         }
 
-        public async Task<JEnumerable<JToken>> GetGameAchievements(string appId)
-        {
-            var url = $"{Constants.STEAM_GAME_SCHEME_URL}/?key={_appSettings.SteamKey}&appid={appId}";
-            var response = await _client.GetStringAsync(url);
-            var jsonData = (JObject)JsonConvert.DeserializeObject(response);
-            var achievements = jsonData.SelectToken(Constants.STEAM_GAME_SCHEMA_ACHIEVEMENTS).Children();
-            return achievements;
-        }
-
         public async Task<Game> GetGameDetails(string appId)
         {
             var url = $"{Constants.STEAM_GAME_SCHEME_URL}/?key={_appSettings.SteamKey}&appid={appId}";
