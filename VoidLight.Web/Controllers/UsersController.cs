@@ -64,34 +64,6 @@ namespace VoidLight.Web.Controllers
             return Created(Constants.HTTP_UPDATED, userData);
         }
 
-        [HttpGet("regular")]
-        [AuthorizeUserCustom(RoleType.Regular)]
-        public IActionResult GetAllRegular()
-        {
-            return Ok(_userService.GetAll());
-        }
-
-        [HttpGet("admin")]
-        [AuthorizeUserCustom(RoleType.Admin)]
-        public IActionResult GetAllAdmin()
-        {
-            return Ok(_userService.GetAll());
-        }
-
-        [HttpGet("general")]
-        [AuthorizeUserCustom(RoleType.Regular)]
-        public IActionResult GetAllGeneral()
-        {
-            return Ok(_userService.GetAll());
-        }
-
-        [HttpGet("streamer")]
-        [AuthorizeUserCustom(RoleType.Streamer)]
-        public IActionResult GetAllStreamer()
-        {
-            return Ok(_userService.GetAll());
-        }
-
         [HttpGet("{id}")]
         [AllowAnonymous]
         public async Task<IActionResult> GetUserById(int id)

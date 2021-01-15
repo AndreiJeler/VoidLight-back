@@ -174,14 +174,22 @@ namespace VoidLight.Business.Services
 
             var games = user.GameUsers.Select(gu=>gu.Game.Id);
             var friends = user.FriendsList.Select(f => f.FriendUserId);
-            
+            var originalPosts = _context.UserPosts
+                .Include(up => up.Post).ThenInclude(up => up.Game)
+                .Include(up => up.User).ThenInclude(u => u.Role)
+                .Include(up => up.Post).ThenInclude(p => p.Likes)
+                .Include(up => up.Post).ThenInclude(p => p.Content)
+                .Where(up => up.IsShared == false)
+                .ToList();
+
             var posts = _context.UserPosts
                 .Include(up => up.Post).ThenInclude(up => up.Game)
-                .Include(up => up.User)
+                .Include(up => up.User).ThenInclude(u => u.Role)
                 .Include(up => up.Post).ThenInclude(p => p.Likes)
                 .Include(up => up.Post).ThenInclude(p => p.Content)
                 .Where(up => games.Contains(up.Post.Game.Id) || friends.Contains(up.UserId) || user.Id == up.UserId)
-                .Select(up => PostMapper.ConvertEntityToDto(up, user.Id))
+                .AsEnumerable()
+                .Select(up => { UserPost userPost = originalPosts.FirstOrDefault(upost=>upost.IsShared==false && upost.PostId==up.PostId); return PostMapper.ConvertEntityToDto(up, user.Id,userPost); })
                 .ToList();
 
             return posts.OrderByDescending(up => up.Time).ToList();
