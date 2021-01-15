@@ -159,8 +159,9 @@ namespace VoidLight.Business.Services
                 Age = userDto.Age
             };
            
-            var dbUser = await FindByEmail(user.Email);
+            var dbUser = await _context.Users.FirstOrDefaultAsync(user=>user.Id==userDto.Id);
             dbUser.FullName = user.FullName;
+            dbUser.Email = dbUser.Email;
 
             var avatarPath = dbUser.AvatarPath;
 
@@ -171,6 +172,7 @@ namespace VoidLight.Business.Services
             }
 
             dbUser.AvatarPath = avatarPath;
+            dbUser.Age = user.Age;
 
             _context.Users.Update(dbUser);
             await _context.SaveChangesAsync();

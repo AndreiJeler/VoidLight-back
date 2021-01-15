@@ -94,9 +94,16 @@ namespace VoidLight.Web.Controllers
 
         [HttpPost("create")]
         [AllowAnonymous]
-        public IActionResult CreateLobby([FromBody] LobbyCreationDto dto)
+        public async Task<IActionResult> CreateLobby([FromBody] LobbyCreationDto dto)
         {
-            return Ok(_lobbyService.CreateLobby(dto));
+            return Ok(await _lobbyService.CreateLobby(dto));
+        }
+
+        [HttpGet("join/{lobbyId}/{userId}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> JoinLobby(int lobbyId, int userId)
+        {
+            return Ok(await _lobbyService.JoinLobby(lobbyId, userId));
         }
     }
 }
