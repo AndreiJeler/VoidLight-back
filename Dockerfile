@@ -14,4 +14,4 @@ FROM mcr.microsoft.com/dotnet/sdk:5.0.102-alpine3.12
 WORKDIR /app
 COPY --from=build-env /app/out .
 EXPOSE 5000
-ENTRYPOINT ["dotnet", "VoidLight.Web.dll"]
+ENTRYPOINT ["dotnet", "VoidLight.Web.dll", "--server.urls", "http://*:5000"]
