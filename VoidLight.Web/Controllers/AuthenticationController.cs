@@ -93,5 +93,26 @@ namespace VoidLight.Web.Controllers
         {
             return Ok(await _authenticationService.GetUserById(id));
         }
+
+
+        [HttpGet("steam-sync")]
+        [AllowAnonymous]
+        public IActionResult SteamSync()
+        {
+            return Challenge(new AuthenticationProperties { RedirectUri = $"{_appSettings.AppUrl}/api/authentication/steam-sync-done" }, "Steam");
+        }
+
+        [HttpGet("steam-sync-done")]
+        [AllowAnonymous]
+        public async Task<IActionResult> SteamSyncDone()
+        {
+            var claims = HttpContext.User.Claims;
+            var nameIdentifier = claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value.Split('/').Last();
+            var name = claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
+
+            //var id = await _userService.GetUserIdSteamLogin(nameIdentifier, name);
+
+            return Redirect($"{_appSettings.WebFrontEndUrl}/steam-return/?id={nameIdentifier}&sync=1&username={name}");
+        }
     }
 }

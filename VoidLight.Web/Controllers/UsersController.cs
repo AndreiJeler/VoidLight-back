@@ -176,5 +176,20 @@ namespace VoidLight.Web.Controllers
             return Ok(await _userService.GetPlatformUser(id, "google"));
 
         }
+
+        [HttpGet("steam-con/{userId}/{steamId}/{username}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> ConnectWithSteam([FromRoute] int userId, string steamId, string username)
+        {
+            return Ok(await _userService.SteamSync(userId, steamId,username));
+        }
+
+        [HttpGet("refresh-games/{userId}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> RefreshList(int userId)
+        {
+            await _userService.RefreshGames(userId);
+            return NoContent();
+        }
     }
 }

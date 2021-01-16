@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using VoidLight.Business.Services.Contracts;
 using VoidLight.Data;
 using VoidLight.Data.Business;
@@ -54,6 +55,23 @@ namespace VoidLight.Business.Services
                      // AchievementsTotal = gu.Game.AchievementTotal,
                       TimePlayed = gu.TimePlayed
                   }).AsAsyncEnumerable();
+        }
+
+        public async Task UpdateFavoriteGame(int userId, int gameId)
+        {
+            var game = await _context.Games.Include(g => g.GameUsers).FirstOrDefaultAsync(g => g.Id == gameId);
+            if (game == null)
+            {
+                throw new Exception("Invalid game");
+            }
+            var userGame = game.GameUsers.FirstOrDefault(u => u.UserId == userId);
+            if (userGame == null)
+            {
+                throw new Exception("Invalid user");
+            }
+            userGame.IsFavourite = !userGame.IsFavourite;
+            _context.Update(userGame);
+            await _context.SaveChangesAsync();
         }
     }
 }

@@ -158,8 +158,8 @@ namespace VoidLight.Business.Services
                 Email = userDto.Username,
                 Age = userDto.Age
             };
-           
-            var dbUser = await _context.Users.FirstOrDefaultAsync(user=>user.Id==userDto.Id);
+
+            var dbUser = await _context.Users.FirstOrDefaultAsync(user => user.Id == userDto.Id);
             dbUser.FullName = user.FullName;
             dbUser.Email = dbUser.Email;
 
@@ -220,7 +220,7 @@ namespace VoidLight.Business.Services
                     {
                         gameUser.TimePlayed = game.GameUsers.FirstOrDefault(gu => gu.UserId == user.Id).TimePlayed;
                         //gameUser.AchievementsAcquired = game.GameUsers.FirstOrDefault(gu => gu.UserId == user.Id).AchievementsAcquired;
-
+                        _context.Update(gameUser);
                     }
                 }
                 else if (!addedGames.Any(g => g.Name == game.Name))
@@ -360,6 +360,40 @@ namespace VoidLight.Business.Services
                 return "-";
             }
             return userPlatf.KnownAs;
+        }
+
+        public async Task<UserDto> SteamSync(int userId, string steamId, string username)
+        {
+            var user = await _context.Users.Include(u => u.UserPlatforms).Include(u=>u.Role).FirstOrDefaultAsync(us => us.Id == userId);
+            var steamPlatform = await _context.Platforms.FirstOrDefaultAsync(platf => platf.Name == "Steam");
+
+            var userPlatform = new UserPlatform()
+            {
+                LoginToken = steamId.ToString(),
+                Platform = steamPlatform,
+                PlatformId = steamPlatform.Id,
+                User = user,
+                UserId = user.Id,
+                LoginId = steamId.ToString(),
+                KnownAs = username
+            };
+
+            user.UserPlatforms.Add(userPlatform);
+
+            _context.Update(user);
+            await _context.SaveChangesAsync();
+
+            return UserMapper.ConvertEntityToDto(user);
+        }
+
+        public async Task RefreshGames(int userId)
+        {
+            var steamPlatform = await _context.Platforms.FirstOrDefaultAsync(platf => platf.Name == "Steam");
+            var userPlatform = await _context.UserPlatforms
+                .Include(up => up.Platform)
+                .Include(up => up.User)
+                .FirstOrDefaultAsync(up => up.Platform == steamPlatform && up.UserId == userId);
+            await AddUserGames(userPlatform.User, steamPlatform);
         }
     }
 }
