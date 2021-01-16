@@ -22,7 +22,7 @@ namespace VoidLight.Business.Services.Contracts
         Task<int> GetUserIdSteamLogin(string steamId, string username);
         IAsyncEnumerable<UserDto> GetUsersWithName(string name);
         public Task<int> DiscordAuthentication(string code);
-        public Task<string> GetPlatformUser(int id, string platform);
+        public Task<ConnectedDto> GetPlatformUser(int id, string platform);
         public Task<UserDto> SteamSync(int userId, string steamId, string username);
         public Task RefreshGames(int userId);
     }

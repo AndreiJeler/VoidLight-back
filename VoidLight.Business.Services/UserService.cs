@@ -351,15 +351,21 @@ namespace VoidLight.Business.Services
             }
         }
 
-        public async Task<string> GetPlatformUser(int id, string platform)
+        public async Task<ConnectedDto> GetPlatformUser(int id, string platform)
         {
             var dbPlatform = await _context.Platforms.Include(p => p.UserPlatforms).FirstOrDefaultAsync(platf => platf.Name == platform);
             var userPlatf = dbPlatform.UserPlatforms.FirstOrDefault(up => up.UserId == id);
             if (userPlatf == null)
             {
-                return "-";
+                return new ConnectedDto()
+                {
+                    KnownAs = "-"
+                };
             }
-            return userPlatf.KnownAs;
+            return new ConnectedDto()
+            {
+                KnownAs = userPlatf.KnownAs
+            };
         }
 
         public async Task<UserDto> SteamSync(int userId, string steamId, string username)

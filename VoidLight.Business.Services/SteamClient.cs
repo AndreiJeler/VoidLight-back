@@ -115,7 +115,13 @@ namespace VoidLight.Business.Services
         {
             var gameAchievements = await GetGameAchievements(appId);
 
+            if (gameAchievements.Count() == 0)
+            {
+                throw new Exception("The game has no achievements");
+            }
+
             var achievementsList = new List<GameAchievement>();
+            
 
             var url = $"{Constants.STEAM_PLAYER_ACHIEVEMENTS_URL}/?appid={appId}&key={_appSettings.SteamKey}&steamid={steamId}";
             var response = await _client.GetStringAsync(url);
