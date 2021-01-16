@@ -9,12 +9,18 @@ pipeline {
         }
         stage('build') {
             steps {
+                sh 'cp /home/polk15/voidlight/appsettings.json ./VoidLight.Web/'
                 sh 'docker build -t voidlight-back:' + env.BRANCH_NAME +  ' .'
             }
         }
         stage('tag') {
             steps {
                 sh 'docker tag voidlight-back:' + env.BRANCH_NAME +  ' voidlight-back:' + env.BUILD_NUMBER
+            }
+        }
+        stage('deploy'){
+            steps {
+                sh 'docker run -dit -p 44324:44324 voidlight-back:' + env.BRANCH_NAME + ' --network=bridge'
             }
         }
     }
