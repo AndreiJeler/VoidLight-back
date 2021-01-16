@@ -106,7 +106,7 @@ namespace VoidLight.Web.Controllers
         public async Task<IActionResult> JoinLobby(int lobbyId, int userId)
         {
             var lobby = await _lobbyService.JoinLobby(lobbyId, userId);
-            await _hub.Clients.All.SendAsync("join-" + lobbyId, lobby.Users.FirstOrDefault(u => u.UserId == userId));
+            await _hub.Clients.All.SendAsync("join-" + lobbyId, lobby);
             return Ok(lobby);
         }
 
@@ -114,8 +114,8 @@ namespace VoidLight.Web.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> LeaveLobby(int lobbyId, int userId)
         {
-            var lobby = await _lobbyService.JoinLobby(lobbyId, userId);
-            await _hub.Clients.All.SendAsync("leave-" + lobbyId, lobby.Users.FirstOrDefault(u => u.UserId == userId));
+            var lobby = await _lobbyService.LeaveLobby(lobbyId, userId);
+            await _hub.Clients.All.SendAsync("leave-" + lobbyId, lobby);
             return Ok(lobby);
         }
 

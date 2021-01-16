@@ -15,5 +15,7 @@ namespace VoidLight.Business.Services.Contracts
         public Task<string> OpenDiscordChannel(int lobbyId);
         public Task<LobbyDto> CreateLobby(LobbyCreationDto dto);
         public Task<LobbyDto> JoinLobby(int lobbyId, int userId);
+        public Task<LobbyDto> LeaveLobby(int lobbyId, int userId);
+
     }
 }
