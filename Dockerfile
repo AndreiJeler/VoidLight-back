@@ -1,6 +1,6 @@
 FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build-env
 WORKDIR /app
-RUN apt-get install -y icu-devtools
+# RUN apt-get install -y icu-devtools
 ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false
 
 # Copy csproj and restore as distinct layers
