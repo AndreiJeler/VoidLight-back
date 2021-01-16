@@ -194,8 +194,6 @@ namespace VoidLight.Web
 
             app.UseCors();
 
-            app.UseHttpsRedirection();
-
             app.UseRouting();
 
             app.UseMiddleware<JwtMiddleware>();
