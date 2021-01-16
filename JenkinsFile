@@ -20,7 +20,7 @@ pipeline {
         }
         stage('deploy'){
             steps {
-                sh 'docker run -dit -p 44324:44324 -p 5000:5000 -p 5001:5001 voidlight-back:' + env.BRANCH_NAME + ' --network=bridge -h voidlight-back'
+                sh 'docker run -dit -p 44324:44324 -p 5000:5000 -p 5001:5001 voidlight-back:' + env.BRANCH_NAME + ' --network=bridge --name=voidlight-back'
             }
         }
     }
