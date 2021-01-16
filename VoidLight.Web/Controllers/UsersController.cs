@@ -158,21 +158,23 @@ namespace VoidLight.Web.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> IsConnectedWithSteam(int id)
         {
-            throw new Exception("Why");
+            return Ok(await _userService.GetPlatformUser(id, "Steam"));
         }
 
         [HttpGet("discord-connected/{id}")]
         [AllowAnonymous]
         public async Task<IActionResult> IsConnectedWithDiscord(int id)
         {
-            throw new Exception("Why");
+            return Ok(await _userService.GetPlatformUser(id, "Discord"));
+
         }
 
         [HttpGet("google-connected/{id}")]
         [AllowAnonymous]
         public async Task<IActionResult> IsConnectedWithGoogle(int id)
         {
-            throw new Exception("Why");
+            return Ok(await _userService.GetPlatformUser(id, "google"));
+
         }
     }
 }

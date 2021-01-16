@@ -22,5 +22,6 @@ namespace VoidLight.Business.Services.Contracts
         Task<int> GetUserIdSteamLogin(string steamId, string username);
         IAsyncEnumerable<UserDto> GetUsersWithName(string name);
         public Task<int> DiscordAuthentication(string code);
+        public Task<string> GetPlatformUser(int id, string platform);
     }
 }

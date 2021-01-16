@@ -53,7 +53,9 @@ namespace VoidLight.Web.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> StartChannel(int id)
         {
-            return Ok(await _lobbyService.OpenDiscordChannel(id));
+            var channel = await _lobbyService.OpenDiscordChannel(id);
+            await _hub.Clients.All.SendAsync("start-" + id, channel);
+            return NoContent();
         }
 
         /// <summary>

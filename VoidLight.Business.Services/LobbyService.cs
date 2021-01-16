@@ -187,6 +187,10 @@ namespace VoidLight.Business.Services
                 if (auxLobby.UserLobbies.FirstOrDefault(u => u.UserId == userId)!=null){
                     return await GetLobby(lobbyId);
                 }
+                else
+                {
+                    throw new Exception("You already have joined a lobby. Leave it in order to enter another");
+                }
             }
             var lobby = await _context.Lobbies.Include(l => l.UserLobbies).ThenInclude(l => l.User).FirstOrDefaultAsync(l => l.Id == lobbyId);
             var user = await _context.Users.Include(l => l.UserLobbies).FirstOrDefaultAsync(u => u.Id == userId);
