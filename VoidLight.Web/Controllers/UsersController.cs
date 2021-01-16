@@ -51,16 +51,16 @@ namespace VoidLight.Web.Controllers
             return Ok();
         }
 
-        [AuthorizeUserCustom(RoleType.General)]
+/*        [AuthorizeUserCustom(RoleType.General)]
         [HttpPut]
         public async Task<IActionResult> UpdateUser([FromBody] UserDto userData)
         {
             await _userService.UpdateUser(userData);
             return Created(Constants.HTTP_UPDATED, userData);
-        }
+        }*/
 
         [HttpGet("regular")]
-        [AuthorizeUserCustom(RoleType.Regular)]
+        [AllowAnonymous]
         public IActionResult GetAllRegular()
         {
             return Ok(_userService.GetAll());
