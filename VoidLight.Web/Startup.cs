@@ -196,13 +196,6 @@ namespace VoidLight.Web
 
             app.UseHttpsRedirection();
 
-            app.UseStaticFiles(new StaticFileOptions()
-            {
-                FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"Images")),
-                RequestPath = new PathString("/Images"),
-                ServeUnknownFileTypes = true
-            });
-
             app.UseRouting();
 
             app.UseMiddleware<JwtMiddleware>();
