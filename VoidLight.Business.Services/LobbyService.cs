@@ -150,7 +150,7 @@ namespace VoidLight.Business.Services
 
         public async Task<LobbyDto> CreateLobby(LobbyCreationDto dto)
         {
-            if (_context.Lobbies.Include(l => l.UserLobbies).Where(l => l.HasStarted && l.UserLobbies.Any(l => l.UserId == dto.UserId && l.IsInitializer == true)).Count() != 0)
+            if (_context.Lobbies.Include(l => l.UserLobbies).Where(l => !l.HasStarted && l.UserLobbies.Any(l => l.UserId == dto.UserId && l.IsInitializer == true)).Count() != 0)
             {
                 throw new Exception("You already have an open lobby");
             }
@@ -182,7 +182,11 @@ namespace VoidLight.Business.Services
         {
             if (_context.Lobbies.Include(l => l.UserLobbies).Where(l => !l.HasStarted && l.UserLobbies.Any(l => l.UserId == userId)).Count() != 0)
             {
-                throw new Exception("You already have joined a lobby. Leave it in order to enter another");
+                //throw new Exception("You already have joined a lobby. Leave it in order to enter another");
+                var auxLobby = await _context.Lobbies.Include(l=>l.UserLobbies).FirstOrDefaultAsync(l => l.Id == lobbyId);
+                if (auxLobby.UserLobbies.FirstOrDefault(u => u.UserId == userId)!=null){
+                    return await GetLobby(lobbyId);
+                }
             }
             var lobby = await _context.Lobbies.Include(l => l.UserLobbies).ThenInclude(l => l.User).FirstOrDefaultAsync(l => l.Id == lobbyId);
             var user = await _context.Users.Include(l => l.UserLobbies).FirstOrDefaultAsync(u => u.Id == userId);

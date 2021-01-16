@@ -103,7 +103,17 @@ namespace VoidLight.Web.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> JoinLobby(int lobbyId, int userId)
         {
-            return Ok(await _lobbyService.JoinLobby(lobbyId, userId));
+            var lobby=await _lobbyService.JoinLobby(lobbyId, userId);
+            await _hub.Clients.All.SendAsync("join-" + lobbyId, lobby.Users.FirstOrDefault(u=>u.UserId==userId));
+            return Ok(lobby);
+        }
+
+        [HttpPost("message")]
+        [AllowAnonymous]
+        public async Task<IActionResult> MessageLobby([FromBody] LobbyMessage message)
+        {
+            await _hub.Clients.All.SendAsync("message-" + message.Id, message);
+            return NoContent();
         }
     }
 }

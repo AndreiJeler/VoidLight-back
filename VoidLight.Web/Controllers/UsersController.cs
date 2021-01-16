@@ -153,5 +153,26 @@ namespace VoidLight.Web.Controllers
         {
             return Ok(await _userService.DiscordAuthentication(code));
         }
+
+        [HttpGet("steam-connected/{id}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> IsConnectedWithSteam(int id)
+        {
+            throw new Exception("Why");
+        }
+
+        [HttpGet("discord-connected/{id}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> IsConnectedWithDiscord(int id)
+        {
+            throw new Exception("Why");
+        }
+
+        [HttpGet("google-connected/{id}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> IsConnectedWithGoogle(int id)
+        {
+            throw new Exception("Why");
+        }
     }
 }
