@@ -402,9 +402,5 @@ namespace VoidLight.Business.Services
             await AddUserGames(userPlatform.User, steamPlatform);
         }
 
-        public Task UpdateUser(string userJson, IFormFileCollection files)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
