@@ -15,6 +15,7 @@ namespace VoidLight.Data.Business
         public string Role { get; set; }
         public string Token { get; set; }
         public string PlayedGame { get; set; }
+        public int Age { get; set; }
     }
 
     public class UserDtoComparer : IEqualityComparer<UserDto>

@@ -82,12 +82,12 @@ namespace VoidLight.Web.Controllers
         /// </summary>
         /// <param name="userData">The user dto</param>
         /// <returns></returns>
-        [AuthorizeUserCustom(RoleType.General)]
         [HttpPut]
-        public async Task<IActionResult> UpdateUser([FromBody] UserDto userData)
+        [AllowAnonymous]
+        public async Task<IActionResult> UpdateUser()
         {
-            await _userService.UpdateUser(userData);
-            return Created(Constants.HTTP_UPDATED, userData);
+            await _userService.UpdateUser(Request.Form["user"][0], Request.Form.Files);
+            return Created(Constants.HTTP_UPDATED, Request.Form["user"][0]);
         }
 
         /// <summary>
@@ -152,6 +152,44 @@ namespace VoidLight.Web.Controllers
         public async Task<IActionResult> DiscordOAuth(string code)
         {
             return Ok(await _userService.DiscordAuthentication(code));
+        }
+
+        [HttpGet("steam-connected/{id}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> IsConnectedWithSteam(int id)
+        {
+            return Ok(await _userService.GetPlatformUser(id, "Steam"));
+        }
+
+        [HttpGet("discord-connected/{id}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> IsConnectedWithDiscord(int id)
+        {
+            return Ok(await _userService.GetPlatformUser(id, "Discord"));
+
+        }
+
+        [HttpGet("google-connected/{id}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> IsConnectedWithGoogle(int id)
+        {
+            return Ok(await _userService.GetPlatformUser(id, "google"));
+
+        }
+
+        [HttpGet("steam-con/{userId}/{steamId}/{username}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> ConnectWithSteam([FromRoute] int userId, string steamId, string username)
+        {
+            return Ok(await _userService.SteamSync(userId, steamId,username));
+        }
+
+        [HttpGet("refresh-games/{userId}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> RefreshList(int userId)
+        {
+            await _userService.RefreshGames(userId);
+            return NoContent();
         }
     }
 }

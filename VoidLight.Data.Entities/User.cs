@@ -21,6 +21,7 @@ namespace VoidLight.Data.Entities
         public bool IsActivated { get; set; }
         public bool WasPasswordForgotten { get; set; }
         public bool WasPasswordChanged { get; set; }
+        public int Age { get; set; }
         public UserRole Role { get; set; }
         public int RoleId { get; set; }
         public ICollection<UserComments> ProfileComments { get; set; }

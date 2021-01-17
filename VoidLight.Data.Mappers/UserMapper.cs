@@ -31,7 +31,8 @@ namespace VoidLight.Data.Mappers
                 FullName = user.FullName,
                 Id = user.Id,
                 Role = user.Role.Name,
-                Username = user.Username
+                Username = user.Username,
+                Age = user.Age
             };
         }
     }

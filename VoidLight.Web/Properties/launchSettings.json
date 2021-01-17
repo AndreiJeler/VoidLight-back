@@ -11,6 +11,7 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "environmentVariables": {
+        "AppSettings:Salut": "DC",
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
