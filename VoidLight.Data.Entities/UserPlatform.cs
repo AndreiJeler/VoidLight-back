@@ -13,6 +13,8 @@ namespace VoidLight.Data.Entities
         public Platform Platform { get; set; }
         public int PlatformId { get; set; }
         public string LoginToken { get; set; }
+        public string KnownAs { get; set; }
+        public string LoginId { get; set; }
     }
 
     public class UserPlatformConfiguration : IEntityTypeConfiguration<UserPlatform>

@@ -103,7 +103,7 @@ namespace VoidLight.Business.Services
             {
                 var gameId = player[Constants.STEAM_GAMEID].Value<string>();
                 var gameName = player[Constants.STEAM_GAME_EXTRA_NAME].Value<string>();
-                return gameName != null ? gameName : Constants.STEAM_NO_GAME_PLAYING;
+                return gameName ?? Constants.STEAM_NO_GAME_PLAYING;
                 // momentan se trimite numai numele jocului spre front-end
             }
             catch
@@ -166,12 +166,12 @@ namespace VoidLight.Business.Services
                 //var gameNameToken = await _gameCollection.GetGameName(appId);
                 var gameName = game.SelectToken("name").Value<string>();
                 var gameIcon = game.SelectToken("img_logo_url").Value<string>();
-                var iconUrl = $"http://cdn.origin.steamstatic.com/steamcommunity/public/images/apps/{appId}/{gameIcon}.jpg";
+                var iconUrl = $"{Constants.STEAM_GAME_ICON_URL}/{appId}/{gameIcon}.jpg";
                 var timePlayed = game.SelectToken("playtime_forever").Value<int>();
                 var hoursPlayed = (double) timePlayed / 60;
 
               //  var nrAchievements = (await GetGameAchievements(appId)).Count();
-
+              
 /*                if (nrAchievements == 0)
                 {
                     continue;

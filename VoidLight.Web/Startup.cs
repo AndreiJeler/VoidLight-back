@@ -28,6 +28,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
 using VoidLight.Web.Hubs;
+using System.Reflection;
+
 
 namespace VoidLight.Web
 {
@@ -160,6 +162,7 @@ namespace VoidLight.Web
             services.AddScoped<IAchievementService, AchievementService>();
             services.AddScoped<ISteamClient, SteamClient>();
             services.AddScoped<IDiscordService,  DiscordService>();
+            services.AddScoped<ILobbyService, LobbyService>();
 
             //services.AddSingleton<ISteamGameCollection, SteamGameCollection>();
 
@@ -171,6 +174,21 @@ namespace VoidLight.Web
 
             services.AddControllers();
 
+            services.AddSwaggerGen(options=>
+            {
+                options.SwaggerDoc("v1",
+                    new Microsoft.OpenApi.Models.OpenApiInfo
+                    {
+                        Title = "Voidlight API",
+                        Description = "API used for the Voidlight APP",
+                        Version = "v1"
+                    }
+                    ) ;
+                var fileName = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var filePath = Path.Combine(AppContext.BaseDirectory, fileName);
+                options.IncludeXmlComments(filePath);
+            }
+                );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -208,6 +226,16 @@ namespace VoidLight.Web
                 endpoints.MapControllers();
                 endpoints.MapHub<FriendsHub>("/friends-hub");
                 endpoints.MapHub<PostsHub>("/posts-hub");
+                endpoints.MapHub<LobbyHub>("/lobby-hub");
+
+            });
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(options =>
+            {
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "Voidlight API");
+                options.RoutePrefix = "";
             });
         }
     }

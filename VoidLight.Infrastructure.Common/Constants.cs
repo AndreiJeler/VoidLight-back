@@ -81,21 +81,20 @@ namespace VoidLight.Infrastructure.Common
         public const string STEAM_ACHIEVEMENT_ACHIEVED = "achieved";
         public const string STEAM_ACHIEVEMENT_NAME = "name";
         public const string STEAM_ACHIEVEMENT_APINAME = "apiname";
-        public const string STEAM_ACHIEVEMENT_DISPLAYNAME = "displayname";
+        public const string STEAM_ACHIEVEMENT_DISPLAYNAME = "displayName";
         public const string STEAM_ACHIEVEMENT_ICON = "icon";
         public const string STEAM_ACHIEVEMENT_UNLOCK_TIME = "unlocktime";
+        public const string STEAM_GAME_ICON_URL = "http://cdn.origin.steamstatic.com/steamcommunity/public/images/apps";
 
 
         #endregion
-          
-          
-          
 
         #region Discord
         public const string DISCORD_OAUTH_TOKEN_URL = "https://discord.com/api/v6/oauth2/token";
         public const string DISCORD_SCOPES = "identify email guilds guilds.join";
         public const string DISCORD_REDIRECT_URI = "http://localhost:4200/discord-return";
         public const string DISCORD_USER_TOKEN_URL = "https://discord.com/api/v6/users/@me";
+        public const string DISCORD_BOT_URL = "https://voidlight-bot.herokuapp.com";
 
 
 

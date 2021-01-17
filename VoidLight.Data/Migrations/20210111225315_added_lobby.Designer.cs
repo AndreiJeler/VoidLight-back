@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VoidLight.Data;
 
 namespace VoidLight.Data.Migrations
 {
     [DbContext(typeof(VoidLightDbContext))]
-    partial class VoidLightDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210111225315_added_lobby")]
+    partial class added_lobby
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -220,7 +222,7 @@ namespace VoidLight.Data.Migrations
 
                     b.HasIndex("GameId");
 
-                    b.ToTable("Lobbies");
+                    b.ToTable("Lobby");
                 });
 
             modelBuilder.Entity("VoidLight.Data.Entities.Platform", b =>
@@ -417,7 +419,7 @@ namespace VoidLight.Data.Migrations
 
                     b.HasIndex("LobbyId");
 
-                    b.ToTable("UserLobbies");
+                    b.ToTable("UserLobby");
                 });
 
             modelBuilder.Entity("VoidLight.Data.Entities.UserPlatform", b =>
@@ -427,12 +429,6 @@ namespace VoidLight.Data.Migrations
 
                     b.Property<int>("PlatformId")
                         .HasColumnType("int");
-
-                    b.Property<string>("KnownAs")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LoginId")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LoginToken")
                         .HasColumnType("nvarchar(max)");

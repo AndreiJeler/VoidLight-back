@@ -20,7 +20,7 @@ namespace VoidLight.Data.Entities
         public ICollection<CategoryGame> Categories { get; set; }
         public ICollection<Post> Posts { get; set; }
         public ICollection<GameAchievement> GameAchievements { get; set; }
-
+        public ICollection<Lobby> Lobbies { get; set; }    
     }
 
     public class GameConfiguration : IEntityTypeConfiguration<Game>
@@ -63,7 +63,11 @@ namespace VoidLight.Data.Entities
                 .HasMany(g => g.Categories)
                 .WithOne(cat => cat.Game)
                 .OnDelete(DeleteBehavior.Cascade);
-            
+            builder
+                .HasMany(g => g.Lobbies)
+                .WithOne(lob => lob.Game)
+                .OnDelete(DeleteBehavior.Cascade);
+
         }
     }
 }

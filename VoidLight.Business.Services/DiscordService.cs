@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using VoidLight.Business.Services.Contracts;
 using VoidLight.Data;
+using VoidLight.Data.Business;
 using VoidLight.Data.Business.Discord;
 using VoidLight.Infrastructure.Common;
 
@@ -54,6 +55,25 @@ namespace VoidLight.Business.Services
             var jsonData = (JObject)JsonConvert.DeserializeObject(await response.Content.ReadAsStringAsync());
             return new DiscordRetrieveUserResponse(jsonData.SelectToken("id").Value<string>(), jsonData.SelectToken("username").Value<string>(), jsonData.SelectToken("discriminator").Value<string>(), jsonData.SelectToken("email").Value<string>());
 
+        }
+
+        public async Task AddUserToGuild(DiscordUserDto userDto)
+        {
+            var newClient = new HttpClient();
+            var json = JObject.FromObject(userDto).ToString();
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await newClient.PostAsync($"{Constants.DISCORD_BOT_URL}/check-member", content);
+            var jsonData = (JObject)JsonConvert.DeserializeObject(await response.Content.ReadAsStringAsync());
+        }
+
+        public async Task<string> CreateLobbyChannel(LobbyDto lobby)
+        {
+            var newClient = new HttpClient();
+            var json = JObject.FromObject(lobby).ToString();
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await newClient.PostAsync($"{Constants.DISCORD_BOT_URL}/create-channel", content);
+            var jsonData = (JObject)JsonConvert.DeserializeObject(await response.Content.ReadAsStringAsync());
+            return jsonData.SelectToken("channel").Value<string>();
         }
     }
 }
