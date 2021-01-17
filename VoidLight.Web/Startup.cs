@@ -52,7 +52,7 @@ namespace VoidLight.Web
             {
                 // For Development, CORS is required as the backend and frontend have different URLs
                 services.AddCors(o => o.AddDefaultPolicy(builder => builder
-                    .WithOrigins(Configuration["WebBackendUrl"], Configuration["WebFrontendUrl"])
+                    .AllowAnyOrigin()
                     .AllowAnyHeader()
                     .AllowAnyMethod()
                     .AllowCredentials()
