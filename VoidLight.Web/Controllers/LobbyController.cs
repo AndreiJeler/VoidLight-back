@@ -53,7 +53,9 @@ namespace VoidLight.Web.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> StartChannel(int id)
         {
-            return Ok(await _lobbyService.OpenDiscordChannel(id));
+            var channel = await _lobbyService.OpenDiscordChannel(id);
+            await _hub.Clients.All.SendAsync("start-" + id, channel);
+            return NoContent();
         }
 
         /// <summary>
@@ -90,6 +92,39 @@ namespace VoidLight.Web.Controllers
         public IActionResult GetAllFavouriteGameLobbyDetails(int userId)
         {
             return Ok(_lobbyService.GetFavouriteGameInfoForUser(userId));
+        }
+
+        [HttpPost("create")]
+        [AllowAnonymous]
+        public async Task<IActionResult> CreateLobby([FromBody] LobbyCreationDto dto)
+        {
+            return Ok(await _lobbyService.CreateLobby(dto));
+        }
+
+        [HttpGet("join/{lobbyId}/{userId}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> JoinLobby(int lobbyId, int userId)
+        {
+            var lobby = await _lobbyService.JoinLobby(lobbyId, userId);
+            await _hub.Clients.All.SendAsync("join-" + lobbyId, lobby);
+            return Ok(lobby);
+        }
+
+        [HttpGet("leave/{lobbyId}/{userId}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> LeaveLobby(int lobbyId, int userId)
+        {
+            var lobby = await _lobbyService.LeaveLobby(lobbyId, userId);
+            await _hub.Clients.All.SendAsync("leave-" + lobbyId, lobby);
+            return Ok(lobby);
+        }
+
+        [HttpPost("message")]
+        [AllowAnonymous]
+        public async Task<IActionResult> MessageLobby([FromBody] LobbyMessage message)
+        {
+            await _hub.Clients.All.SendAsync("message-" + message.Id, message);
+            return NoContent();
         }
     }
 }

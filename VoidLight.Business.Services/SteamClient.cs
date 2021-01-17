@@ -37,7 +37,7 @@ namespace VoidLight.Business.Services
                 var achievements = jsonData.SelectToken(Constants.STEAM_GAME_SCHEMA_ACHIEVEMENTS).Children();
                 return achievements;
             }
-            catch 
+            catch
             {
                 return new JEnumerable<JToken>();
             }
@@ -66,7 +66,7 @@ namespace VoidLight.Business.Services
 
         public async Task<int> GetUnlockedAchievementsNumber(string steamId, string appId)
         {
-            
+
             var url = $"{Constants.STEAM_PLAYER_ACHIEVEMENTS_URL}/?appid={appId}&key={_appSettings.SteamKey}&steamid={steamId}";
             var response = "";
             try
@@ -116,7 +116,13 @@ namespace VoidLight.Business.Services
         {
             var gameAchievements = await GetGameAchievements(appId);
 
+            if (gameAchievements.Count() == 0)
+            {
+                throw new Exception("The game has no achievements");
+            }
+
             var achievementsList = new List<GameAchievement>();
+            
 
             var url = $"{Constants.STEAM_PLAYER_ACHIEVEMENTS_URL}/?appid={appId}&key={_appSettings.SteamKey}&steamid={steamId}";
             var response = await _client.GetStringAsync(url);
@@ -168,14 +174,14 @@ namespace VoidLight.Business.Services
                 var gameIcon = game.SelectToken("img_logo_url").Value<string>();
                 var iconUrl = $"{Constants.STEAM_GAME_ICON_URL}/{appId}/{gameIcon}.jpg";
                 var timePlayed = game.SelectToken("playtime_forever").Value<int>();
-                var hoursPlayed = (double) timePlayed / 60;
+                var hoursPlayed = (double)timePlayed / 60;
 
-              //  var nrAchievements = (await GetGameAchievements(appId)).Count();
-              
-/*                if (nrAchievements == 0)
-                {
-                    continue;
-                }*/
+                //  var nrAchievements = (await GetGameAchievements(appId)).Count();
+
+                /*                if (nrAchievements == 0)
+                                {
+                                    continue;
+                                }*/
                 //var nrAchievementsAcq = await GetUnlockedAchievementsNumber(steamId, appId);
 
 
@@ -192,7 +198,7 @@ namespace VoidLight.Business.Services
                     Name = gameName,
                     Description = gameName,
                     Icon = iconUrl
-                  //  AchievementTotal = nrAchievements
+                    //  AchievementTotal = nrAchievements
                 };
 
 
@@ -208,6 +214,7 @@ namespace VoidLight.Business.Services
                     {
                         Game = newGame,
                         User = user,
+                        UserId=user.Id,
                         TimePlayed =(int) hoursPlayed
                         //AchievementsAcquired = nrAchievementsAcq
                     }

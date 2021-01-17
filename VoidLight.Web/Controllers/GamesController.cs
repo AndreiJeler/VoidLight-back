@@ -51,5 +51,13 @@ namespace VoidLight.Web.Controllers
         {
             return Ok(_gameService.GetUserFavouriteGames(id));
         }
+
+        [HttpGet("toggle/{userId}/{gameId}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> ChangeFavoriteGame(int userId, int gameId)
+        {
+            await _gameService.UpdateFavoriteGame(userId, gameId);
+            return NoContent();
+        }
     }
 }

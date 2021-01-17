@@ -35,7 +35,7 @@ namespace VoidLight.Business.Services
                     GameId = g.Game.Id,
                     GameIcon = g.Game.Icon,
                     GameName = g.Game.Name,
-                    NrLobbies = g.Game.Lobbies.Count()
+                    NrLobbies = g.Game.Lobbies.Where(l=>!l.HasStarted).Count()
                 }).AsAsyncEnumerable();
         }
 
@@ -133,6 +133,10 @@ namespace VoidLight.Business.Services
         public async Task<string> OpenDiscordChannel(int lobbyId)
         {
             var lobbyDto = await GetLobby(lobbyId);
+            if (lobbyDto.HasStarted)
+            {
+                throw new Exception("Channel was already opened");
+            }
             foreach (var user in lobbyDto.Users)
             {
                 await _discordService.AddUserToGuild(user);
@@ -150,7 +154,7 @@ namespace VoidLight.Business.Services
 
         public async Task<LobbyDto> CreateLobby(LobbyCreationDto dto)
         {
-            if (_context.Lobbies.Include(l => l.UserLobbies).Where(l => l.HasStarted && l.UserLobbies.Any(l => l.UserId == dto.UserId && l.IsInitializer == true)).Count() != 0)
+            if (_context.Lobbies.Include(l => l.UserLobbies).Where(l => !l.HasStarted && l.UserLobbies.Any(l => l.UserId == dto.UserId && l.IsInitializer == true)).Count() != 0)
             {
                 throw new Exception("You already have an open lobby");
             }
@@ -174,6 +178,7 @@ namespace VoidLight.Business.Services
             };
             lobby.UserLobbies.Add(userLobby);
             await _context.AddAsync(lobby);
+            await _context.SaveChangesAsync();
             return await GetLobby(lobby.Id);
         }
 
@@ -181,7 +186,15 @@ namespace VoidLight.Business.Services
         {
             if (_context.Lobbies.Include(l => l.UserLobbies).Where(l => !l.HasStarted && l.UserLobbies.Any(l => l.UserId == userId)).Count() != 0)
             {
-                throw new Exception("You already have joined a lobby. Leave it in order to enter another");
+                //throw new Exception("You already have joined a lobby. Leave it in order to enter another");
+                var auxLobby = await _context.Lobbies.Include(l=>l.UserLobbies).FirstOrDefaultAsync(l => l.Id == lobbyId);
+                if (auxLobby.UserLobbies.FirstOrDefault(u => u.UserId == userId)!=null){
+                    return await GetLobby(lobbyId);
+                }
+                else
+                {
+                    throw new Exception("You already have joined a lobby. Leave it in order to enter another");
+                }
             }
             var lobby = await _context.Lobbies.Include(l => l.UserLobbies).ThenInclude(l => l.User).FirstOrDefaultAsync(l => l.Id == lobbyId);
             var user = await _context.Users.Include(l => l.UserLobbies).FirstOrDefaultAsync(u => u.Id == userId);
@@ -189,7 +202,19 @@ namespace VoidLight.Business.Services
             _context.Update(lobby);
             await _context.SaveChangesAsync();
             return await GetLobby(lobbyId);
+        }
 
+        public async Task<LobbyDto> LeaveLobby(int lobbyId, int userId)
+        {
+            var lobby = await _context.Lobbies.Include(u => u.UserLobbies).ThenInclude(u => u.User).Include(l => l.Game).FirstOrDefaultAsync(l => l.Id == lobbyId);
+            if (lobby==null)
+            {
+                throw new Exception("Wrong lobby");
+            }
+            var lobbyUser = await _context.UserLobbies.Include(l => l.Lobby).FirstOrDefaultAsync(l => l.LobbyId == lobbyId && l.UserId == userId);
+            lobby.UserLobbies.Remove(lobbyUser);
+            await _context.SaveChangesAsync();
+            return await GetLobby(lobbyId);
         }
     }
 }

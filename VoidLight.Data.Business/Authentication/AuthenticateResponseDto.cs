@@ -25,7 +25,7 @@ namespace VoidLight.Data.Business.Authentication
             FullName = user.FullName;
             Username = user.Username;
             Nickname = user.Nickname;
-            AvatarPath = Constants.APP_URL + user.AvatarPath;
+            AvatarPath =  user.AvatarPath;
             Email = user.Email;
             Token = token;
             Role = user.Role.Name;
